@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2931/2931511.png">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <title>AS project</title>
+</head>
+<body>
+    <!-- FUNDO -->
+      <main>
+        <aside class="sidebar " data-sidebar>
+            <div class="sidebar-info">
+                <input style="max-width:fit-content;" type="checkbox" role="switch" class="dark-2" id="toggle-theme"/>
+                <figure class="avatar-box">
+                    <img style="border-radius: 10%;" src="nerd-8020797_1280.jpg" alt="avatar" width="80">
+                </figure>
+
+                <div class="info-content">
+                    <h1 class="name" title="Richard Hanrick">António Santos</h1>
+                    <p class="title">Junior Dev</p>
+                </div>
+
+            </div>
+
+            <div class="sidebar-info-more">
+                <div class="separator"></div>
+
+                <ul class="contacts-list">
+                    <li class="contact-item">
+                        <div class="icon-box">
+                            <ion-icon name="mail-outline"></ion-icon>
+                        </div>
+
+                        <div class="contact-info">
+                            <p class="contact-title">Email</p>
+
+                            <a href="mailto:antonio.j.santos.1995@gmail.com" class="contact-link">antonio.j.santos.1995@gmail.com</a>
+                        </div>
+                    </li>
+
+                    <li class="contact-item">
+                        <div class="icon-box">
+                            <ion-icon name="calendar-outline"></ion-icon>
+                        </div>
+
+                        <div class="contact-info">
+                            <p class="contact-title">Birthday</p>
+
+                            <time datetime="1982-06-23">June 03</time>
+                        </div>
+                    </li>
+
+                    <li class="contact-item">
+                        <div class="icon-box">
+                            <ion-icon name="location-outline"></ion-icon>
+                        </div>
+
+                        <div class="contact-info">
+                            <p class="contact-title">Location</p>
+
+                            <address>Portugal</address>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="separator"></div>
+                <ul class="social-list">
+                    <li class="social-item"><a href="https://github.com/A-S95" target="_blank" class="social-link"><ion-icon name="logo-github"></ion-icon></a></li>
+                    <li class="social-item"><a href="https://www.linkedin.com/in/ant%C3%B3nio-santos-730744307/" target="_blank" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <div class="main-content">
+            <nav class="navbar">
+                <ul class="navbar-list">
+                    <li class="navbar-item"><button class="navbar-link active" data-nav-link>About</button></li>
+                    <li class="navbar-item"><button class="navbar-link" data-nav-link>Resume</button></li>
+                    <li class="navbar-item"><button class="navbar-link" data-nav-link>Portfolio</button></li>
+                    <li class="navbar-item"><button class="navbar-link" data-nav-link>Contact</button></li>
+                </ul>
+            </nav>
+
+            <article class="about active" data-page="about">
+                <header>
+                    <h2 class="h2 article-title">About me</h2>
+                </header>
+
+                <section class="about-text">
+                    <p class="hover-underline"> I am currently in the final year of my Software Development Course, with a strong interest in technology and problem-solving.
+                         Before moving into tech, I gained valuable experience in Interior Design, focusing on 3D planning and creative project development.
+                          This background gave me a sharp eye for detail and the ability to transform ideas into practical solutions.<br>
+                        <br>
+                        <div class="pulsing-text" style="display: flex; align-items: center;">
+                        <span style="margin-left: 20px; margin-right: 20px; color: var(--orange-yellow-crayola);">
+                                Today, I combine that creative mindset with my growing technical skills to build innovative digital solutions.
+                        </span>
+                        </div>
+                </section>
+
+                <section class="service" >
+                    <h3 class="h3 service-title">What I'm studying</h3>
+
+                    <ul class="service-list">
+                        <li class="service-item">
+                            <div class="service-icon-box">
+                               <img src="icons8-language-100.png" alt="icon" width="40">
+                            </div>
+
+                            <div class="service-content-box">
+                                <h4 class="h4 service-item-title">Programming languages</h4>
+                                <p class="service-item-text">Studying C, C++, Python, and COBOL to build a strong foundation in software development and problem-solving.</p>
+                            </div>
+                        </li>
+
+                        <li class="service-item">
+                            <div class="service-icon-box">
+                                <img src="icons8-backend-development-96.png" alt="icon" width="40">
+                            </div>
+
+                            <div class="service-content-box">
+                                <h4 class="h4 service-item-title">Web development</h4>
+                                <p class="service-item-text">Focusing on responsive website creation using templates, and customizing content and layout to meet specific needs.</p>
+                            </div>
+                        </li>
+
+                        <li class="service-item">
+                            <div class="service-icon-box">
+                                <img src="icons8-database-100.png" alt="icon" width="40">
+                            </div>
+
+                            <div class="service-content-box">
+                                <h4 class="h4 service-item-title">Databases</h4>
+                                <p class="service-item-text">Learning SQL for designing, managing, and querying structured data efficiently.</p>
+                            </div>
+                        </li>
+
+                        <li class="service-item">
+                            <div class="service-icon-box">
+                                <img src="icons8-networking-100.png" alt="icon" width="40">
+                            </div>
+
+                            <div class="service-content-box">
+                                <h4 class="h4 service-item-title">Network Management</h4>
+                                <p class="service-item-text">Learning to configure, manage, and maintain computer networks, ensuring connectivity, performance, and security.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                
+                <section class="clients">
+                    <h3 class="h3 clients-title">Programming Languages</h3>
+
+                   <ul class="clients-list has-scrollbar">
+                        <li class="clients-item">
+                            <a href="#"><img src="https://cdn.freebiesupply.com/logos/large/2x/python-5-logo-svg-vector.svg" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/1822px-ISO_C%2B%2B_Logo.svg.png" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://brandlogos.net/wp-content/uploads/2025/03/microsoft_sql_server-logo_brandlogos.net_wykhq.png" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/919/919826.png" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://optim.tildacdn.one/tild3635-3564-4163-a666-613133633366/-/resize/744x/-/format/webp/pBI.png.webp" alt="logo"></a>
+                        </li>
+
+                        <li class="clients-item">
+                            <a href="#"><img src="https://www.citypng.com/public/uploads/preview/microsoft-windows-logo-hd-png-701751694708242cxihsfklk1.png?v=2025062003" alt="logo"></a>
+                        </li>
+                    </ul>
+                </section>
+            </article>
+            
+            <article class="resume " data-page="resume">
+                <header>
+                    <h2 class="h2 article-title">Resume</h2>
+                </header>
+
+                <section class="timeline">
+                    <div class="title-wrapper">
+                        <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
+
+                        <h3 class="h3">Experience</h3>
+                    </div>
+
+                    <ol class="hover-underline2" class="timeline-list">
+                         <li class="timeline-item">
+                            <h4 class="h4 timeline-item-title">Siemens SA - Smart Infrastructure</h4>
+                            <span>Intern - 2025</span>
+							<span class="evaluation-badge">
+                                <ion-icon name="star"></ion-icon> 19,1 Values
+                            </span>                                
+                            <p class="timeline-text">- Designed and implemented interactive, multi-page Power BI dashboards, incorporating user-focused features to enhance usability and reporting accessibility for various support teams.</p>
+                            <p class="timeline-text"> - Built and managed comprehensive data models, collecting and transforming information from enterprise databases and external sources, and established calculated measures and KPIs to track performance and team efficiency.</p>
+                            <p class="timeline-text"> - Maintained data accuracy and usability through thorough cleaning, validation, and transformation processes for complex datasets.</p>
+                            <p class="timeline-text"> - Collaborated closely with end-users to gather requirements, clarify needs, and integrate feedback, contributing to continuous dashboard improvements.</p>
+                        	<p class="timeline-text"> - Supported the successful launch of an international project by collaborating with internal and external teams to align reporting standards and data requirements.</p>
+                            <p class="timeline-text" style="color:burlywood"><strong>Tools: Power BI, DAX, DataBases, SQL, Dashboards.</strong></p>
+                        </li>
+                        <li class="timeline-item">
+                            <h4 class="h4 timeline-item-title"> Customer Service Assistant & IT Technician</h4>
+                            <span>Intern - 2024</span>
+							<span class="evaluation-badge">
+                                <ion-icon name="star"></ion-icon> 18,6 Values
+                            </span>  
+                            <p class="timeline-text"> - Assisted customers with product selection, repairs, and maintenance services.</p>
+                            <p class="timeline-text"> - Managed data backup/restoration and offered technical advice.</p>
+                            <p class="timeline-text"> - Developed communication skills and sales experience</p>
+                            <p class="timeline-text" style="color:burlywood"><strong>Tools: Windows, MacOS, Restore & Backup Data, Repairs, Communication.</strong></p>
+                        </li>
+
+                        <li class="timeline-item">
+                            <h4 class="h4 timeline-item-title">Interior Designer</h4>
+                            <span>2019 - 2023</span>
+                            <p class="timeline-text"> - Created detailed 3D drawings and floor plans using Teowin.</p>
+                            <p class="timeline-text"> - Managed and maintained interior design projects with attention to technical and customer
+                                requirements.</p>
+                                <p class="timeline-text"> - Gained experience with CAD-like software and customer communication</p>
+                                <p class="timeline-text" style="color:burlywood"><strong>Tools: Teowin Software, 3D Design, Project Management, Communication.</strong></p>
+                        </li>
+                    </ol>
+                </section>
+  
+                <section class="skill">
+                    <h3 class="h3 skills-title">My Skills</h3>
+
+                    <ul class="skills-list content-card">
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">Web Design</h5>
+                                <data value="70">70%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="70"></div>
+                            </div>
+                        </li>
+
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">Graphic Design</h5>
+                                <data value="60">60%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="60"></div>
+                            </div>
+                        </li>
+
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">SQL & MySQL</h5>
+                                <data value="50">50%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="50"></div>
+                            </div>
+                        </li>
+                                     
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">C/C++</h5>
+                                <data value="65">65%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="65"></div>
+                            </div>
+                        </li>    
+                            
+                            
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">Python</h5>
+                                <data value="65">65%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="65"></div>
+                            </div>
+                        </li>      
+  
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">PowerBI</h5>
+                                <data value="75">75%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="75"></div>
+                            </div>
+                        </li>    
+
+                        <li class="skills-item">
+                            <div class="title-wrapper">
+                                <h5 class="h5">Teowin Software</h5>
+                                <data value="90">90%</data>
+                            </div>
+
+                            <div class="skills-progress-bg">
+                                <div class="skills-progress-fill" data-progress="90"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="mbspace">
+                    <section class="timeline">
+                        <div class="title-wrapper">
+                            <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
+
+                            <h3 class="h3">Languages</h3>
+                        </div>
+
+                        <ol class="hover-underline2" class="timeline-list">
+                            <li class="timeline-item">
+                                <h4 class="h4 timeline-item-title"> Portuguese </h4>
+                                <span>Native</span>
+                            </li>
+
+                            <li class="timeline-item">
+                                <h4 class="h4 timeline-item-title">English</h4>
+                                <span>B2</span>
+                            </li>
+
+                            <li class="timeline-item">
+                                <h4 class="h4 timeline-item-title">Spanish</h4>
+                                <span>B1</span>
+                            </li>
+                        </ol>
+                    </section>
+                </section>
+                <section class="timeline">
+                    <div class="title-wrapper">
+                        <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
+
+                        <h3 class="h3">Education</h3>
+                    </div>
+
+                    <ol class="hover-underline2" class="timeline-list">
+                        <li class="timeline-item">
+                            <h4 class="h4 timeline-item-title"> IEFP - LISBOA </h4>
+                            <span>2023 - 2026</span>
+                            <p class="timeline-text">Coursework: Software Development, Programming Logic, Systems Analysis</p>
+                        </li>
+
+                        <li class="timeline-item">
+                            <h4 class="h4 timeline-item-title">Escola Profissional - Tomar</h4>
+                            <span>2018</span>
+                            <p class="timeline-text">Focus: Embedded Systems and Arduino Programming</p>
+                        </li>
+
+                    </ol>
+                </section>
+            </article>
+
+            <article class="portfolio " data-page="portfolio">
+                <header>
+                    <h2 class="h2 article-title">Portfolio</h2>
+                </header>
+
+                <section class="projects">
+                    <ul class="project-list">
+                        <li class="project-item active" data-filter-item data-category="web development"> <!-- faz a animacao de aparecer algo em hover -->
+                            <a href="http://work-nightriders-as.myartsonline.com/" target="_blank">
+                                <figure class="project-img">
+                                    <div class="project-item-icon-box">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                    </div>
+
+                                    <img src="work1.PNG" alt="night riders" width="600" height="450" loading="lazy">
+                                </figure>
+
+                                <h3 class="project-title">Night Riders</h3>
+                                <p class="project-category">Web Development</p>
+                            </a>
+                        </li>
+
+                        <li class="project-item active" data-filter-item data-category="web design">
+                            <a href="https://github.com/A-S95/School/tree/main/Win11%20pub" target="_blank">
+                                <figure class="project-img">
+                                    <div class="project-item-icon-box">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                    </div>
+
+                                    <img src="work2.png" alt="fundo" loading="lazy">
+                                </figure>
+
+                                <h3 class="project-title">Fundo</h3>
+                                <p class="project-category">Web Design</p>
+                            </a>
+                        </li>
+
+                        <!-- <li class="project-item active" data-filter-item data-category="applications">
+                            <a href="#">
+                                <figure class="project-img">
+                                    <div class="project-item-icon-box">
+                                        <ion-icon name="eye-outline"></ion-icon>
+                                    </div>
+
+                                    <img src="https://i.postimg.cc/dtpXxNGb/project-4.png" alt="brawlhalla" loading="lazy">
+                                </figure>
+
+                                <h3 class="project-title">Brawlhalla</h3>
+                                <p class="project-category">Applications</p>
+                            </a>
+                        </li> -->
+                    </ul>
+                </section>
+            </article>
+
+              <!-- Modal HTML -->
+            <div id="image-modal" class="modal">
+                <span class="modal-close">&times;</span>
+                <img class="modal-content" id="modal-img">
+            </div>
+
+
+            <article class="contact " data-page="contact">
+                <header>
+                    <h2 class="h2 article-title">Contact</h2>
+                </header>
+
+                <section class="mapbox" data-mapbox>
+                    <figure>
+                        <div style="position: relative;"><div 
+                        style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe 
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" 
+                        allowfullscreen src="https://maps.google.com/maps?q=Lisbon&output=embed"></iframe>
+                    </div><a href="http://aiyoutubetitlegenerator.com/" rel="noopener" target="_blank" 
+                    style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;"></a></div>
+                    </figure>
+                </section>
+
+                <h3 class="h3 form-title">Contact Form</h3>
+
+                <form action="contact-form-handler.php" method="POST" class="form" data-form>
+                    <div class="input-wrapper">
+                        <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
+                        <input type="email" name="email" class="form-input" placeholder="Email Address" required data-form-input>
+                    </div>
+            
+                    <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+            
+                    <button class="form-btn" type="submit" data-form-btn>
+                        <ion-icon name="paper-plane"></ion-icon>
+                        <span>Send Message</span>
+                    </button>
+                </form>
+            </article>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>
