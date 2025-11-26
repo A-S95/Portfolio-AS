@@ -131,6 +131,34 @@ body {
 }
 
 
+.cv-download {
+    margin: 25px 0 25px 0;
+    padding-left: 17%;
+    font-size: var(--fs3);
+}
+
+.cv-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--orange-yellow-crayola);
+    color: #000;
+    padding: 8px 14px;     /* ← menor */
+    border-radius: 8px;    /* ← mais compacto */
+    font-size: 0.85rem;    /* ← texto menor */
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.cv-download-btn ion-icon {
+    font-size: 1rem; /* ícone menor */
+}
+
+.cv-download-btn:hover {
+    background-color: #ffcb66;
+    transform: translateY(-2px);
+}
 
   /*  WEBSITE */
 a {text-decoration: none; }
@@ -1520,6 +1548,46 @@ textarea.form-input {
     .blog-banner-box { height: 230px; }
 }
 
+
+.cv-download-hidden {
+    display: none; /* Default: hidden (for large screens) */
+    justify-content: center;
+    align-items: center;
+}
+
+.cv-download-btn-hidden {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--orange-yellow-crayola);
+    color: #000;
+    padding: 8px 14px;    
+    border-radius: 8px;   
+    font-size: 0.85rem;    
+    text-decoration: none;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+
+.cv-download-btn-hidden:hover {
+    background-color: #ffcb66;
+    transform: translateY(-2px);
+}
+
+
+@media (max-width: 1249px) {
+    .cv-download-hidden { 
+        display: flex ; 
+    }
+}
+
+@media (min-width: 1250px) {
+    .cv-download-hidden { 
+        display: none !important; /* Explicitly hide on large screens */
+    }
+}
+
 @media (min-width: 1250px) {
 
     body::-webkit-scrollbar { width: 20px; }
@@ -1553,6 +1621,13 @@ textarea.form-input {
         width: 75%;
         margin: 0;
     }
+
+    .cv-download-hidden { 
+        display: show;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+     }
 
     .sidebar {
         position: sticky;
