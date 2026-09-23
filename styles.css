@@ -64,6 +64,7 @@
   /*   BOTAO DARK MODE */
 body {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     place-items: center;
     margin: 0;
     min-height: 100vh;
@@ -214,6 +215,8 @@ main {
     margin: 15px 12px;
     margin-bottom: 75px;
     min-width: 259px;
+    width: 100%;
+    justify-self: stretch;
 }
 
 .sidebar, article {
@@ -961,11 +964,356 @@ body.dark-mode .service-item::before {
 
         .clients-item img:hover { filter: grayscale(0);}
 
+/*RECOMMENDATIONS*/
+
+/* Simple link in the sidebar for the recommendation letter PDF */
+.letter-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: max-content;
+    max-width: 100%;
+    margin: 4px 0 0;
+    padding: 7px 12px;
+    border: 1px solid var(--jet);
+    border-radius: 8px;
+    color: var(--light-gray70);
+    font-size: var(--fs8);
+    transition: border-color var(--transition1), color var(--transition1), transform var(--transition1);
+}
+
+    .letter-link ion-icon:first-child {
+        flex-shrink: 0;
+        font-size: 15px;
+        color: var(--orange-yellow-crayola);
+    }
+
+    .letter-link span { line-height: 1.3; }
+
+    .letter-link-download {
+        flex-shrink: 0;
+        margin-left: auto;
+        font-size: 13px;
+    }
+
+    .letter-link:hover {
+        border-color: var(--orange-yellow-crayola);
+        color: var(--orange-yellow-crayola);
+        transform: translateY(-2px);
+    }
+
+/* Horizontal recommendation quote attached to a Resume job entry */
+.job-recommendation {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-top: 16px;
+    padding: 16px 20px 16px 18px;
+    background:
+        radial-gradient(circle at 100% 0%, hsla(45, 100%, 72%, .1), transparent 55%),
+        var(--border-gradient-onyx);
+    border-left: 3px solid var(--orange-yellow-crayola);
+    border-radius: 4px 14px 14px 4px;
+    box-shadow: var(--shadow2);
+    transition: transform .35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow .35s ease;
+}
+
+    body.dark-mode .job-recommendation {
+        background:
+            radial-gradient(circle at 100% 0%, hsla(45, 100%, 72%, .12), transparent 55%),
+            var(--color1);
+    }
+
+    .job-recommendation:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow4);
+    }
+
+    .job-recommendation::after {
+        content: '\201C';
+        position: absolute;
+        top: 2px;
+        right: 14px;
+        font-size: 56px;
+        line-height: 1;
+        font-family: Georgia, serif;
+        color: var(--orange-yellow-crayola);
+        opacity: .15;
+        pointer-events: none;
+    }
+
+.job-recommendation-avatar {
+    position: relative;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--orange-yellow-crayola), var(--vegas-gold));
+    color: var(--smoky-black);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: var(--fw600);
+    font-size: var(--fs8);
+}
+
+.job-recommendation-body { position: relative; min-width: 0; }
+
+.job-recommendation-text {
+    color: var(--color5);
+    font-size: var(--fs6);
+    font-weight: var(--fw300);
+    font-style: italic;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.job-recommendation-author {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 6px;
+    font-size: var(--fs8);
+}
+
+.job-recommendation-name {
+    color: var(--white2);
+    font-weight: var(--fw500);
+}
+
+.job-recommendation-role {
+    color: var(--light-gray70);
+}
+
+    .job-recommendation-role::before {
+        content: '•';
+        margin-right: 6px;
+    }
+
+.job-recommendation-linkedin {
+    margin-left: auto;
+    flex-shrink: 0;
+    color: var(--light-gray70);
+    font-size: 16px;
+    transition: color var(--transition1), transform var(--transition1);
+}
+
+    .job-recommendation-linkedin:hover {
+        color: var(--orange-yellow-crayola);
+        transform: translateY(-2px) scale(1.1);
+    }
+
+/* Collapsible "tech" job card used in the Experience timeline */
+.job-card {
+    background: var(--border-gradient-onyx), var(--colorbg1);
+    border: 1px solid var(--jet);
+    border-radius: 14px;
+    box-shadow: var(--shadow2);
+    transition: border-color .3s ease, box-shadow .3s ease, opacity .7s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+    body.dark-mode .job-card { background: var(--bg-gradient-jet); }
+
+    .job-card:hover {
+        border-color: hsla(45, 100%, 72%, .4);
+        box-shadow: var(--shadow4);
+    }
+
+    .job-card.open {
+        border-color: hsla(45, 100%, 72%, .55);
+    }
+
+.job-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.job-toggle-heading { min-width: 0; }
+
+    .job-toggle .timeline-item-title { margin-bottom: 8px; }
+
+.job-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.job-period {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--vegas-gold);
+    font-size: var(--fs8);
+    letter-spacing: .3px;
+}
+
+    .job-meta .evaluation-badge { margin: 0; }
+
+.job-chevron {
+    flex-shrink: 0;
+    color: var(--orange-yellow-crayola);
+    font-size: 20px;
+    transition: transform .35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+    .job-card.open > .job-toggle .job-chevron { transform: rotate(180deg); }
+
+.job-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows .45s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+    .job-card.open > .job-details { grid-template-rows: 1fr; }
+
+.job-details-inner { overflow: hidden; min-height: 0; }
+
+/* Lines reveal one after another when a card opens, like text being typed out */
+.job-card.open :is(
+    .job-bullets li,
+    .job-tools .tech-tag,
+    .job-recommendation,
+    .skills-item,
+    .language-item,
+    .nested-timeline-list > .job-card
+) {
+    animation: line-reveal .4s cubic-bezier(0.25, 0.8, 0.25, 1) backwards;
+}
+
+@keyframes line-reveal {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(1) { animation-delay: 0ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(2) { animation-delay: 45ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(3) { animation-delay: 90ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(4) { animation-delay: 135ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(5) { animation-delay: 180ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(6) { animation-delay: 225ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(7) { animation-delay: 270ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(8) { animation-delay: 315ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(9) { animation-delay: 360ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(10) { animation-delay: 405ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(11) { animation-delay: 450ms; }
+.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(n+12) { animation-delay: 495ms; }
+
+.job-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 2px 18px 16px;
+    border-top: 1px solid var(--jet);
+    padding-top: 16px;
+}
+
+    .job-bullets li {
+        position: relative;
+        padding-left: 20px;
+        color: var(--color5);
+        font-size: var(--fs6);
+        font-weight: var(--fw300);
+        line-height: 1.6;
+        text-align: justify;
+    }
+
+    .job-bullets li::before {
+        content: '▹';
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: var(--orange-yellow-crayola);
+        font-family: 'JetBrains Mono', monospace;
+    }
+
+.job-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    padding: 4px 18px 18px;
+}
+
+/* Timeline list nested one level deeper, inside an outer collapsible job-card */
+.nested-timeline-list {
+    padding: 16px 18px 6px 0;
+}
+
+.tech-tag {
+    background: hsla(45, 100%, 72%, .1);
+    color: var(--orange-yellow-crayola);
+    border: 1px solid hsla(45, 100%, 72%, .3);
+    border-radius: 6px;
+    padding: 3px 9px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs8);
+    line-height: 1.6;
+}
+
+.job-details .job-recommendation {
+    margin: 0 18px 18px;
+}
+
+/* Plain, non-interactive section heading (matches Experience/Education) */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.job-toggle-label {
+    color: var(--white2);
+    font-size: var(--fs6);
+    font-weight: var(--fw400);
+}
+
+
+/* Compact language rows inside the Languages card */
+.language-list {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 18px 18px;
+}
+
+.language-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid var(--jet);
+}
+
+    .language-item:first-child { border-top: none; padding-top: 0; }
+    .language-item:last-child { padding-bottom: 0; }
+
+.language-name {
+    color: var(--white2);
+    font-size: var(--fs6);
+}
+
+.language-level {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--orange-yellow-crayola);
+    background: hsla(45, 100%, 72%, .1);
+    border: 1px solid hsla(45, 100%, 72%, .3);
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-size: var(--fs8);
+}
+
 /*RESUME*/
 
 .article-title { margin-bottom: 30px; }
 
-.timeline { margin-bottom: 30px; }
+.timeline, .skill, .languages { margin-bottom: 14px; }
 
     .timeline .title-wrapper {
         display: flex;
@@ -1025,13 +1373,16 @@ body.dark-mode .service-item::before {
 
 /*SKILLS*/
 
-.skills-title {
-    margin-bottom: 20px;
-}
+.skills-title { margin-bottom: 0; }
 
 .skills-list {
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 4px 18px 18px;
 }
+
+    .skills-item:not(:last-child) { margin-bottom: 0; }
 
 .skill .title-wrapper {
     display: flex;
@@ -1526,7 +1877,7 @@ textarea.form-input {
         left: -43px;
     }
 
-    .skills-item:not(:last-child) { margin-bottom: 25px; }
+    .skills-list { gap: 25px; }
 
     .project-img, .blog-banner-box { border-radius: 16px; }
 

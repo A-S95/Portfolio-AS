@@ -86,10 +86,28 @@ if (modal && modalImg && closeBtn) {
     });
 }
 
+// Expand/collapse job cards (Experience, Education entries, Skills, Languages)
+document.querySelectorAll('[data-job-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const item = btn.closest('[data-job]');
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+
+        if (isOpen && item.hasAttribute('data-skills-card') && !item.dataset.animated) {
+            item.dataset.animated = 'true';
+            item.querySelectorAll('.skills-progress-fill').forEach(fill => {
+                const progress = fill.getAttribute('data-progress');
+                fill.style.setProperty('--progress', `${progress}%`);
+                requestAnimationFrame(() => fill.classList.add('active'));
+            });
+        }
+    });
+});
+
 // Scroll reveal for content sections
 document.addEventListener('DOMContentLoaded', () => {
     const fadeUpEls = document.querySelectorAll('.service-item, .skills-item, .clients');
-    const fadeOnlyEls = document.querySelectorAll('.timeline-item');
+    const fadeOnlyEls = document.querySelectorAll('.job-card');
 
     fadeUpEls.forEach((el, i) => {
         el.classList.add('reveal');
@@ -112,43 +130,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fadeUpEls.forEach(el => revealObserver.observe(el));
     fadeOnlyEls.forEach(el => revealObserver.observe(el));
-});
-
-// skill animation on scroll
-document.addEventListener('DOMContentLoaded', () => {
-    const skillsSection = document.querySelector('.skill');
-    if (!skillsSection) return;
-
-    const skillsFills = document.querySelectorAll('.skills-progress-fill');
-
-    const observerOptions = {
-        root: null, 
-        rootMargin: '0px',
-        threshold: 0.5 
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // Para cada barra de progresso, acione a animação
-                skillsFills.forEach(fill => {
-                    const progress = fill.getAttribute('data-progress');
-                    
-                    // Defina a variável CSS para a largura de destino
-                    fill.style.setProperty('--progress', `${progress}%`);
-
-                    // Use requestAnimationFrame para garantir que a transição seja acionada
-                    // após o navegador ter renderizado a largura inicial (width: 0)
-                    requestAnimationFrame(() => {
-                        fill.classList.add('active');
-                    });
-                });
-                
-                // Pare de observar a seção para não repetir a animação
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    observer.observe(skillsSection);
 });

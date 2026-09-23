@@ -75,11 +75,17 @@
 
 
                 <section class="cv-download">
-                        <a href="/cv/CV Inglês - ANTONIO SANTOS.pdf" download class="cv-download-btn">
+                        <a href="/cv/CV_English_Antonio_Santos.pdf" download class="cv-download-btn">
                             <ion-icon name="download-outline"></ion-icon>
                             Download CV
                         </a>
                 </section>
+
+                <a href="/cv/carta_recomendacao.pdf" download="Carta de Recomendacao - Antonio Santos.pdf" class="letter-link">
+                    <ion-icon name="document-text-outline"></ion-icon>
+                    <span>Carta de Recomendação</span>
+                    <ion-icon name="download-outline" class="letter-link-download"></ion-icon>
+                </a>
 
                 <div class="separator"></div>
                 <ul class="social-list">
@@ -209,7 +215,7 @@
                     </ul>
                 </section>
             </article>
-            
+
             <article class="resume " data-page="resume">
                 <header>
                     <h2 class="h2 article-title">Resume</h2>
@@ -217,7 +223,7 @@
 
 
                 <section class="cv-download-hidden">
-                        <a href="/cv/António Santos CV.pdf" target="blank" download class="cv-download-btn-hidden">
+                        <a href="/cv/CV_English_Antonio_Santos.pdf" target="blank" download class="cv-download-btn-hidden">
                             <ion-icon name="download-outline"></ion-icon>
                             Download CV
                         </a>
@@ -226,175 +232,382 @@
                 <section class="timeline">
                     <div class="title-wrapper">
                         <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
-                        
+
                         <h3 class="h3">Experience</h3>
                     </div>
 
-                    <ol class="hover-underline2" class="timeline-list">
-                        <li class="timeline-item">
-                            <h4 class="h4 timeline-item-title">Teamlyzer - Full stack Developer</h4>
-                            <span>Intern - 2026</span>
-							<span class="evaluation-badge">
-                                <ion-icon name="star"></ion-icon> 17,4 Values
-                            </span>                                
-                            <p class="timeline-text"> - Built a review sentiment scoring feature on Teamlyzer's existing OpenRouter LLM integration: engineered a deterministic 0 to 100 score, the supporting database table, and the front-end styling and visibility.</p>
-                            <p class="timeline-text"> - Designed and shipped a chat-sharing feature for Teamlyzer's AI chatbot that locks shared conversations read only, and ran functional QA on the chatbot (response time, accuracy, hallucination risk) across real conversations.</p>
-                            <p class="timeline-text"> - Diagnosed and fixed 2 production bugs (Flask/Jinja/SQLAlchemy) silently hiding valid salary reviews and blanking rating bars, validating each fix against live data before shipping.</p>
-                            <p class="timeline-text"> - Replaced a risky, manually run admin SQL script with a rollback-safe Python/SQLAlchemy tool, using it to migrate 17 records across real accounts with zero data loss.</p>
-                        	<p class="timeline-text"> - Built a B2B "Presentation Mode" feature to hide sensitive dashboards during client demos.</p>
-                            <p class="timeline-text"> - Set up Teamlyzer's React Native mobile app locally with Expo Go to test it on a real device, catching a data moderation bug where reviews weren't saving correctly.</p>
-                            <p class="timeline-text"> - Collaborated with a teammate to seed and QA the forum feature: ran SQL scripts to populate realistic test data and verified referential integrity across channels and posts.</p>
-                            <p class="timeline-text"> - Used Claude Code and AI coding agents for daily codebase audits, treating every AI suggestion as something to verify, catching a stored-XSS risk by cross-checking changes against live code and production data.</p>
-                            <p class="timeline-text"> - Gained hands-on experience with asynchronous task processing (Celery/RabbitMQ) and version control practices in a production codebase.</p>
-                            <p class="timeline-text" style="color:burlywood"><strong>Tools: Python, Javascript, Celery, RabbitMQ, AI Coding Assistants, Flask, Jinja, SQLAlchemy, PostgreSQL, Linux, LLM APIs (OpenRouter), AI Pair Programming </strong></p>
-                        </li>
-                         <li class="timeline-item">
-                            <h4 class="h4 timeline-item-title">Siemens SA - Smart Infrastructure</h4>
-                            <span>Intern - 2025</span>
-							<span class="evaluation-badge">
-                                <ion-icon name="star"></ion-icon> 19,1 Values
-                            </span>                                
-                            <p class="timeline-text">- Designed and implemented interactive, multi-page Power BI dashboards, incorporating user-focused features to enhance usability and reporting accessibility for various support teams.</p>
-                            <p class="timeline-text"> - Built and managed comprehensive data models, collecting and transforming information from enterprise databases and external sources, and established calculated measures and KPIs to track performance and team efficiency.</p>
-                            <p class="timeline-text"> - Maintained data accuracy and usability through thorough cleaning, validation, and transformation processes for complex datasets.</p>
-                            <p class="timeline-text"> - Collaborated closely with end-users to gather requirements, clarify needs, and integrate feedback, contributing to continuous dashboard improvements.</p>
-                        	<p class="timeline-text"> - Supported the successful launch of an international project by collaborating with internal and external teams to align reporting standards and data requirements.</p>
-                            <p class="timeline-text" style="color:burlywood"><strong>Tools: Power BI, DAX, DataBases, SQL, Dashboards.</strong></p>
-                        </li>
-                        <li class="timeline-item">
-                            <h4 class="h4 timeline-item-title"> Customer Service Assistant & IT Technician</h4>
-                            <span>Intern - 2024</span>
-							<span class="evaluation-badge">
-                                <ion-icon name="star"></ion-icon> 18,6 Values
-                            </span>  
-                            <p class="timeline-text"> - Assisted customers with product selection, repairs, and maintenance services.</p>
-                            <p class="timeline-text"> - Managed data backup/restoration and offered technical advice.</p>
-                            <p class="timeline-text"> - Developed communication skills and sales experience</p>
-                            <p class="timeline-text" style="color:burlywood"><strong>Tools: Windows, MacOS, Restore & Backup Data, Repairs, Communication.</strong></p>
+                    <div class="job-card" data-job>
+                        <button class="job-toggle" data-job-toggle aria-expanded="false">
+                            <span class="job-toggle-label">4 Items</span>
+                            <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                        </button>
+
+                        <div class="job-details">
+                        <div class="job-details-inner">
+                    <ol class="hover-underline2 nested-timeline-list">
+                        <li class="timeline-item job-card" data-job>
+                            <button class="job-toggle" data-job-toggle aria-expanded="false">
+                                <div class="job-toggle-heading">
+                                    <h4 class="h4 timeline-item-title">Teamlyzer - Full stack Developer</h4>
+                                    <div class="job-meta">
+                                        <span class="job-period">Intern - 2026</span>
+                                        <span class="evaluation-badge">
+                                            <ion-icon name="star"></ion-icon> 17,4 Values
+                                        </span>
+                                    </div>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                            </button>
+
+                            <div class="job-details">
+                                <div class="job-details-inner">
+                                    <ul class="job-bullets">
+                                        <li>Built a review sentiment scoring feature on Teamlyzer's existing OpenRouter LLM integration: engineered a deterministic 0 to 100 score, the supporting database table, and the front-end styling and visibility.</li>
+                                        <li>Designed and shipped a chat-sharing feature for Teamlyzer's AI chatbot that locks shared conversations read only, and ran functional QA on the chatbot (response time, accuracy, hallucination risk) across real conversations.</li>
+                                        <li>Diagnosed and fixed 2 production bugs (Flask/Jinja/SQLAlchemy) silently hiding valid salary reviews and blanking rating bars, validating each fix against live data before shipping.</li>
+                                        <li>Replaced a risky, manually run admin SQL script with a rollback-safe Python/SQLAlchemy tool, using it to migrate 17 records across real accounts with zero data loss.</li>
+                                        <li>Built a B2B "Presentation Mode" feature to hide sensitive dashboards during client demos.</li>
+                                        <li>Set up Teamlyzer's React Native mobile app locally with Expo Go to test it on a real device, catching a data moderation bug where reviews weren't saving correctly.</li>
+                                        <li>Collaborated with a teammate to seed and QA the forum feature: ran SQL scripts to populate realistic test data and verified referential integrity across channels and posts.</li>
+                                        <li>Used Claude Code and AI coding agents for daily codebase audits, treating every AI suggestion as something to verify, catching a stored-XSS risk by cross-checking changes against live code and production data.</li>
+                                        <li>Gained hands-on experience with asynchronous task processing (Celery/RabbitMQ) and version control practices in a production codebase.</li>
+                                    </ul>
+
+                                    <div class="job-tools">
+                                        <span class="tech-tag">Python</span>
+                                        <span class="tech-tag">Javascript</span>
+                                        <span class="tech-tag">Celery</span>
+                                        <span class="tech-tag">RabbitMQ</span>
+                                        <span class="tech-tag">AI Coding Assistants</span>
+                                        <span class="tech-tag">Flask</span>
+                                        <span class="tech-tag">Jinja</span>
+                                        <span class="tech-tag">SQLAlchemy</span>
+                                        <span class="tech-tag">PostgreSQL</span>
+                                        <span class="tech-tag">Linux</span>
+                                        <span class="tech-tag">LLM APIs (OpenRouter)</span>
+                                        <span class="tech-tag">AI Pair Programming</span>
+                                    </div>
+
+                                    <div class="job-recommendation">
+                                        <div class="job-recommendation-avatar">DM</div>
+                                        <div class="job-recommendation-body">
+                                            <p class="job-recommendation-text">"António was a trainee on my team for four months. He was reliable and easy to work with, and he did his best work in QA. I can recommend him for a junior role."</p>
+                                            <div class="job-recommendation-author">
+                                                <span class="job-recommendation-name">Dinis Monteiro</span>
+                                                <span class="job-recommendation-role">Founder and CTO at Teamlyzer</span>
+                                                <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
+                                                    <ion-icon name="logo-linkedin"></ion-icon>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
 
-                        <li class="timeline-item">
-                            <h4 class="h4 timeline-item-title">Interior Designer</h4>
-                            <span>2019 - 2023</span>
-                            <p class="timeline-text"> - Created detailed 3D drawings and floor plans using Teowin.</p>
-                            <p class="timeline-text"> - Managed and maintained interior design projects with attention to technical and customer
-                                requirements.</p>
-                                <p class="timeline-text"> - Gained experience with CAD-like software and customer communication</p>
-                                <p class="timeline-text" style="color:burlywood"><strong>Tools: Teowin Software, 3D Design, Project Management, Communication.</strong></p>
+                        <li class="timeline-item job-card" data-job>
+                            <button class="job-toggle" data-job-toggle aria-expanded="false">
+                                <div class="job-toggle-heading">
+                                    <h4 class="h4 timeline-item-title">Siemens SA - Smart Infrastructure</h4>
+                                    <div class="job-meta">
+                                        <span class="job-period">Intern - 2025</span>
+                                        <span class="evaluation-badge">
+                                            <ion-icon name="star"></ion-icon> 19,1 Values
+                                        </span>
+                                    </div>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                            </button>
+
+                            <div class="job-details">
+                                <div class="job-details-inner">
+                                    <ul class="job-bullets">
+                                        <li>Designed and implemented interactive, multi-page Power BI dashboards, incorporating user-focused features to enhance usability and reporting accessibility for various support teams.</li>
+                                        <li>Built and managed comprehensive data models, collecting and transforming information from enterprise databases and external sources, and established calculated measures and KPIs to track performance and team efficiency.</li>
+                                        <li>Maintained data accuracy and usability through thorough cleaning, validation, and transformation processes for complex datasets.</li>
+                                        <li>Collaborated closely with end-users to gather requirements, clarify needs, and integrate feedback, contributing to continuous dashboard improvements.</li>
+                                        <li>Supported the successful launch of an international project by collaborating with internal and external teams to align reporting standards and data requirements.</li>
+                                    </ul>
+
+                                    <div class="job-tools">
+                                        <span class="tech-tag">Power BI</span>
+                                        <span class="tech-tag">DAX</span>
+                                        <span class="tech-tag">Databases</span>
+                                        <span class="tech-tag">SQL</span>
+                                        <span class="tech-tag">Dashboards</span>
+                                    </div>
+
+                                    <div class="job-recommendation">
+                                        <div class="job-recommendation-avatar">MS</div>
+                                        <div class="job-recommendation-body">
+                                            <p class="job-recommendation-text">"I worked with Antonio during his traineeship as a Dashboard Developer in our eMobility Technical Support team. He was reliable, flexible and quick to pick things up — exactly the kind of person you want on your team. He played a solid part in building a dashboard for our ticketing system pipeline tracking, handling it with care and a good technical understanding. I'd have no hesitation recommending Antonio. He's a good developer and a genuinely pleasant person to work with."</p>
+                                            <div class="job-recommendation-author">
+                                                <span class="job-recommendation-name">Michele Sambiagio</span>
+                                                <span class="job-recommendation-role">Technical Lead @ Siemens</span>
+                                                <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
+                                                    <ion-icon name="logo-linkedin"></ion-icon>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="timeline-item job-card" data-job>
+                            <button class="job-toggle" data-job-toggle aria-expanded="false">
+                                <div class="job-toggle-heading">
+                                    <h4 class="h4 timeline-item-title">Customer Service Assistant & IT Technician</h4>
+                                    <div class="job-meta">
+                                        <span class="job-period">Intern - 2024</span>
+                                        <span class="evaluation-badge">
+                                            <ion-icon name="star"></ion-icon> 18,6 Values
+                                        </span>
+                                    </div>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                            </button>
+
+                            <div class="job-details">
+                                <div class="job-details-inner">
+                                    <ul class="job-bullets">
+                                        <li>Assisted customers with product selection, repairs, and maintenance services.</li>
+                                        <li>Managed data backup/restoration and offered technical advice.</li>
+                                        <li>Developed communication skills and sales experience.</li>
+                                    </ul>
+
+                                    <div class="job-tools">
+                                        <span class="tech-tag">Windows</span>
+                                        <span class="tech-tag">MacOS</span>
+                                        <span class="tech-tag">Restore & Backup Data</span>
+                                        <span class="tech-tag">Repairs</span>
+                                        <span class="tech-tag">Communication</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="timeline-item job-card" data-job>
+                            <button class="job-toggle" data-job-toggle aria-expanded="false">
+                                <div class="job-toggle-heading">
+                                    <h4 class="h4 timeline-item-title">Interior Designer</h4>
+                                    <div class="job-meta">
+                                        <span class="job-period">2019 - 2023</span>
+                                    </div>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                            </button>
+
+                            <div class="job-details">
+                                <div class="job-details-inner">
+                                    <ul class="job-bullets">
+                                        <li>Created detailed 3D drawings and floor plans using Teowin.</li>
+                                        <li>Managed and maintained interior design projects with attention to technical and customer requirements.</li>
+                                        <li>Gained experience with CAD-like software and customer communication.</li>
+                                    </ul>
+
+                                    <div class="job-tools">
+                                        <span class="tech-tag">Teowin Software</span>
+                                        <span class="tech-tag">3D Design</span>
+                                        <span class="tech-tag">Project Management</span>
+                                        <span class="tech-tag">Communication</span>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ol>
-                </section>
-  
-                <section class="skill">
-                    <h3 class="h3 skills-title">My Skills</h3>
-
-                    <ul class="skills-list content-card">
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">Web Design</h5>
-                                <data value="70">70%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="70"></div>
-                            </div>
-                        </li>
-
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">Graphic Design</h5>
-                                <data value="60">60%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="60"></div>
-                            </div>
-                        </li>
-
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">SQL & MySQL</h5>
-                                <data value="50">50%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="50"></div>
-                            </div>
-                        </li>
-                                     
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">C/C++</h5>
-                                <data value="65">65%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="65"></div>
-                            </div>
-                        </li>    
-                            
-                            
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">Python</h5>
-                                <data value="65">65%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="65"></div>
-                            </div>
-                        </li>      
-  
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">PowerBI</h5>
-                                <data value="75">75%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="75"></div>
-                            </div>
-                        </li>    
-
-                        <li class="skills-item">
-                            <div class="title-wrapper">
-                                <h5 class="h5">Teowin Software</h5>
-                                <data value="90">90%</data>
-                            </div>
-
-                            <div class="skills-progress-bg">
-                                <div class="skills-progress-fill" data-progress="90"></div>
-                            </div>
-                        </li>
-                    </ul>
-                </section>
-
-                <section class="mbspace">
-                    <section class="timeline">
-                        <div class="title-wrapper">
-                            <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
-
-                            <h3 class="h3">Languages</h3>
                         </div>
-
-                        <ol class="hover-underline2" class="timeline-list">
-                            <li class="timeline-item">
-                                <h4 class="h4 timeline-item-title"> Portuguese </h4>
-                                <span>Native</span>
-                            </li>
-
-                            <li class="timeline-item">
-                                <h4 class="h4 timeline-item-title">English</h4>
-                                <span>B2</span>
-                            </li>
-
-                            <li class="timeline-item">
-                                <h4 class="h4 timeline-item-title">Spanish</h4>
-                                <span>B1</span>
-                            </li>
-                        </ol>
-                    </section>
+                        </div>
+                    </div>
                 </section>
+
+                <section class="skill">
+                    <div class="section-header">
+                        <div class="icon-box"><ion-icon name="bar-chart-outline"></ion-icon></div>
+
+                        <h3 class="h3 skills-title">My Skills</h3>
+                    </div>
+
+                    <div class="job-card" data-job data-skills-card>
+                        <button class="job-toggle" data-job-toggle aria-expanded="false">
+                            <span class="job-toggle-label">12 Skills</span>
+                            <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                        </button>
+
+                        <div class="job-details">
+                            <div class="job-details-inner">
+                                <ul class="skills-list">
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">Web Design</h5>
+                                            <data value="70">70%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="70"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">Graphic Design</h5>
+                                            <data value="60">60%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="60"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">SQL & MySQL</h5>
+                                            <data value="50">50%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="50"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">C/C++</h5>
+                                            <data value="65">65%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="65"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">Python</h5>
+                                            <data value="65">65%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="65"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">PowerBI</h5>
+                                            <data value="75">75%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="75"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">Teowin Software</h5>
+                                            <data value="90">90%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="90"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">JavaScript</h5>
+                                            <data value="65">65%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="65"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">HTML/CSS</h5>
+                                            <data value="70">70%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="70"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">Flask</h5>
+                                            <data value="60">60%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="60"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">PostgreSQL</h5>
+                                            <data value="60">60%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="60"></div>
+                                        </div>
+                                    </li>
+
+                                    <li class="skills-item">
+                                        <div class="title-wrapper">
+                                            <h5 class="h5">Git</h5>
+                                            <data value="65">65%</data>
+                                        </div>
+
+                                        <div class="skills-progress-bg">
+                                            <div class="skills-progress-fill" data-progress="65"></div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="languages">
+                    <div class="section-header">
+                        <div class="icon-box"><ion-icon name="language-outline"></ion-icon></div>
+
+                        <h3 class="h3">Languages</h3>
+                    </div>
+
+                    <div class="job-card" data-job>
+                        <button class="job-toggle" data-job-toggle aria-expanded="false">
+                            <span class="job-toggle-label">3 Languages</span>
+                            <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                        </button>
+
+                        <div class="job-details">
+                            <div class="job-details-inner">
+                                <ul class="language-list">
+                                    <li class="language-item">
+                                        <span class="language-name">Portuguese</span>
+                                        <span class="language-level">Native</span>
+                                    </li>
+                                    <li class="language-item">
+                                        <span class="language-name">English</span>
+                                        <span class="language-level">B2</span>
+                                    </li>
+                                    <li class="language-item">
+                                        <span class="language-name">Spanish</span>
+                                        <span class="language-level">B1</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="timeline">
                     <div class="title-wrapper">
                         <div class="icon-box"><ion-icon name="book-outline"></ion-icon></div>
@@ -402,20 +615,56 @@
                         <h3 class="h3">Education</h3>
                     </div>
 
-                    <ol class="hover-underline2" class="timeline-list">
-                        <li class="timeline-item">
-                            <h4 class="h4 timeline-item-title"> IEFP - LISBOA </h4>
-                            <span>Programador de Informática - 2023 - 2026</span>
-                            <p class="timeline-text">Coursework: Software Development, Programming Logic, Systems Analysis</p>
+                    <div class="job-card" data-job>
+                        <button class="job-toggle" data-job-toggle aria-expanded="false">
+                            <span class="job-toggle-label">2 Items</span>
+                            <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                        </button>
+
+                        <div class="job-details">
+                        <div class="job-details-inner">
+                    <ol class="hover-underline2 nested-timeline-list">
+                        <li class="timeline-item job-card" data-job>
+                            <button class="job-toggle" data-job-toggle aria-expanded="false">
+                                <div class="job-toggle-heading">
+                                    <h4 class="h4 timeline-item-title">IEFP - LISBOA</h4>
+                                    <div class="job-meta">
+                                        <span class="job-period">Programador de Informática - 2023 - 2026</span>
+                                    </div>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                            </button>
+                            <div class="job-details">
+                                <div class="job-details-inner">
+                                    <ul class="job-bullets">
+                                        <li>Coursework: Software Development, Programming Logic, Systems Analysis.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
 
-                        <li class="timeline-item">
-                            <h4 class="h4 timeline-item-title">Escola Profissional - Tomar</h4>
-                            <span>Técnico de Eletrónica e Telecomunicações -2018</span>
-                            <p class="timeline-text">Focus: Embedded Systems and Arduino Programming</p>
+                        <li class="timeline-item job-card" data-job>
+                            <button class="job-toggle" data-job-toggle aria-expanded="false">
+                                <div class="job-toggle-heading">
+                                    <h4 class="h4 timeline-item-title">Escola Profissional - Tomar</h4>
+                                    <div class="job-meta">
+                                        <span class="job-period">Técnico de Eletrónica e Telecomunicações - 2018</span>
+                                    </div>
+                                </div>
+                                <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
+                            </button>
+                            <div class="job-details">
+                                <div class="job-details-inner">
+                                    <ul class="job-bullets">
+                                        <li>Focus: Embedded Systems and Arduino Programming.</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </li>
-
                     </ol>
+                        </div>
+                        </div>
+                    </div>
                 </section>
             </article>
 
