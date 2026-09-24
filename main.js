@@ -1,5 +1,33 @@
 'use strict';
 
+// Captcha theme — hCaptcha reads data-theme only when it renders, so it's set
+// here (before the async Web3Forms/hCaptcha scripts run) and on theme toggle
+// the widget is swapped for a freshly rendered one in the new theme.
+const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'; // Web3Forms free-plan key
+const captchaTheme = (isDark) => (isDark ? 'dark' : 'light');
+let captchaWidgetId; // undefined = the auto-rendered widget, which hcaptcha.reset() targets by default
+
+const initialCaptcha = document.querySelector('.h-captcha');
+if (initialCaptcha) {
+    initialCaptcha.dataset.theme = captchaTheme(localStorage.getItem('theme') === 'dark');
+}
+
+const rerenderCaptcha = (isDark) => {
+    const oldCaptcha = document.querySelector('.h-captcha');
+    if (!oldCaptcha) return;
+
+    const newCaptcha = document.createElement('div');
+    newCaptcha.className = oldCaptcha.className;
+    newCaptcha.dataset.captcha = 'true';
+    newCaptcha.dataset.theme = captchaTheme(isDark);
+    oldCaptcha.replaceWith(newCaptcha);
+
+    // If hCaptcha hasn't loaded yet it will pick up data-theme on its own
+    if (window.hcaptcha) {
+        captchaWidgetId = window.hcaptcha.render(newCaptcha, { sitekey: HCAPTCHA_SITEKEY, theme: captchaTheme(isDark) });
+    }
+};
+
 // Botao tema Escuro e branco
 document.addEventListener('DOMContentLoaded', function () {
     const toggle = document.getElementById('toggle-theme');
@@ -19,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.classList.remove('dark-mode');
         localStorage.setItem('theme', 'light');
       }
+      rerenderCaptcha(this.checked);
     });
 });
 
@@ -124,6 +153,57 @@ document.querySelectorAll('[data-job-toggle]').forEach(btn => {
         btn.setAttribute('aria-expanded', isOpen);
     });
 });
+
+// Contact form — sent to Web3Forms via fetch so the visitor stays on the page
+const contactForm = document.querySelector('[data-form]');
+const contactBtn = document.querySelector('[data-form-btn]');
+const contactStatus = document.querySelector('[data-form-status]');
+
+if (contactForm && contactBtn && contactStatus) {
+    const btnLabel = contactBtn.querySelector('span');
+    const defaultLabel = btnLabel.textContent;
+
+    const showFormStatus = (message, type) => {
+        contactStatus.textContent = message;
+        contactStatus.className = `form-status ${type}`;
+        contactStatus.hidden = false;
+    };
+
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const captchaResponse = contactForm.querySelector('textarea[name=h-captcha-response]');
+        if (!captchaResponse || !captchaResponse.value) {
+            showFormStatus('Please complete the captcha before sending.', 'error');
+            return;
+        }
+
+        contactBtn.disabled = true;
+        btnLabel.textContent = 'Sending…';
+        contactStatus.hidden = true;
+
+        fetch(contactForm.action, {
+            method: 'POST',
+            headers: { Accept: 'application/json' },
+            body: new FormData(contactForm),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (!data.success) throw new Error(data.message);
+                contactForm.reset();
+                showFormStatus("Thanks for your message! I'll get back to you soon.", 'success');
+            })
+            .catch(() => {
+                showFormStatus("Something went wrong. Please try again or email me directly.", 'error');
+            })
+            .finally(() => {
+                // Each captcha token is single-use, so a new one is needed for the next send
+                if (window.hcaptcha) window.hcaptcha.reset(captchaWidgetId);
+                contactBtn.disabled = false;
+                btnLabel.textContent = defaultLabel;
+            });
+    });
+}
 
 // Filterable skills cloud
 const skillsFilters = document.querySelectorAll('.skills-filter');

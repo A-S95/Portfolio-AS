@@ -1916,6 +1916,21 @@ textarea.form-input {
         .form-btn:disabled:hover { background: var(--border-gradient-onyx); }
             .form-btn:disabled:hover::before { background: var(--bg-gradient-jet); }
 
+.form-honeypot { display: none; }
+
+.form-captcha { margin-bottom: 25px; }
+
+.form-status {
+    margin-top: 20px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    border: 1px solid currentColor;
+    font-size: var(--fs6);
+}
+
+    .form-status.success { color: hsl(145, 45%, 38%); background: hsla(145, 45%, 38%, .1); }
+    .form-status.error { color: var(--bittersweet-shimmer); background: hsla(0, 43%, 51%, .1); }
+
 
 /*MEDIA QUERIES*/
 

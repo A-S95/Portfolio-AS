@@ -12,7 +12,6 @@ Live Preview : https://portfolio-as-azure.vercel.app/
 
 ```
 .
-├── contact-form-handler.php
 ├── icons
 │   ├── icons8-backend-development-96.png
 │   ├── icons8-database-100.png
