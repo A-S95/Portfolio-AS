@@ -236,6 +236,30 @@ skillsFilters.forEach(btn => {
     });
 });
 
+// "Measure twice, cut once" — plays the tape-measure underline when the
+// phrase scrolls into view, and again on hover
+const measureHighlight = document.querySelector('.about-highlight');
+if (measureHighlight) {
+    const playMeasure = () => {
+        measureHighlight.classList.remove('is-measuring');
+        void measureHighlight.offsetWidth; // restart the CSS animation
+        measureHighlight.classList.add('is-measuring');
+    };
+
+    new IntersectionObserver((entries, obs) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+            setTimeout(playMeasure, 400);
+            obs.disconnect();
+        }
+    }, { threshold: 1 }).observe(measureHighlight);
+
+    measureHighlight.addEventListener('mouseenter', () => {
+        // Don't restart while it's still mid-measure
+        const running = measureHighlight.getAnimations({ subtree: true }).some((a) => a.playState === 'running');
+        if (!running) playMeasure();
+    });
+}
+
 // Scroll reveal for content sections
 document.addEventListener('DOMContentLoaded', () => {
     const fadeUpEls = document.querySelectorAll('.service-item, .clients');
@@ -400,6 +424,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.addEventListener('resize', () => scheduleFit(200));
+
+    // Web fonts make each commit row taller; a fit done before they load
+    // would squeeze in one row too many, so re-fit once they're in
+    if (document.fonts) document.fonts.ready.then(() => scheduleFit(0));
 
     // Switching page (About/Resume/...) swaps the content height immediately
     document.querySelectorAll('[data-nav-link]').forEach((btn) => {

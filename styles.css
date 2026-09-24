@@ -752,6 +752,46 @@ body.dark-mode .info-content .title {
         padding-right: 10px;
      }
 
+    /* "Measure twice, cut once": a gold underline runs out like a tape
+       measure, retracts, measures again and stays (see main.js) */
+    .about-highlight {
+        position: relative;
+        font-weight: var(--fw500);
+        font-style: italic;
+        white-space: nowrap;
+        cursor: default;
+    }
+
+        .about-highlight::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -2px;
+            height: 2px;
+            border-radius: 2px;
+            background: linear-gradient(to right, var(--orange-yellow-crayola), var(--vegas-gold));
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .about-highlight.is-measuring::after {
+            animation: measureTwice 2.6s cubic-bezier(.65, 0, .35, 1) forwards;
+        }
+
+    @keyframes measureTwice {
+        0%   { transform: scaleX(0); }
+        32%  { transform: scaleX(1); }
+        50%  { transform: scaleX(0); }
+        82%  { transform: scaleX(1); }
+        100% { transform: scaleX(1); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .about-highlight::after { transform: scaleX(1); }
+        .about-highlight.is-measuring::after { animation: none; }
+    }
+
 .service { margin-bottom: 35px; }
 
 .service-title { margin-bottom: 20px; }
@@ -2347,7 +2387,19 @@ textarea.form-input {
         margin-bottom: 0;
     }
 
-    .github-commits { flex: 1; }
+    /* The list fills whatever height is left, but its own commits must not
+       count towards the stack's height: otherwise the commits shown for a
+       tall page (e.g. an expanded Resume) keep the stack — and the page
+       next to it — tall after switching back to a shorter page, and main.js
+       never gets the smaller space to re-fit into. */
+    .github-commits {
+        flex: 1;
+        /* Room for 2 commits on short pages (Portfolio, Contact), since the
+           commits themselves no longer give the list any height */
+        min-height: 140px;
+        contain: size;
+        overflow: hidden;
+    }
 
     .github-activity-link { margin-top: auto; }
 
