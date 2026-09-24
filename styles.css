@@ -226,8 +226,27 @@ main {
     margin: 15px 12px;
     margin-bottom: 75px;
     min-width: 259px;
-    width: 100%;
+    /* auto (not 100%) so the side margins fit inside the viewport instead of
+       pushing the page 12px past the right edge */
+    width: auto;
     justify-self: stretch;
+}
+
+/* Below the two-column desktop layout the GitHub card moves under the page
+   content, so on phones/tablets the About/Resume/... content comes right
+   after the profile card instead of after a list of commits. */
+@media (max-width: 1249px) {
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+
+    main > .sidebar-stack { display: contents; }
+
+    main > .sidebar-stack > .github-activity {
+        order: 1;
+        margin-top: 30px;
+    }
 }
 
 .sidebar, article, .github-activity {
@@ -508,12 +527,13 @@ body.dark-mode .info-content .title {
     width: calc(100% - 46px);
 }
 
-    .contact-info :is(.contact-link, time, address) {
+    .contact-info :is(.contact-link, time, address, .contact-quote) {
         color: var(--white2);
         font-size: var(--fs7);
     }
 
     .contact-info address { font-style: normal; }
+    .contact-info .contact-quote { display: block; font-style: italic; }
 
 .contact-title {
     color: var(--light-gray70);
@@ -1932,6 +1952,37 @@ textarea.form-input {
 
 /*MEDIA QUERIES*/
 
+/* Phones: the Resume cards are nested 2–3 levels deep, so the desktop
+   paddings and the 4rem timeline indent left only ~180px for text. Tighten
+   them, and drop justified text, which leaves big gaps in narrow columns. */
+@media (max-width: 579px) {
+    .about-text { margin-bottom: 25px; }
+
+    .about-text p,
+    .job-bullets li,
+    .timeline-text { text-align: left; }
+
+    .cv-download-hidden { margin-bottom: 20px; }
+
+    .nested-timeline-list {
+        margin-left: 40px;
+        padding-right: 12px;
+    }
+
+    .job-toggle { padding: 14px; }
+    .job-bullets { padding: 14px 14px 14px; }
+    .job-tools { padding: 4px 14px 14px; }
+
+    .job-details .job-recommendation {
+        margin: 0 14px 14px;
+        padding: 12px 14px 14px;
+    }
+
+    .skills-cloud { padding: 14px; }
+    .language-list { padding: 4px 14px 14px; }
+}
+
+
 @media (min-width: 450px) {
     .clients-item { min-width: calc(33.33% - 10px); }
 
@@ -2324,6 +2375,9 @@ textarea.form-input {
         position: sticky;
         top: 60px;
         flex-shrink: 0;
+        /* Fixed width (fits the email on one line) so a longer contact value
+           wraps instead of widening the sidebar past the viewport */
+        width: 360px;
     }
 
     /* Grows to soak up the leftover height so its bottom edge lines up with the main content card */
@@ -2340,6 +2394,9 @@ textarea.form-input {
     .github-activity-link { margin-top: auto; }
 
     main {
+        /* With auto side margins a grid item shrinks to its content instead
+           of stretching, so the width has to be explicit here */
+        width: 100%;
         max-width: 1200px;
         margin-inline: auto;
         display: flex;
@@ -2349,8 +2406,9 @@ textarea.form-input {
     }
 
     .main-content {
-        min-width: 75%;
-        width: 75%;
+        flex: 1;
+        min-width: 0;
+        width: auto;
         margin: 0;
     }
 
@@ -2395,7 +2453,7 @@ textarea.form-input {
         text-overflow: ellipsis;
     }
 
-    .contact-info :is(.contact-link, time, address) {
+    .contact-info :is(.contact-link, time, address, .contact-quote) {
         --fs7: 14px;
         font-weight: var(--fw300);
     }

@@ -258,7 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 obs.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 });
+    // threshold 0 + a bottom inset rather than a ratio: an expanded card can be
+    // several screens tall on mobile, so a ratio like 0.15 may never be
+    // reached and the card would stay invisible.
+    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
 
     fadeUpEls.forEach(el => revealObserver.observe(el));
     fadeOnlyEls.forEach(el => revealObserver.observe(el));
