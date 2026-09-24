@@ -3703,3 +3703,125 @@ textarea.form-input {
     clip: rect(0 0 0 0);
     white-space: nowrap;
 }
+
+/* ==========================================================================
+   LIGHT THEME — "Paper & Terracotta"
+   Light surfaces, espresso text, one terracotta accent. Scoped to
+   body:not(.dark-mode), so the dark theme is untouched: the same variables
+   the components already use are simply given light values here.
+   ========================================================================== */
+
+body:not(.dark-mode) {
+    --colorbg1: #fffcf8;                 /* cards */
+    --color2: #f4ebe3;                   /* soft fills */
+    --color4: #e7cbb9;                   /* focus / hover borders */
+    --color5: #5e4a43;                   /* body text */
+    --white1: #3d2b26;                   /* headings (were white) */
+    --white2: #3d2b26;
+    --jet: #eadfd5;                      /* hairlines and borders */
+    --light-gray: #6e5c54;               /* secondary text */
+    --light-gray70: #8a7870;
+    --orange-yellow-crayola: #b4533c;    /* accent: terracotta (4.8:1 on the cards) */
+    --vegas-gold: #946a12;               /* dates, darker gold for text */
+    /* Must stay an image, not a plain colour: an old global rule does
+       `* { color: var(--bg-gradient-jet) }`, which only stays harmless (and
+       lets text inherit) while this value is invalid as a colour */
+    --bg-gradient-jet: linear-gradient(#f7efe8, #f7efe8);
+    --bg-gradient-onyx: linear-gradient(to bottom right, #f7efe8, #efe3d8);
+    --border-gradient-onyx: linear-gradient(to bottom right, #e4d6ca 0%, hsla(28, 30%, 84%, 0) 50%);
+    --text-gradient-yellow: linear-gradient(to right, #cf7a5e, #b4533c);
+
+    --shadow1: 0 6px 20px hsla(20, 30%, 30%, .08);
+    --shadow2: 0 12px 26px hsla(20, 30%, 30%, .10);
+    --shadow3: 0 14px 34px hsla(20, 30%, 30%, .10);
+    --shadow4: 0 20px 40px hsla(20, 30%, 30%, .10);
+    --shadow5: 0 24px 60px hsla(20, 30%, 30%, .10);
+
+    background: #f7f1ea;                 /* paper */
+}
+
+/* Cards get a hairline so they read on the paper background */
+body:not(.dark-mode) :is(.sidebar, .github-activity, article) { border-color: #eadfd5; }
+
+/* Text sitting on the terracotta accent is white */
+body:not(.dark-mode) :is(.evaluation-badge, .cv-download-btn, .availability-cta, .pdf-modal-download-btn,
+    .skills-filter.active, .case-link--primary) { color: #fff; }
+body:not(.dark-mode) :is(.cv-download-btn, .availability-cta, .pdf-modal-download-btn, .case-link--primary) ion-icon { color: #fff; }
+body:not(.dark-mode) .avatar-flip-icon ion-icon { color: #fff; }
+body:not(.dark-mode) .case-link--primary:hover { background: #9c4632; }
+body:not(.dark-mode) .cv-download-btn:hover { background: #9c4632; }
+body:not(.dark-mode) ::selection { color: #fff; }
+
+/* Role pill under the name */
+body:not(.dark-mode) .info-content .title { background: #f4ebe3; color: #5e4a43; }
+
+/* Navigation bar and the workshop button: frosted paper instead of charcoal */
+body:not(.dark-mode) .navbar {
+    background: hsla(30, 60%, 98%, .9);
+    border-color: #eadfd5;
+}
+body:not(.dark-mode) .workshop-fab {
+    background: hsla(30, 60%, 98%, .92);
+    border-color: #eadfd5;
+}
+
+/* Tags and chips: terracotta tints instead of gold */
+body:not(.dark-mode) .tech-tag {
+    background: hsla(12, 50%, 47%, .06);
+    border-color: hsla(12, 50%, 47%, .22);
+}
+body:not(.dark-mode) .skills-tags .tech-tag:not(.dimmed):hover {
+    background: hsla(12, 50%, 47%, .12);
+    border-color: hsla(12, 50%, 47%, .45);
+}
+body:not(.dark-mode) .project-tags .tech-tag { background: hsla(12, 50%, 47%, .05); border-color: hsla(12, 50%, 47%, .18); }
+body:not(.dark-mode) .project-item > a:hover .project-tags .tech-tag { border-color: hsla(12, 50%, 47%, .4); }
+body:not(.dark-mode) .tech-chip { background: #fff; border: 1px solid #efe4da; box-shadow: 0 2px 5px hsla(20, 30%, 30%, .06); }
+
+/* Gold-tinted buttons and outlines -> terracotta tints */
+body:not(.dark-mode) :is(.tech-toggle, .project-case-btn, .case-link:not(.case-link--primary)) {
+    background: hsla(12, 50%, 47%, .06);
+    border-color: hsla(12, 50%, 47%, .35);
+}
+body:not(.dark-mode) :is(.tech-toggle, .project-case-btn):hover { background: hsla(12, 50%, 47%, .12); }
+body:not(.dark-mode) .availability { border-color: hsla(12, 50%, 47%, .4); background: #fdf8f3; }
+
+/* The yellow line icons (What I Work With) tinted to terracotta */
+body:not(.dark-mode) .service-icon-box img {
+    filter: brightness(0) saturate(100%) invert(38%) sepia(38%) saturate(1250%) hue-rotate(335deg) brightness(92%) contrast(88%);
+}
+
+/* Back of the flipping avatar: a light card */
+body:not(.dark-mode) .avatar-face--back,
+body:not(.dark-mode) .avatar-back-tag { background: #fffcf8; }
+body:not(.dark-mode) .avatar-face--back { border-color: hsla(12, 50%, 47%, .45); }
+
+/* Case study */
+body:not(.dark-mode) .case-stats li { background: #f7efe8; }
+body:not(.dark-mode) .case-card code { background: #f4ebe3; }
+body:not(.dark-mode) .case-modal,
+body:not(.dark-mode) #image-modal,
+body:not(.dark-mode) #pdf-modal { background-color: hsla(20, 25%, 20%, .6); }
+
+/* The tagline shimmer ran through near-white, invisible on paper */
+body:not(.dark-mode) .pulsing-text span {
+    background-image: linear-gradient(90deg, #b4533c, #d9965c, #b4533c);
+}
+
+/* "Open to work" pill: the light green was for dark backgrounds */
+body:not(.dark-mode) .open-pill { color: #1f7a45; border-color: hsla(142, 55%, 38%, .45); }
+
+/* Contact form fields: white with a hairline (the old salmon fill was heavy) */
+body:not(.dark-mode) .form-input {
+    background: #fff;
+    border-color: #eadfd5;
+    color: #3d2b26;
+}
+body:not(.dark-mode) .form-input::placeholder { color: #9a8880; }
+body:not(.dark-mode) .form-input:focus { border-color: #cf7a5e; box-shadow: 0 0 0 4px hsla(12, 50%, 47%, .12); }
+
+/* Resume cards: terracotta instead of gold when open */
+body:not(.dark-mode) .job-card.open { border-color: hsla(12, 50%, 47%, .35); }
+
+/* Soft zebra of the "What I Work With" cards and contact icons */
+body:not(.dark-mode) .service-item { background: #fdf7f2; }

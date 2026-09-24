@@ -6,7 +6,7 @@
     --cw: calc(var(--m) * 1.55);
     --ch: calc(var(--cw) * .63);
 
-    --ws-bg: var(--color5);
+    --ws-bg: #f7f1ea;
     --ws-grid: hsla(6, 38%, 39%, .07);
     --ws-grid-major: hsla(6, 38%, 39%, .13);
     --ws-ink: #6b3530;

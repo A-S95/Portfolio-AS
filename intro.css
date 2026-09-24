@@ -20,10 +20,10 @@ html.intro-active .intro {
     --ink-soft: hsla(6, 38%, 39%, .3);
     --fill: #fffaf5;
     --paper: hsla(0, 0%, 100%, .6);
-    --accent: #89443d;
+    --accent: #b4533c;
     --accent-soft: hsla(6, 38%, 39%, .22);
     --gold: hsl(45, 100%, 58%);
-    --bg: #ffeee2;
+    --bg: #f7f1ea;
     --grid: hsla(6, 38%, 39%, .07);
     --grid-major: hsla(6, 38%, 39%, .13);
 

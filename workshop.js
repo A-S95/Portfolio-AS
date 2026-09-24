@@ -345,7 +345,10 @@ const TOP_TRACKS = [
         player.textContent = '';
         if (p.track.spotifyId) {
             const frame = document.createElement('iframe');
-            frame.src = `https://open.spotify.com/embed/track/${encodeURIComponent(p.track.spotifyId)}?utm_source=generator&theme=0`;
+            // Spotify has no light player: dark mode gets its dark theme,
+            // light mode the default one, tinted from the cover art
+            const darkPlayer = document.body.classList.contains('dark-mode') ? '&theme=0' : '';
+            frame.src = `https://open.spotify.com/embed/track/${encodeURIComponent(p.track.spotifyId)}?utm_source=generator${darkPlayer}`;
             frame.title = `${p.track.title} by ${p.track.artist} on Spotify`;
             frame.loading = 'lazy';
             frame.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
