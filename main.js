@@ -427,47 +427,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const EMPTY_SHA = '0000000000000000000000000000000000000000';
+    // Commit search returns repo, message and date in a single request (the
+    // events feed needed one extra request per commit and quickly hit GitHub's
+    // 60 requests/hour unauthenticated limit). Results are cached in
+    // localStorage so reloads don't spend requests at all, and a stale cache
+    // is still shown if GitHub is unavailable.
+    const CACHE_KEY = 'github-commits';
+    const CACHE_TTL = 15 * 60 * 1000;
 
-    // The public events feed only gives the tip SHA of each push (no commit
-    // messages anymore), so each push needs a follow-up request for its message.
-    const fetchCommitMessage = (repoFullName, sha) =>
-        fetch(`https://api.github.com/repos/${repoFullName}/commits/${sha}`)
-            .then((res) => (res.ok ? res.json() : null))
-            .then((data) => (data && data.commit ? data.commit.message : null))
-            .catch(() => null);
+    const readCache = () => {
+        try {
+            return JSON.parse(localStorage.getItem(CACHE_KEY));
+        } catch {
+            return null;
+        }
+    };
 
-    fetch(`https://api.github.com/users/${GITHUB_USER}/events/public?per_page=30`)
+    const writeCache = (commits) => {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), commits }));
+        } catch {
+            // Storage full or blocked — the widget still works, just without caching
+        }
+    };
+
+    const showCommits = (commits) => {
+        if (commits.length === 0) {
+            showStatus('No recent public activity.');
+            return;
+        }
+        commitPool = commits;
+        fitVisibleCommits();
+    };
+
+    const cached = readCache();
+    if (cached && Array.isArray(cached.commits) && Date.now() - cached.savedAt < CACHE_TTL) {
+        showCommits(cached.commits);
+        return;
+    }
+
+    fetch(`https://api.github.com/search/commits?q=author:${GITHUB_USER}&sort=author-date&order=desc&per_page=${POOL_SIZE}`)
         .then((res) => {
             if (!res.ok) throw new Error('GitHub API error');
             return res.json();
         })
-        .then((events) => {
-            const pushes = events
-                .filter((event) => event.type === 'PushEvent' && event.payload.head && event.payload.head !== EMPTY_SHA)
-                .slice(0, POOL_SIZE)
-                .map((event) => ({
-                    repo: event.repo.name.split('/')[1],
-                    repoFullName: event.repo.name,
-                    sha: event.payload.head,
-                    date: event.created_at,
-                }));
-
-            if (pushes.length === 0) {
-                showStatus('No recent public activity.');
-                return;
-            }
-
-            Promise.all(pushes.map((push) => fetchCommitMessage(push.repoFullName, push.sha)))
-                .then((messages) => {
-                    commitPool = pushes.map((push, i) => ({
-                        ...push,
-                        message: messages[i] || 'Update',
-                    }));
-                    fitVisibleCommits();
-                });
+        .then((data) => {
+            const commits = data.items.map((item) => ({
+                repo: item.repository.name,
+                repoFullName: item.repository.full_name,
+                sha: item.sha,
+                message: item.commit.message || 'Update',
+                date: item.commit.author.date,
+            }));
+            writeCache(commits);
+            showCommits(commits);
         })
         .catch(() => {
-            showStatus("Couldn't load recent commits.");
+            if (cached && Array.isArray(cached.commits)) {
+                showCommits(cached.commits);
+            } else {
+                showStatus("Couldn't load recent commits.");
+            }
         });
 })();
