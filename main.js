@@ -469,7 +469,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // localStorage so reloads don't spend requests at all, and a stale cache
     // is still shown if GitHub is unavailable.
     const CACHE_KEY = 'github-commits';
-    const CACHE_TTL = 15 * 60 * 1000;
+    // The cached list is shown straight away and refreshed in the background;
+    // this only stops quick reloads from calling GitHub again and again
+    const REFRESH_AFTER = 60 * 1000;
 
     const readCache = () => {
         try {
@@ -492,14 +494,20 @@ document.addEventListener('DOMContentLoaded', () => {
             showStatus('No recent public activity.');
             return;
         }
+        // setVisibleCount only adds/removes rows at the end, so a new list
+        // (not just a longer/shorter one) has to start from an empty widget
+        const sameList = commits.length === commitPool.length
+            && commits.every((c, i) => c.sha === commitPool[i].sha);
+        if (!sameList) list.textContent = '';
         commitPool = commits;
         fitVisibleCommits();
     };
 
     const cached = readCache();
-    if (cached && Array.isArray(cached.commits) && Date.now() - cached.savedAt < CACHE_TTL) {
+    const hasCache = cached && Array.isArray(cached.commits);
+    if (hasCache) {
         showCommits(cached.commits);
-        return;
+        if (Date.now() - cached.savedAt < REFRESH_AFTER) return;
     }
 
     fetch(`https://api.github.com/search/commits?q=author:${GITHUB_USER}&sort=author-date&order=desc&per_page=${POOL_SIZE}`)
@@ -519,10 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showCommits(commits);
         })
         .catch(() => {
-            if (cached && Array.isArray(cached.commits)) {
-                showCommits(cached.commits);
-            } else {
-                showStatus("Couldn't load recent commits.");
-            }
+            // With a cached list on screen, keep showing it
+            if (!hasCache) showStatus("Couldn't load recent commits.");
         });
 })();
