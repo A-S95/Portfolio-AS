@@ -61,5 +61,5 @@
     });
 
     // Safety net in case an animation event never fires
-    setTimeout(finish, 6500);
+    setTimeout(finish, 8700);
 })();

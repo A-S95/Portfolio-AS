@@ -8,8 +8,8 @@
    0.0  board swings in from 3D        1.9  "Interior Designer" struck out
    0.25 modules draw, one by one       2.1  modules morph into the site layout
    1.45 backsplash/counter/plinth      2.3  CAD chrome -> editor, code types in
-   1.7  dimension "360 cm"             3.4  "Junior Full-Stack Developer" lit
-   3.6  the cut                        4.0  the two halves open                */
+   1.7  dimension "360 cm"             4.1  "Junior Full-Stack Developer" lit
+   5.8  the cut (a pause to read first)  6.2  the two halves open                */
 
 .intro { display: none; }
 
@@ -74,8 +74,8 @@ html.intro-active.intro-dark .intro {
     background-attachment: fixed;
 }
 
-    .intro-half--left { left: 0; animation: introOpenLeft .7s cubic-bezier(.7, 0, .2, 1) 4s forwards; }
-    .intro-half--right { right: 0; animation: introOpenRight .7s cubic-bezier(.7, 0, .2, 1) 4s forwards; }
+    .intro-half--left { left: 0; animation: introOpenLeft .7s cubic-bezier(.7, 0, .2, 1) 6.2s forwards; }
+    .intro-half--right { right: 0; animation: introOpenRight .7s cubic-bezier(.7, 0, .2, 1) 6.2s forwards; }
 
 @keyframes introOpenLeft { to { transform: translateX(-100%); } }
 @keyframes introOpenRight { to { transform: translateX(100%); } }
@@ -92,7 +92,7 @@ html.intro-active.intro-dark .intro {
     box-shadow: 0 0 12px var(--gold);
     transform: scaleY(0);
     transform-origin: top;
-    animation: introCut .3s cubic-bezier(.65, 0, .35, 1) 3.6s forwards, introHide .2s ease 4s forwards;
+    animation: introCut .3s cubic-bezier(.65, 0, .35, 1) 5.8s forwards, introHide .2s ease 6.2s forwards;
 }
 
 @keyframes introCut { to { transform: scaleY(1); } }
@@ -111,7 +111,7 @@ html.intro-active.intro-dark .intro {
     justify-content: center;
     gap: 18px;
     padding: 20px;
-    animation: introStageOut .25s ease 3.85s forwards;
+    animation: introStageOut .25s ease 6.05s forwards;
 }
 
 @keyframes introStageOut { to { opacity: 0; transform: scale(.98); } }
@@ -242,7 +242,7 @@ html.intro-active.intro-dark .intro {
         .ic-status-ide b {
             color: #22a447;
             opacity: 0;
-            animation: introShow .3s ease 3.4s forwards;
+            animation: introShow .3s ease 4.1s forwards;
         }
 
         .ic-status-ide span:last-child { margin-left: auto; opacity: .6; }
@@ -589,7 +589,7 @@ html.intro-active.intro-dark .intro {
     white-space: pre;
     counter-increment: ie-line;
     clip-path: inset(0 100% 0 -40px);
-    animation: introType .22s steps(20, end) var(--t) forwards;
+    animation: introType .3s steps(20, end) var(--t) forwards;
 }
 
     .ie-line::before {
@@ -606,8 +606,8 @@ html.intro-active.intro-dark .intro {
 .ie-line--now {
     border-radius: 3px;
     animation:
-        introType .22s steps(20, end) var(--t) forwards,
-        introNow .5s ease 3.4s forwards;
+        introType .3s steps(20, end) var(--t) forwards,
+        introNow .5s ease 4.1s forwards;
 }
 
 @keyframes introNow {
@@ -643,7 +643,7 @@ html.intro-active.intro-dark .intro {
     font-size: 12px;
     opacity: 0;
     cursor: pointer;
-    animation: introShow .4s ease .6s forwards, introHide .2s ease 3.8s forwards;
+    animation: introShow .4s ease .6s forwards, introHide .2s ease 6s forwards;
 }
 
     .intro-skip:hover { border-color: var(--ink); }
