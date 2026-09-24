@@ -29,10 +29,30 @@ Live Preview : https://portfolio-as-azure.vercel.app/
 ├── intro.css
 ├── intro.js
 ├── main.js
+├── robots.txt
+├── sitemap.xml
 ├── styles.css
+├── vercel.json      (security headers: CSP, nosniff, referrer, framing)
 ├── workshop.css
 └── workshop.js
 ```
+
+## 🔒 Security headers
+
+`vercel.json` sends a Content-Security-Policy that only allows the external
+services the site uses (Google Fonts, ionicons on unpkg, GitHub API, Web3Forms,
+hCaptcha, Spotify and Google Maps embeds). The two small inline `<script>`s in
+`index.html` are allowed by their SHA-256 hash, so **if you edit either of them,
+update the hashes** (otherwise the browser blocks that script). Print the new ones
+with:
+
+```bash
+node -e "const c=require('crypto'),s=require('fs').readFileSync('index.html','utf8').split('\r\n').join('\n');for(const m of s.matchAll(/<script>([^]*?)<\/script>/g))for(const v of [m[1],m[1].split('\n').join('\r\n')])console.log('sha256-'+c.createHash('sha256').update(v).digest('base64'))"
+```
+
+and replace the four `'sha256-…'` values (keep the quotes) in both CSP entries of `vercel.json`.
+A new external service (another embed, CDN or API) also has to be added to the
+matching directive there.
 
 ## 👥 Contributing
 

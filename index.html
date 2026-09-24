@@ -49,8 +49,32 @@
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_GB">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#f7f1ea" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+
+    <!-- Structured data: lets search engines show this as a person's profile -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "António Santos",
+        "url": "https://portfolio-as-azure.vercel.app/",
+        "image": "https://portfolio-as-azure.vercel.app/img/avatar.jpg",
+        "jobTitle": "Junior Full-Stack Developer",
+        "address": { "@type": "PostalAddress", "addressCountry": "PT" },
+        "knowsAbout": ["Python", "Flask", "PostgreSQL", "MySQL", "JavaScript", "HTML", "CSS", "Power BI"],
+        "sameAs": [
+            "https://github.com/A-S95",
+            "https://www.linkedin.com/in/as-software/"
+        ]
+    }
+    </script>
 </head>
 <body>
+    <script>
+        // Saved dark theme applied before the first paint (main.js syncs the toggle)
+        try { if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode'); } catch (e) {}
+    </script>
     <!-- INTRO: a kitchen drawn in CAD turns into this website and its code
          ("Ex-Interior Designer" -> "Junior Full-Stack Developer"). See intro.css / intro.js -->
     <div class="intro" data-intro aria-hidden="true">
@@ -131,7 +155,7 @@
                     <button type="button" class="avatar-flip" data-avatar-flip aria-pressed="false">
                         <span class="visually-hidden">Flip avatar:</span>
                         <span class="avatar-face avatar-face--front">
-                            <img style="border-radius: 10%;" src="/img/avatar.jpg" alt="António Santos avatar" width="80">
+                            <img style="border-radius: 10%;" src="/img/avatar.jpg" alt="António Santos avatar" width="80" height="80">
                             <span class="avatar-flip-icon" aria-hidden="true"><ion-icon name="sync-outline"></ion-icon></span>
                             <!-- Phones: availability badge; tapping jumps to the card in About -->
                             <span class="avatar-status" aria-hidden="true"><span></span>Open to work</span>
@@ -252,7 +276,7 @@
                 <li class="github-commits-status">Loading recent commits…</li>
             </ul>
 
-            <a href="https://github.com/A-S95" target="_blank" class="github-activity-link">
+            <a href="https://github.com/A-S95" target="_blank" rel="noopener" class="github-activity-link">
                 View full profile
                 <ion-icon name="arrow-forward-outline"></ion-icon>
             </a>
@@ -322,7 +346,7 @@
                     <ul class="service-list">
                         <li class="service-item">
                             <div class="service-icon-box">
-                                <img src="/icons/icons8-backend-development-96.png" alt="" width="40">
+                                <img src="/icons/icons8-backend-development-96.png" alt="" width="40" height="40">
                             </div>
 
                             <div class="service-content-box">
@@ -333,7 +357,7 @@
 
                         <li class="service-item">
                             <div class="service-icon-box">
-                                <img src="/icons/icons8-database-100.png" alt="" width="40">
+                                <img src="/icons/icons8-database-100.png" alt="" width="40" height="40">
                             </div>
 
                             <div class="service-content-box">
@@ -344,7 +368,7 @@
 
                         <li class="service-item">
                             <div class="service-icon-box">
-                                <img src="/icons/dashboard.svg" alt="" width="40">
+                                <img src="/icons/dashboard.svg" alt="" width="40" height="40">
                             </div>
 
                             <div class="service-content-box">
@@ -355,7 +379,7 @@
 
                         <li class="service-item">
                             <div class="service-icon-box">
-                                <img src="/icons/icons8-networking-100.png" alt="" width="40">
+                                <img src="/icons/icons8-networking-100.png" alt="" width="40" height="40">
                             </div>
 
                             <div class="service-content-box">
@@ -559,7 +583,7 @@
                                                 <span class="job-recommendation-name">Dinis Monteiro</span>
                                                 <span class="job-recommendation-role">Founder and CTO at Teamlyzer</span>
                                             </div>
-                                            <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
+                                            <a href="https://www.linkedin.com/in/as-software/" target="_blank" rel="noopener" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
                                                 <ion-icon name="logo-linkedin"></ion-icon>
                                             </a>
                                         </div>
@@ -615,7 +639,7 @@
                                                 <span class="job-recommendation-name">Michele Sambiagio</span>
                                                 <span class="job-recommendation-role">Technical Lead @ Siemens</span>
                                             </div>
-                                            <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
+                                            <a href="https://www.linkedin.com/in/as-software/" target="_blank" rel="noopener" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
                                                 <ion-icon name="logo-linkedin"></ion-icon>
                                             </a>
                                         </div>
@@ -898,7 +922,7 @@
                 <section class="projects">
                     <ul class="project-list">
                         <li class="project-item active" data-filter-item data-category="web development"> <!-- faz a animacao de aparecer algo em hover -->
-                            <a href="https://centisible.vercel.app/" target="_blank">
+                            <a href="https://centisible.vercel.app/" target="_blank" rel="noopener">
                                 <figure class="project-img">
                                     <div class="project-item-icon-box">
                                         <ion-icon name="eye-outline"></ion-icon>
@@ -925,7 +949,7 @@
                         </li>
 
                         <li class="project-item active" data-filter-item data-category="web development">
-                            <a href="https://ascinema.vercel.app/" target="_blank">
+                            <a href="https://ascinema.vercel.app/" target="_blank" rel="noopener">
                                 <figure class="project-img">
                                     <div class="project-item-icon-box">
                                         <ion-icon name="eye-outline"></ion-icon>
@@ -948,7 +972,7 @@
                         </li>
 
                         <li class="project-item active" data-filter-item data-category="web development"> <!-- faz a animacao de aparecer algo em hover -->
-                            <a href="https://personal-projects-mu-nine.vercel.app/" target="_blank">
+                            <a href="https://personal-projects-mu-nine.vercel.app/" target="_blank" rel="noopener">
                                 <figure class="project-img">
                                     <div class="project-item-icon-box">
                                         <ion-icon name="eye-outline"></ion-icon>
@@ -973,7 +997,7 @@
                         </li>
 
                         <li class="project-item active" data-filter-item data-category="web design">
-                            <a href="https://win11-pub.vercel.app/" target="_blank">
+                            <a href="https://win11-pub.vercel.app/" target="_blank" rel="noopener">
                                 <figure class="project-img">
                                     <div class="project-item-icon-box">
                                         <ion-icon name="eye-outline"></ion-icon>
@@ -1014,14 +1038,14 @@
             </article>
 
               <!-- Modal HTML -->
-            <div id="image-modal" class="modal">
-                <span class="modal-close">&times;</span>
-                <img class="modal-content" id="modal-img">
+            <div id="image-modal" class="modal" role="dialog" aria-modal="true" aria-label="Project preview">
+                <button type="button" class="modal-close" aria-label="Close preview">&times;</button>
+                <img class="modal-content" id="modal-img" alt="">
             </div>
 
             <!-- PDF Modal HTML -->
-            <div id="pdf-modal" class="modal">
-                <span class="modal-close" data-pdf-close>&times;</span>
+            <div id="pdf-modal" class="modal" role="dialog" aria-modal="true" aria-label="Recommendation letter">
+                <button type="button" class="modal-close" data-pdf-close aria-label="Close letter">&times;</button>
                 <div class="pdf-modal-content">
                     <div class="pdf-modal-toolbar">
                         <span class="pdf-modal-title">
@@ -1102,6 +1126,7 @@
                         <div style="position: relative;"><div 
                         style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe 
                         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" 
+                        title="Map of Santarém, Portugal" referrerpolicy="no-referrer-when-downgrade"
                         allowfullscreen src="https://maps.google.com/maps?q=Santarém&output=embed"></iframe>
                     </div></div>
                     </figure>
@@ -1116,11 +1141,11 @@
                     <input type="checkbox" name="botcheck" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                     <div class="input-wrapper">
-                        <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-                        <input type="email" name="email" class="form-input" placeholder="Email Address" required data-form-input>
+                        <input type="text" name="fullname" class="form-input" placeholder="Full name" aria-label="Full name" autocomplete="name" maxlength="100" required data-form-input>
+                        <input type="email" name="email" class="form-input" placeholder="Email Address" aria-label="Email address" autocomplete="email" maxlength="254" required data-form-input>
                     </div>
             
-                    <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
+                    <textarea name="message" class="form-input" placeholder="Your Message" aria-label="Your message" maxlength="5000" required data-form-input></textarea>
             
                     <div class="h-captcha" data-captcha="true" data-render="explicit" data-captcha-box></div>
 

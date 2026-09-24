@@ -57,20 +57,16 @@ const dropCaptcha = () => {
 document.addEventListener('DOMContentLoaded', function () {
     const toggle = document.getElementById('toggle-theme');
 
-    // Aplica o tema salvo (se houver)
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark-mode');
-      toggle.checked = true;
-    }
+    // O tema salvo já foi aplicado por um script no início do <body>
+    toggle.checked = document.body.classList.contains('dark-mode');
 
     // Troca o tema ao clicar
     toggle.addEventListener('change', function () {
-      if (this.checked) {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-      } else {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
+      document.body.classList.toggle('dark-mode', this.checked);
+      try {
+        localStorage.setItem('theme', this.checked ? 'dark' : 'light');
+      } catch {
+        // Storage blocked: the theme just isn't remembered
       }
       dropCaptcha();
     });
@@ -126,6 +122,7 @@ if (modal && modalImg && closeBtn) {
     };
 
     const closeModal = () => {
+        if (!modal.classList.contains("open")) return;
         modal.classList.remove("open");
         document.body.style.overflow = "";
     };
@@ -163,6 +160,8 @@ if (pdfModal && pdfFrame && pdfOpenBtn && pdfCloseBtn) {
     };
 
     const closePdfModal = () => {
+        // Escape reaches every modal's handler, so only act on the open one
+        if (!pdfModal.classList.contains("open")) return;
         pdfModal.classList.remove("open");
         pdfFrame.src = "";
         document.body.style.overflow = "";

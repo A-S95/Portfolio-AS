@@ -85,7 +85,6 @@ body {
     background: var(--smoky-black);
   }
 
-
   #language-toggle {
     margin: 0 5px;
     padding: 5px 10px;
@@ -96,10 +95,6 @@ body {
 }
 
   /* Para meter espaço na educação*/
-  .mbspace {
-  margin-top: 65px;
-}
-
 
 /* Animacao do Segundo texto inicial*/
 .pulsing-text span {
@@ -122,8 +117,6 @@ body {
     100% { background-position: 200% center; }
 }
 
-
-
    /* Para meter a avaliação na experience */
 .evaluation-badge {
   display: inline-flex;
@@ -143,7 +136,6 @@ body {
   color: var(--smoky-black);
   font-size: 16px;
 }
-
 
 .cv-download {
     margin: 25px 0 25px 0;
@@ -352,7 +344,7 @@ article { display: none; }
         transform: translateY(0);
     }
 
-.h2, .h3, .h4, .h5 { 
+.h2, .h3, .h4 { 
     color: var(--white2);
     text-transform: capitalize;
 }
@@ -360,10 +352,6 @@ article { display: none; }
     .h2 { font-size: var(--fs1); }
     .h3 { font-size: var(--fs2); }
     .h4 { font-size: var(--fs4); }
-    .h5 { 
-        font-size: var(--fs7);
-        font-weight: var(--fw500); 
-    }
 
 .article-title {
     position: relative;
@@ -380,47 +368,6 @@ article { display: none; }
         background: var(--text-gradient-yellow);
         border-radius: 3px;
     }
-
-.has-scrollbar::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-.has-scrollbar::-webkit-scrollbar-track {
-    background: var(--onyx);
-    border-radius: 5px;
-}
-
-.has-scrollbar::-webkit-scrollbar-thumb {
-    background: var(--orange-yellow-crayola);
-    border-radius: 5px;
-}
-
-.has-scrollbar::-webkit-scrollbar-button { width: 20px; }
-
-.content-card {
-    position: relative;
-    background: var(--border-gradient-onyx);
-    padding: 15px;
-    padding-top: 45px;
-    border-radius: 14px;
-    box-shadow: var(--shadow2);
-    cursor: pointer;
-    z-index: 1;
-}
-
-    .content-card::before {
-        content: '';
-        position: absolute;
-        inset: 1px;
-        background: var(--color2);
-        border-radius: inherit;
-        z-index: -1;
-    }
-
-body.dark-mode .content-card::before {
-    background: var(--bg-gradient-jet);
-}
 
 /*ASIDE - SIDEBAR*/
 
@@ -446,13 +393,14 @@ body.dark-mode .content-card::before {
     gap: 15px;
 }
 
-
 .avatar-box {
     background: none;
     border-radius: 20px;
 }
 
     .avatar-box img {
+        /* width/height attributes reserve the space; the width is set per breakpoint */
+        height: auto;
         border-radius: 10%;
         transition: transform .4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow .4s ease;
         animation: avatarGlow 3.5s ease-in-out infinite;
@@ -1385,7 +1333,6 @@ body.dark-mode .service-item::before {
     to { offset-distance: 0%; }
 }
 
-
 /*Hover animation*/
 
 .hover-underline {
@@ -1453,11 +1400,6 @@ body.dark-mode .service-item::before {
     transform: scaleX(1);
   }
 
-
-
-
-
-
 .service-icon-box { margin-bottom: 10px; }
     .service-icon-box img {
         margin: auto;
@@ -1475,53 +1417,6 @@ body.dark-mode .service-item::before {
     font-weight: var(--fw300);
     line-height: 1.6;
     
-}
-
-
-/*TESTIMONIALS*/
-
-.testimonials { margin-bottom: 30px; }
-.testimonials-title { margin-bottom: 20px; }
-
-.testimonials-list {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 15px;
-    margin: 0 -15px;
-    padding: 25px 15px;
-    padding-bottom: 35px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: inline mandatory;
-}
-
-.testimonials-item {
-    min-width: 100%;
-    scroll-snap-align: center;
-}
-
-.testimonials-avatar-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translate(15px, -25px);
-    background: var(--bg-gradient-onyx);
-    border-radius: 14px;
-    box-shadow: var(--shadow1);
-}
-
-.testimonials-text {
-    color: var(--light-gray);
-    font-size: var(--fs6);
-    font-weight: var(--fw300);
-    line-height: 1.6;
-    display: -webkit-box;
-    line-clamp: 4;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
 /*MODAL CONTAINER*/
@@ -1642,56 +1537,6 @@ body.dark-mode .service-item::before {
     border: none;
     background: var(--white1);
 }
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: hsl(0, 0%, 5%);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    z-index: 1;
-    transition: var(--transition1);
-}
-
-    .overlay.active {
-        opacity: .8;
-        visibility: visible;
-        pointer-events: all;
-    }
-
-
-.modal-close-btn {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: var(--onyx);
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--white2);
-    font-size: 18px;
-    opacity: .7;
-}
-
-    .modal-close-btn:hover, .modal-close-btn:focus { opacity: 1; }
-    .modal-close-btn ion-icon { --ionicon-stroke-width: 50px; }
-
-.modal-avatar-box {
-    background: var(--bg-gradient-onyx);
-    width: max-content;
-    border-radius: 14px;
-    margin-bottom: 15px;
-    box-shadow: var(--shadow2);
-}
-
-.modal-img-wrapper > img { display: none; }
 
 .modal-title { margin-bottom: 4px; }
 
@@ -1877,7 +1722,6 @@ body.dark-mode .service-item::before {
     .tech-list-title { padding-top: 0; }
 }
 
-
 /*RECOMMENDATIONS*/
 
 /* Split link in the sidebar for the recommendation letter PDF: left opens a preview modal, right downloads directly */
@@ -1925,7 +1769,6 @@ body.dark-mode .service-item::before {
         font-family: 'JetBrains Mono', monospace;
         font-size: 9px;
         line-height: 14px;
-        opacity: .7;
     }
 
     .letter-link-main:hover {
@@ -2228,7 +2071,6 @@ body.dark-mode .service-item::before {
     font-weight: var(--fw400);
 }
 
-
 /* Compact language rows inside the Languages card */
 .language-list {
     display: flex;
@@ -2318,13 +2160,6 @@ body.dark-mode .service-item::before {
     margin-bottom: 7px;
 }
 
-.timeline-text {
-    color: var(--color5);
-    font-weight: var(--fw300);
-    line-height: 1.6;
-    text-align: justify;
-}
-
 /*SKILLS*/
 
 .skills-title { margin-bottom: 0; }
@@ -2387,62 +2222,6 @@ body.dark-mode .service-item::before {
     }
 
 /*PORTFOLIO*/
-
-.filter-list { display: none; }
-
-.filter-select-box { 
-    position: relative;
-    margin-bottom: 25px;
-}
-
-.filter-select {
-    background: var(--eerie-black2);
-    color: var(--light-gray);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--jet);
-    border-radius: 14px;
-    font-size: var(--fs6);
-    font-weight: var(--fw300);
-}
-
-    .filter-select.active .select-icon { transform: rotate(0.5turn); }
-
-.select-list {
-    background: var(--eerie-black2);
-    position: absolute;
-    top: calc(100% + 6px);
-    width: 100%;
-    padding: 6px;
-    border: 1px solid var(--jet);
-    border-radius: 14px;
-    z-index: 2;
-    visibility: hidden;
-    pointer-events: none;
-    transition: .5s ease-in-out;
-}
-
-    .filter-select.active + .select-list {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-    }
-
-.select-item button {
-    background: var(--eerie-black2);
-    color: var(--light-gray);
-    font-size: var(--fs6);
-    font-weight: var(--fw300);
-    text-transform: capitalize;
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 8px;
-}
-
-    .select-item button:hover { --eerie-black2: hsl(240, 2%, 20%); }
 
 .project-list {
     display: grid;
@@ -2886,8 +2665,6 @@ body.dark-mode .service-item::before {
         filter: grayscale(1) invert(1);
     }
 
-.contact-form { margin-bottom: 10px; }
-
 .form-title { margin-bottom: 20px; }
 
 .input-wrapper {
@@ -2983,7 +2760,6 @@ textarea.form-input {
     .form-status.success { color: hsl(145, 45%, 38%); background: hsla(145, 45%, 38%, .1); }
     .form-status.error { color: var(--bittersweet-shimmer); background: hsla(0, 43%, 51%, .1); }
 
-
 /*MEDIA QUERIES*/
 
 /* Phones: the Resume cards are nested 2–3 levels deep, so the desktop
@@ -2992,9 +2768,7 @@ textarea.form-input {
 @media (max-width: 579px) {
     .about-text { margin-bottom: 25px; }
 
-    .about-text p,
-    .job-bullets li,
-    .timeline-text { text-align: left; }
+    .about-text p, .job-bullets li { text-align: left; }
 
     .nested-timeline-list {
         margin-left: 40px;
@@ -3012,12 +2786,6 @@ textarea.form-input {
 
     .skills-cloud { padding: 14px; }
     .language-list { padding: 4px 14px 14px; }
-}
-
-
-@media (min-width: 450px) {
-
-    .blog-banner-box { height: auto; }
 }
 
 @media (min-width: 580px) {
@@ -3122,69 +2890,6 @@ textarea.form-input {
         text-align: left;
      }
 
-    .testimonials-title { margin-bottom: 25px; }
-
-    .testimonials-list {
-        gap: 30px;
-        margin: 0 -30px;
-        padding: 30px;
-        padding-bottom: 35px;
-    }
-
-    .content-card {
-        padding: 30px;
-        padding-top: 25px;
-    }
-
-    .testimonials-avatar-box {
-        transform: translate(30px, -30px);
-        border-radius: 28px;
-    }
-
-        .testimonials-avatar-box img { width: 80px; }
-
-    .testimonials-item-title {
-        margin-bottom: 10px;
-        margin-left: 95px;
-    }
-
-    .testimonials-text {
-        line-clamp: 2;
-        -webkit-line-clamp: 2;
-    }
-
-    .modal-container {padding: 20px; }
-
-    .testimonials-modal {
-        display: flex;
-        justify-content: flex-start;
-        align-items: stretch;
-        gap: 25px;
-        padding: 30px;
-        border-radius: 20px;
-    }
-
-    .modal-img-wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .modal-avatar-box {
-        border-radius: 18px;
-        margin-bottom: 0;
-    }
-
-        .modal-avatar-box img { width: 65px; }
-
-    .modal-img-wrapper > img {
-        display: block;
-        position: relative;
-        /* flex-grow: 1; */
-        width: 35px;
-        top: 50px;
-    }
-
     .timeline-list { margin-left: 65px; }
 
     .timeline-item:not(:last-child)::before { left: -40px; }
@@ -3195,11 +2900,7 @@ textarea.form-input {
         left: -43px;
     }
 
-    .project-img, .blog-banner-box { border-radius: 16px; }
-
-    .blog-posts-list { gap: 30px; }
-
-    .blog-content { padding: 25px; }
+    .project-img { border-radius: 16px; }
 
     .mapbox {
         height: 380px;
@@ -3227,8 +2928,6 @@ textarea.form-input {
 
     .sidebar, article, .github-activity { width: 700px; }
 
-    .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
-
     .contacts-list {
         grid-template-columns: 1fr 1fr;
         gap: 30px 15px;
@@ -3236,36 +2935,9 @@ textarea.form-input {
 
     .navbar-link { --fs8: 15px; }
 
-    .testimonials-modal {
-        gap: 35px;
-        max-width: 680px;
-    }
-
-    .modal-avatar-box img { width: 80px; }
-
     .article-title { padding-bottom: 20px; }
 
-    .filter-select-box { display: none; }
-
-    .filter-list {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 25px;
-        padding-left: 5px;
-        margin-bottom: 30px;
-    }
-
-    .filter-item button {
-        color: var(--light-gray);
-        font-size: var(--fs5);
-        transition: var(--transition1);
-    }
-
-        .filter-item button:hover { color: var(--light-gray70); }
-        .filter-item button.active { color: var(--orange-yellow-crayola); }
-
-    .project-list, .blog-posts-list { grid-template-columns: 1fr 1fr; }
+    .project-list { grid-template-columns: 1fr 1fr; }
 
     .input-wrapper { grid-template-columns: 1fr 1fr; }
 
@@ -3320,16 +2992,8 @@ textarea.form-input {
         gap: 20px 25px;
     }
 
-    .testimonials-item { min-width: calc(50% - 15px); }
-
-    .modal-img-wrapper > img { top: 20px; }
-
-
     .project-list { grid-template-columns: repeat(3, 1fr); }
-
-    .blog-banner-box { height: 230px; }
 }
-
 
 @media (min-width: 1250px) {
 
@@ -3452,8 +3116,6 @@ textarea.form-input {
     }
 
     .social-list { justify-content: center; }
-
-    .timeline-text { max-width: 700px; }
 }
 
   /*   BOTAO DARK MODE */
@@ -3720,7 +3382,7 @@ body:not(.dark-mode) {
     --white2: #3d2b26;
     --jet: #eadfd5;                      /* hairlines and borders */
     --light-gray: #6e5c54;               /* secondary text */
-    --light-gray70: #8a7870;
+    --light-gray70: #76645c;
     --orange-yellow-crayola: #b4533c;    /* accent: terracotta (4.8:1 on the cards) */
     --vegas-gold: #946a12;               /* dates, darker gold for text */
     /* Must stay an image, not a plain colour: an old global rule does
