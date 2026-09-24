@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#FFC700" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Dashboard: a screen with a bar chart, drawn to match the icons8 line icons -->
+  <rect x="8" y="14" width="84" height="62" rx="6"/>
+  <path d="M50 76 V86 M34 86 H66"/>
+  <rect x="21" y="50" width="9" height="16" rx="1.5"/>
+  <rect x="36" y="38" width="9" height="28" rx="1.5"/>
+  <rect x="51" y="45" width="9" height="21" rx="1.5"/>
+  <rect x="66" y="28" width="9" height="38" rx="1.5"/>
+</svg>
