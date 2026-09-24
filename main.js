@@ -206,25 +206,60 @@ if (caseModal && caseOpenBtn) {
     });
 }
 
+// Runs `callback` once the page is actually visible: straight away, or
+// right after the intro when it's playing
+function whenPageRevealed(callback) {
+    const root = document.documentElement;
+    if (!root.classList.contains("intro-active")) {
+        callback();
+        return;
+    }
+    const watch = new MutationObserver(() => {
+        if (!root.classList.contains("intro-active")) {
+            watch.disconnect();
+            callback();
+        }
+    });
+    watch.observe(root, { attributes: true, attributeFilter: ["class"] });
+}
+
 // Avatar flip card: the back shows availability (tablet/desktop only; on
-// phones the avatar is too small, so availability is a card in About)
+// phones the avatar is too small, so availability is a card in About).
+// The "click to flip" note stays visible for good, fading out only while
+// the card is turned (CSS)
 const avatarBox = document.querySelector("[data-avatar]");
 if (avatarBox) {
     const flipBtn = avatarBox.querySelector("[data-avatar-flip]");
-    const hint = avatarBox.querySelector("[data-avatar-hint]");
     const phoneMq = window.matchMedia("(max-width: 579px)");
-    const HINT_KEY = "avatar-hint-seen";
+    const hint = avatarBox.querySelector("[data-avatar-hint]");
 
-    try {
-        if (localStorage.getItem(HINT_KEY)) hint.classList.add("is-hidden");
-    } catch {
-        // Storage blocked — the hint just shows until the first flip
-    }
+    // "Click to flip" note: drawn in a moment after the page appears, wiped
+    // when the card turns, and drawn in again a beat after it turns back
+    let hintTimer;
+    const drawHint = (delay) => {
+        clearTimeout(hintTimer);
+        hintTimer = setTimeout(() => {
+            hint.classList.remove("is-drawing");
+            void hint.offsetWidth; // restart the draw-in animations
+            hint.classList.add("is-drawing");
+        }, delay);
+    };
+    whenPageRevealed(() => drawHint(1500));
 
     const setFlipped = (flipped) => {
+        const wasFlipped = flipBtn.classList.contains("is-flipped");
         flipBtn.classList.toggle("is-flipped", flipped);
         avatarBox.classList.toggle("is-flipped", flipped);
         flipBtn.setAttribute("aria-pressed", String(flipped));
+
+        if (flipped && !wasFlipped) {
+            // Fade out with the turn, then clear it so it can be redrawn
+            clearTimeout(hintTimer);
+            hintTimer = setTimeout(() => hint.classList.remove("is-drawing"), 250);
+        } else if (!flipped && wasFlipped) {
+            // Wait for the 0.7s turn back, plus a beat, then draw it again
+            drawHint(1400);
+        }
     };
 
     // Phones: the badge on the avatar takes you to the availability card
@@ -249,12 +284,6 @@ if (avatarBox) {
             return;
         }
         setFlipped(!flipBtn.classList.contains("is-flipped"));
-        hint.classList.add("is-hidden");
-        try {
-            localStorage.setItem(HINT_KEY, "1");
-        } catch {
-            // Not remembered — fine
-        }
     });
 
     // Turn back when clicking anywhere else or pressing Escape
@@ -288,19 +317,7 @@ if (availability) {
 // (after the intro, when it plays), so the visitor is already reading
 const mottoFace = document.querySelector(".motto-face");
 if (mottoFace) {
-    const startFace = () => setTimeout(() => mottoFace.classList.add("is-drawing"), 5000);
-    const root = document.documentElement;
-    if (root.classList.contains("intro-active")) {
-        const watch = new MutationObserver(() => {
-            if (!root.classList.contains("intro-active")) {
-                watch.disconnect();
-                startFace();
-            }
-        });
-        watch.observe(root, { attributes: true, attributeFilter: ["class"] });
-    } else {
-        startFace();
-    }
+    whenPageRevealed(() => setTimeout(() => mottoFace.classList.add("is-drawing"), 5000));
 }
 
 // Tech stack: gliding marquee by default, full grouped list on demand

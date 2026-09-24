@@ -591,7 +591,11 @@ body.dark-mode .content-card::before {
     pointer-events: none;
 }
 
-    .avatar-hint.is-hidden { display: none; }
+    /* Hidden until main.js adds .is-drawing (a moment after the page is on
+       screen, and again after the card turns back): then it's drawn in
+       like a pen annotation. Fades out quickly while the card is turned. */
+    .avatar-hint { transition: opacity .2s ease; }
+    .avatar-box.is-flipped .avatar-hint { opacity: 0; }
 
 .avatar-hint-leader {
     display: block;
@@ -607,7 +611,10 @@ body.dark-mode .content-card::before {
         stroke-linecap: round;
         stroke-dasharray: 1;
         stroke-dashoffset: 1;
-        animation: avatarHintDraw .6s cubic-bezier(.65, 0, .35, 1) 1.4s forwards;
+    }
+
+    .avatar-hint.is-drawing .avatar-hint-leader path {
+        animation: avatarHintDraw .6s cubic-bezier(.65, 0, .35, 1) .2s forwards;
     }
 
     .avatar-hint-marker {
@@ -616,7 +623,10 @@ body.dark-mode .content-card::before {
         transform-box: fill-box;
         transform-origin: center;
         transform: scale(0);
-        animation: avatarHintPop .3s ease 1.2s forwards;
+    }
+
+    .avatar-hint.is-drawing .avatar-hint-marker {
+        animation: avatarHintPop .3s ease forwards;
     }
 
     /* A ring that ripples out from the marker now and then */
@@ -627,7 +637,10 @@ body.dark-mode .content-card::before {
         opacity: 0;
         transform-box: fill-box;
         transform-origin: center;
-        animation: avatarHintRipple 2.6s ease-out 2.2s infinite;
+    }
+
+    .avatar-hint.is-drawing .avatar-hint-ring {
+        animation: avatarHintRipple 2.6s ease-out 1.2s infinite;
     }
 
 .avatar-hint-label {
@@ -644,8 +657,11 @@ body.dark-mode .content-card::before {
     text-transform: uppercase;
     white-space: nowrap;
     clip-path: inset(0 100% 0 0);
-    animation: avatarHintWrite .45s steps(8, end) 1.9s forwards;
 }
+
+    .avatar-hint.is-drawing .avatar-hint-label {
+        animation: avatarHintWrite .45s steps(8, end) .7s forwards;
+    }
 
     .avatar-hint-label b {
         color: var(--white2);
@@ -712,10 +728,10 @@ body.dark-mode .content-card::before {
 
 @media (prefers-reduced-motion: reduce) {
     .avatar-flip { transition: none; }
-    .avatar-hint-leader path { animation: none; stroke-dashoffset: 0; }
-    .avatar-hint-marker { animation: none; transform: none; }
-    .avatar-hint-ring { animation: none; }
-    .avatar-hint-label { animation: none; clip-path: none; }
+    .avatar-hint.is-drawing .avatar-hint-leader path { animation: none; stroke-dashoffset: 0; }
+    .avatar-hint.is-drawing .avatar-hint-marker { animation: none; transform: none; }
+    .avatar-hint.is-drawing .avatar-hint-ring { animation: none; }
+    .avatar-hint.is-drawing .avatar-hint-label { animation: none; clip-path: none; }
 }
 
 .info-content .name {
