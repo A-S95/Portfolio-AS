@@ -266,7 +266,9 @@ main {
     z-index: 1;
     padding: 15px;
 }
-    .sidebar.active { max-height: 405px; }
+    /* Must fit the whole contact block (motto, CV, letter, social links);
+       the old 405px cut the social links off */
+    .sidebar.active { max-height: 640px; }
 
 body.dark-mode .sidebar,
 body.dark-mode .github-activity {
@@ -562,11 +564,10 @@ body.dark-mode .info-content .title {
 
 .social-list {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: 15px;
     padding-bottom: 4px;
-    padding-left: 7px;
 }
 
 .social-item .social-link {
@@ -1886,6 +1887,47 @@ body.dark-mode .service-item::before {
         font-weight: var(--fw300);
     }
 
+/* Stack used in each project: a smaller, quieter take on the Resume tags */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 10px 0;
+}
+
+    .project-tags .tech-tag {
+        gap: 5px;
+        padding: 1px 7px;
+        font-size: 11px;
+        background: hsla(45, 100%, 72%, .06);
+        border-color: hsla(45, 100%, 72%, .18);
+        color: var(--color5);
+        opacity: .85;
+        transition: opacity .25s ease, border-color .25s ease;
+    }
+
+        .project-tags .tech-tag::before {
+            width: 5px;
+            height: 5px;
+            box-shadow: none;
+        }
+
+    /* Marks projects built on top of a template: dashed outline and an
+       icon instead of the colour dot, so it doesn't read as a technology */
+    .project-tags .tech-tag--template {
+        border-style: dashed;
+        color: var(--orange-yellow-crayola);
+        font-style: italic;
+    }
+
+        .project-tags .tech-tag--template::before { display: none; }
+        .project-tags .tech-tag--template ion-icon { font-size: 11px; color: inherit; }
+
+    .project-item > a:hover .project-tags .tech-tag {
+        opacity: 1;
+        border-color: hsla(45, 100%, 72%, .35);
+    }
+
 /*CONTACT*/
 
 .mapbox {
@@ -2090,7 +2132,7 @@ textarea.form-input {
         background-color: var(--colorbg1);
     }
 
-        .sidebar.active { max-height: 584px; }
+        .sidebar.active { max-height: 800px; }
 
     .sidebar-info { gap: 25px; }
 
