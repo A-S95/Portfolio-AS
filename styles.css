@@ -1962,8 +1962,6 @@ textarea.form-input {
     .job-bullets li,
     .timeline-text { text-align: left; }
 
-    .cv-download-hidden { margin-bottom: 20px; }
-
     .nested-timeline-list {
         margin-left: 40px;
         padding-right: 12px;
@@ -2310,46 +2308,6 @@ textarea.form-input {
 }
 
 
-.cv-download-hidden {
-    display: none; /* Default: hidden (for large screens) */
-    justify-content: center;
-    align-items: center;
-}
-
-.cv-download-btn-hidden {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--orange-yellow-crayola);
-    color: #000;
-    padding: 8px 14px;    
-    border-radius: 8px;   
-    font-size: 0.85rem;    
-    text-decoration: none;
-    font-weight: 600;
-    transition: 0.3s ease;
-}
-
-
-.cv-download-btn-hidden:hover {
-    background-color: #ffcb66;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px hsla(45, 100%, 60%, .35);
-}
-
-
-@media (max-width: 1249px) {
-    .cv-download-hidden { 
-        display: flex ; 
-    }
-}
-
-@media (min-width: 1250px) {
-    .cv-download-hidden { 
-        display: none !important; /* Explicitly hide on large screens */
-    }
-}
-
 @media (min-width: 1250px) {
 
     body::-webkit-scrollbar { width: 20px; }
@@ -2411,13 +2369,6 @@ textarea.form-input {
         width: auto;
         margin: 0;
     }
-
-    .cv-download-hidden { 
-        display: show;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-     }
 
     .sidebar {
         max-height: max-content;
