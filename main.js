@@ -1,31 +1,33 @@
 'use strict';
 
-// Captcha theme — hCaptcha reads data-theme only when it renders, so it's set
-// here (before the async Web3Forms/hCaptcha scripts run) and on theme toggle
-// the widget is swapped for a freshly rendered one in the new theme.
+// Invisible hCaptcha — nothing is shown on the form; the check only runs when
+// the visitor presses "Send Message" (a challenge pops up only if hCaptcha
+// is suspicious). The widget is rendered lazily in the current theme and
+// dropped on theme change so the next send renders it in the new one.
 const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'; // Web3Forms free-plan key
-const captchaTheme = (isDark) => (isDark ? 'dark' : 'light');
-let captchaWidgetId; // undefined = the auto-rendered widget, which hcaptcha.reset() targets by default
+let captchaWidgetId = null;
 
-const initialCaptcha = document.querySelector('.h-captcha');
-if (initialCaptcha) {
-    initialCaptcha.dataset.theme = captchaTheme(localStorage.getItem('theme') === 'dark');
-}
+const getCaptchaToken = () => {
+    const box = document.querySelector('[data-captcha-box]');
+    if (!window.hcaptcha || !box) return Promise.reject(new Error('captcha-unavailable'));
 
-const rerenderCaptcha = (isDark) => {
-    const oldCaptcha = document.querySelector('.h-captcha');
-    if (!oldCaptcha) return;
-
-    const newCaptcha = document.createElement('div');
-    newCaptcha.className = oldCaptcha.className;
-    newCaptcha.dataset.captcha = 'true';
-    newCaptcha.dataset.theme = captchaTheme(isDark);
-    oldCaptcha.replaceWith(newCaptcha);
-
-    // If hCaptcha hasn't loaded yet it will pick up data-theme on its own
-    if (window.hcaptcha) {
-        captchaWidgetId = window.hcaptcha.render(newCaptcha, { sitekey: HCAPTCHA_SITEKEY, theme: captchaTheme(isDark) });
+    if (captchaWidgetId === null) {
+        captchaWidgetId = window.hcaptcha.render(box, {
+            sitekey: HCAPTCHA_SITEKEY,
+            size: 'invisible',
+            theme: document.body.classList.contains('dark-mode') ? 'dark' : 'light',
+        });
     }
+    return window.hcaptcha.execute(captchaWidgetId, { async: true }).then(({ response }) => response);
+};
+
+const resetCaptcha = () => {
+    if (window.hcaptcha && captchaWidgetId !== null) window.hcaptcha.reset(captchaWidgetId);
+};
+
+const dropCaptcha = () => {
+    if (window.hcaptcha && captchaWidgetId !== null) window.hcaptcha.remove(captchaWidgetId);
+    captchaWidgetId = null;
 };
 
 // Botao tema Escuro e branco
@@ -47,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.classList.remove('dark-mode');
         localStorage.setItem('theme', 'light');
       }
-      rerenderCaptcha(this.checked);
+      dropCaptcha();
     });
 });
 
@@ -172,33 +174,41 @@ if (contactForm && contactBtn && contactStatus) {
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        const captchaResponse = contactForm.querySelector('textarea[name=h-captcha-response]');
-        if (!captchaResponse || !captchaResponse.value) {
-            showFormStatus('Please complete the captcha before sending.', 'error');
-            return;
-        }
-
         contactBtn.disabled = true;
-        btnLabel.textContent = 'Sending…';
+        btnLabel.textContent = 'Verifying…';
         contactStatus.hidden = true;
 
-        fetch(contactForm.action, {
-            method: 'POST',
-            headers: { Accept: 'application/json' },
-            body: new FormData(contactForm),
-        })
-            .then((res) => res.json())
+        getCaptchaToken()
+            .catch((err) => {
+                const closed = err && (err.message === 'challenge-closed' || err === 'challenge-closed');
+                throw new Error(closed ? 'captcha-closed' : 'captcha-failed');
+            })
+            .then((token) => {
+                btnLabel.textContent = 'Sending…';
+                const formData = new FormData(contactForm);
+                formData.set('h-captcha-response', token);
+
+                return fetch(contactForm.action, {
+                    method: 'POST',
+                    headers: { Accept: 'application/json' },
+                    body: formData,
+                }).then((res) => res.json());
+            })
             .then((data) => {
                 if (!data.success) throw new Error(data.message);
                 contactForm.reset();
                 showFormStatus("Thanks for your message! I'll get back to you soon.", 'success');
             })
-            .catch(() => {
-                showFormStatus("Something went wrong. Please try again or email me directly.", 'error');
+            .catch((err) => {
+                if (err.message === 'captcha-closed') {
+                    showFormStatus('Please complete the verification to send your message.', 'error');
+                } else {
+                    showFormStatus("Something went wrong. Please try again or email me directly.", 'error');
+                }
             })
             .finally(() => {
                 // Each captcha token is single-use, so a new one is needed for the next send
-                if (window.hcaptcha) window.hcaptcha.reset(captchaWidgetId);
+                resetCaptcha();
                 contactBtn.disabled = false;
                 btnLabel.textContent = defaultLabel;
             });
