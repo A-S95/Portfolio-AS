@@ -18,11 +18,12 @@ Live Preview : https://portfolio-as-azure.vercel.app/
 │   ├── icons8-language-100.png
 │   └── icons8-networking-100.png
 ├── img
-│   ├── img1.png
-│   ├── nerd-8020797_1280.jpg
-│   ├── work0.png
-│   ├── work1.PNG
-│   └── work2.png
+│   ├── avatar.jpg
+│   ├── og-image.jpg
+│   ├── work0.jpg
+│   ├── work1.jpg
+│   ├── work2.jpg
+│   └── work3.jpg
 ├── index.html
 ├── intro.css
 ├── intro.js

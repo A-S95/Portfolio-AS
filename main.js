@@ -152,6 +152,112 @@ if (pdfModal && pdfFrame && pdfOpenBtn && pdfCloseBtn) {
     });
 }
 
+// Case study modal (CentiSible)
+const caseModal = document.getElementById("case-modal");
+const caseOpenBtn = document.querySelector("[data-case-open]");
+
+if (caseModal && caseOpenBtn) {
+    const openCase = () => {
+        caseModal.classList.add("open");
+        document.body.style.overflow = "hidden";
+        caseModal.querySelector("[data-case-close]").focus();
+    };
+
+    const closeCase = () => {
+        if (!caseModal.classList.contains("open")) return;
+        caseModal.classList.remove("open");
+        document.body.style.overflow = "";
+        caseOpenBtn.focus();
+    };
+
+    caseOpenBtn.addEventListener("click", openCase);
+    caseModal.querySelector("[data-case-close]").addEventListener("click", closeCase);
+    caseModal.addEventListener("click", (e) => {
+        if (e.target === caseModal) closeCase();
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeCase();
+    });
+}
+
+// Avatar flip card: the back shows availability (tablet/desktop only; on
+// phones the avatar is too small, so availability is a card in About)
+const avatarBox = document.querySelector("[data-avatar]");
+if (avatarBox) {
+    const flipBtn = avatarBox.querySelector("[data-avatar-flip]");
+    const hint = avatarBox.querySelector("[data-avatar-hint]");
+    const phoneMq = window.matchMedia("(max-width: 579px)");
+    const HINT_KEY = "avatar-hint-seen";
+
+    try {
+        if (localStorage.getItem(HINT_KEY)) hint.classList.add("is-hidden");
+    } catch {
+        // Storage blocked — the hint just shows until the first flip
+    }
+
+    const setFlipped = (flipped) => {
+        flipBtn.classList.toggle("is-flipped", flipped);
+        avatarBox.classList.toggle("is-flipped", flipped);
+        flipBtn.setAttribute("aria-pressed", String(flipped));
+    };
+
+    // Phones: the badge on the avatar takes you to the availability card
+    const showAvailabilityCard = () => {
+        const card = document.querySelector("[data-availability]");
+        const aboutLink = [...document.querySelectorAll("[data-nav-link]")]
+            .find((link) => link.textContent.trim() === "About");
+        const onAbout = document.querySelector('[data-page="about"]')?.classList.contains("active");
+        if (!onAbout) aboutLink?.click();
+        // After the tab switch (which scrolls to the top) has started
+        setTimeout(() => {
+            card?.scrollIntoView({ behavior: "smooth", block: "center" });
+            card?.classList.remove("is-highlight");
+            void card?.offsetWidth;
+            card?.classList.add("is-highlight");
+        }, onAbout ? 0 : 350);
+    };
+
+    flipBtn.addEventListener("click", () => {
+        if (phoneMq.matches) {
+            showAvailabilityCard();
+            return;
+        }
+        setFlipped(!flipBtn.classList.contains("is-flipped"));
+        hint.classList.add("is-hidden");
+        try {
+            localStorage.setItem(HINT_KEY, "1");
+        } catch {
+            // Not remembered — fine
+        }
+    });
+
+    // Turn back when clicking anywhere else or pressing Escape
+    document.addEventListener("click", (e) => {
+        if (!avatarBox.contains(e.target)) setFlipped(false);
+    });
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") setFlipped(false);
+    });
+}
+
+// Availability card: the ticks draw themselves once it scrolls into view,
+// and "Let's talk" jumps to the Contact tab
+const availability = document.querySelector("[data-availability]");
+if (availability) {
+    new IntersectionObserver((entries, obs) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+            availability.classList.add("is-visible");
+            obs.disconnect();
+        }
+    }, { threshold: .5 }).observe(availability);
+
+    availability.querySelector("[data-go-contact]")?.addEventListener("click", () => {
+        const contactLink = [...document.querySelectorAll("[data-nav-link]")]
+            .find((link) => link.textContent.trim() === "Contact");
+        contactLink?.click();
+    });
+}
+
 // Expand/collapse job cards (Experience, Education entries, Skills, Languages)
 document.querySelectorAll('[data-job-toggle]').forEach(btn => {
     btn.addEventListener('click', () => {

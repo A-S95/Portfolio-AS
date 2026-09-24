@@ -467,6 +467,257 @@ body.dark-mode .content-card::before {
         50% { box-shadow: 0 0 0 8px hsla(45, 100%, 72%, 0); }
     }
 
+/* ---- Avatar flip card: the back shows availability (tablet/desktop) ---- */
+
+.avatar-box {
+    position: relative;
+    flex-shrink: 0;
+    perspective: 900px;
+}
+
+    .avatar-box.is-flipped { z-index: 3; }
+
+.avatar-flip {
+    position: relative;
+    display: block;
+    border-radius: 10%;
+    transform-style: preserve-3d;
+    transition: transform .7s cubic-bezier(.4, .2, .2, 1);
+}
+
+    .avatar-flip.is-flipped { transform: rotateY(180deg); }
+
+.avatar-face {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+.avatar-face--front { position: relative; }
+
+/* Small "turn me" badge on the corner of the avatar */
+.avatar-flip-icon {
+    position: absolute;
+    right: -6px;
+    bottom: -6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--orange-yellow-crayola);
+    box-shadow: 0 3px 8px hsla(0, 0%, 0%, .3);
+    transition: transform .45s ease;
+}
+
+    .avatar-flip-icon ion-icon { color: #1e1e1e; font-size: 13px; }
+    .avatar-flip:hover .avatar-flip-icon { transform: rotate(180deg); }
+
+/* The back is wider than the photo, centred on it, so everything fits */
+.avatar-face--back {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 9px;
+    width: 280px;
+    min-height: 100%;
+    padding: 18px 16px 14px;
+    border: 1.5px dashed hsla(45, 100%, 72%, .55);
+    border-radius: 16px;
+    background: hsl(6, 38%, 24%);
+    box-shadow: var(--shadow3);
+    text-align: left;
+    transform: translate(-50%, -50%) rotateY(180deg);
+}
+
+    body.dark-mode .avatar-face--back { background: #1a1a1a; }
+
+    /* Facing away it's invisible, but it mustn't catch clicks meant for the name */
+    .avatar-flip:not(.is-flipped) .avatar-face--back { pointer-events: none; }
+
+.avatar-back-tag {
+    position: absolute;
+    top: -9px;
+    left: 14px;
+    padding: 0 7px;
+    background: hsl(6, 38%, 24%);
+    color: var(--orange-yellow-crayola);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    line-height: 16px;
+}
+
+    body.dark-mode .avatar-back-tag { background: #1a1a1a; }
+
+.avatar-back-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--white2);
+    font-size: 14px;
+    font-weight: var(--fw600);
+}
+
+.avatar-back-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+    .avatar-back-row > span { display: flex; flex-direction: column; }
+    .avatar-back-row b { color: var(--white2); font-size: 12px; font-weight: var(--fw500); }
+    .avatar-back-row small { color: var(--color5); font-size: 11px; opacity: .85; }
+    .avatar-back-row .availability-check { flex-shrink: 0; margin-top: 1px; }
+
+    /* The ticks draw in once the card has turned */
+    .avatar-flip.is-flipped .avatar-back-row:nth-of-type(3) .availability-check path { stroke-dashoffset: 0; transition-delay: .45s; }
+    .avatar-flip.is-flipped .avatar-back-row:nth-of-type(4) .availability-check path { stroke-dashoffset: 0; transition-delay: .7s; }
+
+/* Hint drawn like an annotation on a technical drawing: a marker on the
+   avatar's corner, a leader line that draws itself up and out, and a note
+   sitting on the line. Same geometry on tablet and desktop (the space above
+   and right of the avatar is free on both). */
+.avatar-hint {
+    position: absolute;
+    z-index: 3;
+    left: calc(100% - 24px);
+    bottom: calc(100% - 24px);
+    width: 60px;
+    height: 44px;
+    pointer-events: none;
+}
+
+    .avatar-hint.is-hidden { display: none; }
+
+.avatar-hint-leader {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+    .avatar-hint-leader path {
+        fill: none;
+        stroke: var(--orange-yellow-crayola);
+        stroke-width: 1.2;
+        stroke-linecap: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation: avatarHintDraw .6s cubic-bezier(.65, 0, .35, 1) 1.4s forwards;
+    }
+
+    .avatar-hint-marker {
+        fill: var(--orange-yellow-crayola);
+        stroke: none;
+        transform-box: fill-box;
+        transform-origin: center;
+        transform: scale(0);
+        animation: avatarHintPop .3s ease 1.2s forwards;
+    }
+
+    /* A ring that ripples out from the marker now and then */
+    .avatar-hint-ring {
+        fill: none;
+        stroke: var(--orange-yellow-crayola);
+        stroke-width: 1;
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: avatarHintRipple 2.6s ease-out 2.2s infinite;
+    }
+
+.avatar-hint-label {
+    position: absolute;
+    left: 30px;
+    bottom: calc(100% - 15px);
+    display: flex;
+    flex-direction: column;
+    color: var(--orange-yellow-crayola);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    line-height: 1.25;
+    text-transform: uppercase;
+    white-space: nowrap;
+    clip-path: inset(0 100% 0 0);
+    animation: avatarHintWrite .45s steps(8, end) 1.9s forwards;
+}
+
+    .avatar-hint-label b {
+        color: var(--white2);
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+@keyframes avatarHintDraw { to { stroke-dashoffset: 0; } }
+@keyframes avatarHintPop { to { transform: scale(1); } }
+@keyframes avatarHintWrite { to { clip-path: inset(0 0 0 0); } }
+@keyframes avatarHintRipple {
+    0% { opacity: .8; transform: scale(1); }
+    60%, 100% { opacity: 0; transform: scale(3.2); }
+}
+
+/* Phones: "Open to work" badge on the avatar (like a "LIVE" tag) */
+.avatar-status { display: none; }
+
+@media (max-width: 579px) {
+    .avatar-status {
+        position: absolute;
+        left: 50%;
+        bottom: -7px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 1px 6px;
+        border: 1px solid hsla(142, 70%, 58%, .6);
+        border-radius: 999px;
+        background: hsl(142, 45%, 14%);
+        box-shadow: 0 3px 8px hsla(0, 0%, 0%, .3);
+        color: #86efac;
+        font-size: 8px;
+        font-weight: var(--fw600);
+        white-space: nowrap;
+        transform: translateX(-50%);
+    }
+
+        .avatar-status span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: availabilityPulse 2s ease-out infinite;
+        }
+}
+
+/* Brief glow on the About card when the avatar badge sends you there */
+.availability.is-highlight { animation: availabilityHighlight 1.4s ease; }
+
+@keyframes availabilityHighlight {
+    0%, 100% { box-shadow: 0 0 0 0 hsla(142, 70%, 58%, 0); }
+    30% { box-shadow: 0 0 0 4px hsla(142, 70%, 58%, .45); }
+}
+
+/* Phones: the avatar is too small to hold the card, so it stays a photo and
+   availability shows as a card in About instead */
+@media (max-width: 579px) {
+    .avatar-flip { cursor: pointer; }
+    .avatar-face--back,
+    .avatar-hint,
+    .avatar-flip-icon { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar-flip { transition: none; }
+    .avatar-hint-leader path { animation: none; stroke-dashoffset: 0; }
+    .avatar-hint-marker { animation: none; transform: none; }
+    .avatar-hint-ring { animation: none; }
+    .avatar-hint-label { animation: none; clip-path: none; }
+}
+
 .info-content .name {
     color: var(--white2);
     font-size: var(--fs3);
@@ -475,15 +726,23 @@ body.dark-mode .content-card::before {
     margin-bottom: 10px;
 }
 
+.info-content { min-width: 0; }
+
 .info-content .title {
     color: var(--white1);
     background: var(--colorbg1);
     font-size: var(--fs8);
     font-weight: var(--fw300);
-    width: max-content;
+    /* Fits its text, but wraps on narrow phones instead of squashing the
+       theme toggle next to it */
+    width: fit-content;
+    max-width: 100%;
     padding: 3px 12px;
     border-radius: 8px;
 }
+
+/* The theme toggle keeps its size in the cramped phone header */
+.sidebar-info #toggle-theme { flex-shrink: 0; }
 
 body.dark-mode .info-content .title {
     background: var(--bg-gradient-jet);
@@ -810,6 +1069,186 @@ body.dark-mode .info-content .title {
         .about-highlight::after { transform: scaleX(1); }
         .about-highlight.is-measuring::after { animation: none; }
     }
+
+/* ---- Availability (About): a spec tag, like on a technical drawing ---- */
+
+.availability {
+    position: relative;
+    margin: 6px 10px 38px;
+    padding: 20px 20px 16px;
+    border: 1.5px dashed hsla(45, 100%, 72%, .45);
+    border-radius: 14px;
+    background: hsla(0, 0%, 100%, .05);
+}
+
+.availability-tag {
+    position: absolute;
+    top: -9px;
+    left: 16px;
+    padding: 0 8px;
+    background: var(--colorbg1);
+    color: var(--orange-yellow-crayola);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    line-height: 18px;
+}
+
+    body.dark-mode .availability-tag { background: var(--eerie-black2); }
+
+.availability-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-bottom: 14px;
+}
+
+.availability-dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: availabilityPulse 2s ease-out infinite;
+}
+
+@keyframes availabilityPulse {
+    0% { box-shadow: 0 0 0 0 hsla(142, 70%, 58%, .6); }
+    70%, 100% { box-shadow: 0 0 0 9px hsla(142, 70%, 58%, 0); }
+}
+
+.availability-title {
+    color: var(--white2);
+    font-size: var(--fs4);
+    font-weight: var(--fw600);
+}
+
+.availability-role {
+    color: var(--color5);
+    font-size: var(--fs7);
+    font-weight: var(--fw300);
+    opacity: .8;
+}
+
+.availability-list {
+    display: grid;
+    gap: 10px;
+}
+
+    .availability-list li {
+        display: grid;
+        grid-template-columns: 22px 78px 1fr;
+        align-items: center;
+        gap: 10px;
+    }
+
+.availability-mode {
+    color: var(--white2);
+    font-size: var(--fs6);
+    font-weight: var(--fw500);
+}
+
+.availability-where {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color5);
+    font-size: var(--fs6);
+    font-weight: var(--fw300);
+}
+
+    .availability-where ion-icon { flex-shrink: 0; color: var(--orange-yellow-crayola); }
+
+/* Checkbox; the tick draws itself when the card scrolls into view (main.js) */
+.availability-check { width: 20px; height: 20px; }
+
+    .availability-check rect {
+        fill: none;
+        stroke: var(--orange-yellow-crayola);
+        stroke-width: 1.5;
+        opacity: .7;
+    }
+
+    .availability-check path {
+        fill: none;
+        stroke: #4ade80;
+        stroke-width: 2.4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        transition: stroke-dashoffset .45s cubic-bezier(.65, 0, .35, 1);
+    }
+
+    .availability.is-visible li:nth-child(1) .availability-check path { stroke-dashoffset: 0; transition-delay: .25s; }
+    .availability.is-visible li:nth-child(2) .availability-check path { stroke-dashoffset: 0; transition-delay: .6s; }
+
+.availability-cta {
+    /* Block-level: an inline box here would sit on a line sized by the
+       body's huge 15vmin font and leave a big gap above it */
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: var(--orange-yellow-crayola);
+    color: #1e1e1e;
+    font-size: var(--fs7);
+    font-weight: var(--fw500);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+    .availability-cta ion-icon { color: inherit; }
+
+    .availability-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px hsla(45, 100%, 60%, .35);
+    }
+
+/* Tablets/desktops show availability on the back of the avatar instead */
+@media (min-width: 580px) {
+    .availability { display: none; }
+}
+
+/* Phones: the place goes under the mode */
+@media (max-width: 479px) {
+    .availability-list li { grid-template-columns: 22px 1fr; row-gap: 2px; }
+    .availability-where { grid-column: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .availability-dot { animation: none; }
+    .availability-check path { stroke-dashoffset: 0; transition: none; }
+}
+
+/* "Open to work" pill under the role in the desktop sidebar */
+.open-pill { display: none; }
+
+@media (min-width: 1250px) {
+    .open-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: fit-content;
+        margin: 10px auto 0;
+        padding: 2px 10px;
+        border: 1px solid hsla(142, 70%, 58%, .45);
+        border-radius: 999px;
+        color: #86efac;
+        font-size: 11px;
+    }
+
+        .open-pill span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: availabilityPulse 2s ease-out infinite;
+        }
+}
 
 .service { margin-bottom: 35px; }
 
@@ -1270,6 +1709,17 @@ body.dark-mode .service-item::before {
     }
 
     .letter-link-main span { line-height: 1.3; }
+
+    /* Small language badge: the letter itself is in Portuguese */
+    .letter-link-main .letter-lang {
+        padding: 0 5px;
+        border: 1px solid currentColor;
+        border-radius: 4px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        line-height: 14px;
+        opacity: .7;
+    }
 
     .letter-link-main:hover {
         color: var(--orange-yellow-crayola);
@@ -1927,6 +2377,202 @@ body.dark-mode .service-item::before {
         opacity: 1;
         border-color: hsla(45, 100%, 72%, .35);
     }
+
+/* ---- Case study (CentiSible) ---- */
+
+.project-case-btn {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 6px;
+    margin: 12px 10px 0;
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid hsla(45, 100%, 72%, .45);
+    background: hsla(45, 100%, 72%, .08);
+    color: var(--orange-yellow-crayola);
+    font-size: 12px;
+    transition: background .25s ease, transform .25s ease;
+}
+
+    .project-case-btn ion-icon { color: inherit; }
+    .project-case-btn:hover { background: hsla(45, 100%, 72%, .18); transform: translateY(-2px); }
+
+.case-card {
+    position: relative;
+    width: min(640px, calc(100% - 32px));
+    max-height: calc(100vh - 48px);
+    margin: 24px auto;
+    padding: 28px;
+    overflow-y: auto;
+    border: 1px solid var(--jet);
+    border-radius: 18px;
+    background: var(--colorbg1);
+    box-shadow: var(--shadow5);
+    transform: translateY(12px) scale(.97);
+    transition: transform .35s cubic-bezier(.25, .8, .25, 1);
+}
+
+    body.dark-mode .case-card { background: var(--eerie-black2); }
+    .case-modal.open .case-card { transform: none; }
+
+.case-close {
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    color: var(--white2);
+    font-size: 28px;
+    line-height: 1;
+    opacity: .7;
+    transition: opacity .2s ease;
+}
+
+    .case-close:hover { opacity: 1; }
+
+.case-kicker {
+    color: var(--orange-yellow-crayola);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.case-title {
+    margin-top: 6px;
+    color: var(--white2);
+    font-size: 26px;
+    font-weight: var(--fw600);
+}
+
+.case-lead {
+    margin-top: 4px;
+    color: var(--color5);
+    font-size: var(--fs6);
+    font-weight: var(--fw300);
+}
+
+.case-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
+
+    .case-stats li {
+        padding: 8px 10px;
+        border-radius: 10px;
+        background: hsla(0, 0%, 100%, .06);
+        color: var(--color5);
+        font-size: 11px;
+        line-height: 1.3;
+    }
+
+    .case-stats strong {
+        display: block;
+        color: var(--orange-yellow-crayola);
+        font-size: 20px;
+        font-weight: var(--fw600);
+    }
+
+@media (max-width: 519px) {
+    .case-card { padding: 22px 18px; }
+    .case-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+.case-block { margin-top: 20px; }
+
+    .case-block h4 {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        margin-bottom: 6px;
+        color: var(--white2);
+        font-size: var(--fs5);
+        font-weight: var(--fw600);
+    }
+
+        .case-block h4 span {
+            color: var(--orange-yellow-crayola);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+    .case-block p,
+    .case-decisions li {
+        color: var(--color5);
+        font-size: var(--fs6);
+        font-weight: var(--fw300);
+        line-height: 1.6;
+    }
+
+    .case-block strong { color: var(--white2); font-weight: var(--fw500); }
+
+.case-decisions { display: grid; gap: 8px; }
+
+    .case-decisions li {
+        position: relative;
+        padding-left: 18px;
+    }
+
+        .case-decisions li::before {
+            content: '\25B9';
+            position: absolute;
+            left: 0;
+            color: var(--orange-yellow-crayola);
+        }
+
+.case-card code {
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: hsla(0, 0%, 0%, .22);
+    color: var(--white2);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .88em;
+}
+
+.case-footer {
+    margin-top: 22px;
+    padding-top: 16px;
+    border-top: 1px solid var(--jet);
+}
+
+    .case-footer .project-tags { margin: 0 0 14px; }
+
+.case-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.case-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid hsla(45, 100%, 72%, .45);
+    color: var(--orange-yellow-crayola);
+    font-size: var(--fs7);
+    transition: background .25s ease, transform .25s ease;
+}
+
+    .case-link ion-icon { color: inherit; }
+    .case-link:hover { background: hsla(45, 100%, 72%, .15); transform: translateY(-2px); }
+
+    .case-link--primary {
+        border-color: var(--orange-yellow-crayola);
+        background: var(--orange-yellow-crayola);
+        color: #1e1e1e;
+    }
+
+        .case-link--primary:hover { background: #ffd66b; }
+
+.case-note {
+    margin-top: 12px;
+    color: var(--color5);
+    font-size: 11px;
+    opacity: .75;
+}
 
 /*CONTACT*/
 

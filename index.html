@@ -17,14 +17,27 @@
         } catch (e) {}
     </script>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2931/2931511.png">
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
     <title>Portfolio A-S</title>
+
+    <!-- Search results and link previews (LinkedIn, WhatsApp, email...) -->
+    <meta name="description" content="António Santos, Junior Full-Stack Developer and former interior designer. Python, Flask, PostgreSQL and JavaScript, with internships at Teamlyzer, Siemens and Fnac.">
+    <meta name="author" content="António Santos">
+    <link rel="canonical" href="https://portfolio-as-azure.vercel.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://portfolio-as-azure.vercel.app/">
+    <meta property="og:title" content="António Santos · Junior Full-Stack Developer">
+    <meta property="og:description" content="Former interior designer turned full-stack developer. Projects, experience and a small workshop to play with.">
+    <meta property="og:image" content="https://portfolio-as-azure.vercel.app/img/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <!-- INTRO: a kitchen drawn in CAD turns into this website and its code
-         ("Ex-Interior Designer" -> "Junior Developer"). See intro.css / intro.js -->
+         ("Ex-Interior Designer" -> "Junior Full-Stack Developer"). See intro.css / intro.js -->
     <div class="intro" data-intro aria-hidden="true">
         <div class="intro-half intro-half--left"></div>
         <div class="intro-half intro-half--right"></div>
@@ -81,7 +94,7 @@
                     <div class="ie-code">
                         <div class="ie-line" style="--n:17;--t:2.45s"><span class="k">const</span> <span class="v">antonio</span> <span class="p">= {</span></div>
                         <div class="ie-line" style="--n:29;--t:2.65s">  <span class="a">was</span><span class="p">:</span> <span class="s">"Interior Designer"</span><span class="p">,</span></div>
-                        <div class="ie-line ie-line--now" style="--n:28;--t:2.85s">  <span class="a">now</span><span class="p">:</span> <span class="s">"Junior Developer"</span><span class="p">,</span></div>
+                        <div class="ie-line ie-line--now" style="--n:39;--t:2.85s">  <span class="a">now</span><span class="p">:</span> <span class="s">"Junior Full-Stack Developer"</span><span class="p">,</span></div>
                         <div class="ie-line" style="--n:35;--t:3.05s">  <span class="a">motto</span><span class="p">:</span> <span class="s">"measure twice, cut once"</span></div>
                         <div class="ie-line" style="--n:2;--t:3.25s"><span class="p">};</span></div>
                     </div>
@@ -98,13 +111,37 @@
         <aside class="sidebar " data-sidebar>
             <div class="sidebar-info">
                 <input style="max-width:fit-content;" type="checkbox" role="switch" class="dark-2" id="toggle-theme"/>
-                <figure class="avatar-box">
-                    <img style="border-radius: 10%;" src="/img/nerd-8020797_1280.jpg" alt="avatar" width="80">
+                <!-- Avatar that flips over to show availability (tablet/desktop) -->
+                <figure class="avatar-box" data-avatar>
+                    <button type="button" class="avatar-flip" data-avatar-flip aria-pressed="false" aria-label="Flip the avatar to see my availability">
+                        <span class="avatar-face avatar-face--front">
+                            <img style="border-radius: 10%;" src="/img/avatar.jpg" alt="António Santos avatar" width="80">
+                            <span class="avatar-flip-icon" aria-hidden="true"><ion-icon name="sync-outline"></ion-icon></span>
+                            <!-- Phones: availability badge; tapping jumps to the card in About -->
+                            <span class="avatar-status" aria-hidden="true"><span></span>Open to work</span>
+                        </span>
+                        <span class="avatar-face avatar-face--back">
+                            <span class="avatar-back-tag">STATUS</span>
+                            <span class="avatar-back-head"><span class="availability-dot"></span>Open to work</span>
+                            <span class="avatar-back-row"><svg class="availability-check" viewBox="0 0 20 20" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="4"/><path pathLength="1" d="M5.5 10.5 L8.8 13.6 L14.8 6.8"/></svg><span><b>Remote</b><small>Anywhere</small></span></span>
+                            <span class="avatar-back-row"><svg class="availability-check" viewBox="0 0 20 20" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="4"/><path pathLength="1" d="M5.5 10.5 L8.8 13.6 L14.8 6.8"/></svg><span><b>On-site</b><small>Lisbon · Santarém · Leiria</small></span></span>
+                        </span>
+                    </button>
+                    <!-- Hint drawn like a CAD annotation: marker, leader line and note -->
+                    <span class="avatar-hint" data-avatar-hint aria-hidden="true">
+                        <svg class="avatar-hint-leader" viewBox="0 0 60 44">
+                            <circle class="avatar-hint-ring" cx="5" cy="39" r="3.5"/>
+                            <circle class="avatar-hint-marker" cx="5" cy="39" r="3.5"/>
+                            <path pathLength="1" d="M5 39 L27 17 H59"/>
+                        </svg>
+                        <span class="avatar-hint-label"><b>Click</b>to flip</span>
+                    </span>
                 </figure>
 
                 <div class="info-content">
-                    <h1 class="name" title="Richard Hanrick">António Santos</h1>
-                    <p class="title">Junior Dev</p>
+                    <h1 class="name">António Santos</h1>
+                    <p class="title">Junior Full-Stack Developer</p>
+                    <p class="open-pill"><span aria-hidden="true"></span>Open to work</p>
                 </div>
 
                 <button class="info-more-btn" data-sidebar-btn>
@@ -166,9 +203,10 @@
                 <div class="letter-link">
                     <button type="button" class="letter-link-main" data-pdf-open>
                         <ion-icon name="document-text-outline"></ion-icon>
-                        <span>Carta de Recomendação</span>
+                        <span>Recommendation Letter</span>
+                        <span class="letter-lang" title="Written in Portuguese">PT</span>
                     </button>
-                    <a href="/cv/carta_recomendacao.pdf" download="Carta de Recomendacao - Antonio Santos.pdf" class="letter-link-download" aria-label="Download da Carta de Recomendação">
+                    <a href="/cv/carta_recomendacao.pdf" download="Recommendation Letter - Antonio Santos (PT).pdf" class="letter-link-download" aria-label="Download the recommendation letter (Portuguese)">
                         <ion-icon name="download-outline"></ion-icon>
                     </a>
                 </div>
@@ -227,6 +265,32 @@
                             Kitchens or code, I build things people use every day.
                         </span>
                     </div>
+                </section>
+
+                <!-- Availability, styled like a spec tag on a technical drawing -->
+                <!-- Phones only: on bigger screens the avatar flips over to show this -->
+                <section class="availability" aria-label="Availability" data-availability>
+                    <span class="availability-tag">STATUS</span>
+                    <div class="availability-head">
+                        <span class="availability-dot" aria-hidden="true"></span>
+                        <h3 class="availability-title">Open to work</h3>
+                        <span class="availability-role">Junior Full-Stack roles</span>
+                    </div>
+                    <ul class="availability-list">
+                        <li>
+                            <svg class="availability-check" viewBox="0 0 20 20" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="4"/><path pathLength="1" d="M5.5 10.5 L8.8 13.6 L14.8 6.8"/></svg>
+                            <span class="availability-mode">Remote</span>
+                            <span class="availability-where"><ion-icon name="globe-outline" aria-hidden="true"></ion-icon> Anywhere</span>
+                        </li>
+                        <li>
+                            <svg class="availability-check" viewBox="0 0 20 20" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="4"/><path pathLength="1" d="M5.5 10.5 L8.8 13.6 L14.8 6.8"/></svg>
+                            <span class="availability-mode">On-site</span>
+                            <span class="availability-where"><ion-icon name="location-outline" aria-hidden="true"></ion-icon> Lisbon · Santarém · Leiria</span>
+                        </li>
+                    </ul>
+                    <button type="button" class="availability-cta" data-go-contact>
+                        Let's talk <ion-icon name="arrow-forward-outline" aria-hidden="true"></ion-icon>
+                    </button>
                 </section>
 
                 <section class="service" >
@@ -352,7 +416,7 @@
                                     <div class="job-meta">
                                         <span class="job-period">Intern - 2026</span>
                                         <span class="evaluation-badge">
-                                            <ion-icon name="star"></ion-icon> 17,4/20 Values
+                                            <ion-icon name="star"></ion-icon> Grade 17.4/20
                                         </span>
                                     </div>
                                 </div>
@@ -413,7 +477,7 @@
                                     <div class="job-meta">
                                         <span class="job-period">Intern - 2025</span>
                                         <span class="evaluation-badge">
-                                            <ion-icon name="star"></ion-icon> 19,1/20 Values
+                                            <ion-icon name="star"></ion-icon> Grade 19.1/20
                                         </span>
                                     </div>
                                 </div>
@@ -469,7 +533,7 @@
                                     <div class="job-meta">
                                         <span class="job-period">Intern - 2024</span>
                                         <span class="evaluation-badge">
-                                            <ion-icon name="star"></ion-icon> 18,6/20 Values
+                                            <ion-icon name="star"></ion-icon> Grade 18.6/20
                                         </span>
                                     </div>
                                 </div>
@@ -741,7 +805,7 @@
                                         <ion-icon name="eye-outline"></ion-icon>
                                     </div>
 
-                                    <img src="/img/work0.png" alt="Centisible" width="600" height="450" loading="lazy">
+                                    <img src="/img/work0.jpg" alt="Centisible" width="600" height="450" loading="lazy">
                                 </figure>
 
                                 <h3 class="project-title">Centisible</h3>
@@ -756,6 +820,9 @@
                                     <li class="tech-tag" style="--tag-accent:#2496ED">Docker</li>
                                 </ul>
                             </a>
+                            <button type="button" class="project-case-btn" data-case-open>
+                                <ion-icon name="reader-outline" aria-hidden="true"></ion-icon> Case study
+                            </button>
                         </li>
 
                         <li class="project-item active" data-filter-item data-category="web development">
@@ -788,7 +855,7 @@
                                         <ion-icon name="eye-outline"></ion-icon>
                                     </div>
 
-                                    <img src="/img/work1.PNG" alt="night riders" width="600" height="450" loading="lazy">
+                                    <img src="/img/work1.jpg" alt="Night Riders" width="600" height="450" loading="lazy">
                                 </figure>
 
                                 <h3 class="project-title">Night Riders</h3>
@@ -813,7 +880,7 @@
                                         <ion-icon name="eye-outline"></ion-icon>
                                     </div>
 
-                                    <img src="/img/work2.png" alt="Win11 Pub" width="600" height="450" loading="lazy">
+                                    <img src="/img/work2.jpg" alt="Win11 Pub" width="600" height="450" loading="lazy">
                                 </figure>
 
                                 <h3 class="project-title">Win11 Pub</h3>
@@ -860,17 +927,71 @@
                     <div class="pdf-modal-toolbar">
                         <span class="pdf-modal-title">
                             <ion-icon name="document-text-outline"></ion-icon>
-                            Carta de Recomendação
+                            Recommendation Letter (PT)
                         </span>
-                        <a href="/cv/carta_recomendacao.pdf" download="Carta de Recomendacao - Antonio Santos.pdf" class="pdf-modal-download-btn">
+                        <a href="/cv/carta_recomendacao.pdf" download="Recommendation Letter - Antonio Santos (PT).pdf" class="pdf-modal-download-btn">
                             <ion-icon name="download-outline"></ion-icon>
                             Download
                         </a>
                     </div>
-                    <iframe id="pdf-modal-frame" class="pdf-modal-frame" title="Carta de Recomendação"></iframe>
+                    <iframe id="pdf-modal-frame" class="pdf-modal-frame" title="Recommendation letter (Portuguese)"></iframe>
                 </div>
             </div>
 
+
+            <!-- Case study: CentiSible, short enough to read in a minute -->
+            <div id="case-modal" class="modal case-modal" role="dialog" aria-modal="true" aria-labelledby="case-title">
+                <div class="case-card">
+                    <button type="button" class="case-close" data-case-close aria-label="Close case study">&times;</button>
+
+                    <header class="case-header">
+                        <span class="case-kicker">Case study · Final course project</span>
+                        <h3 class="case-title" id="case-title">CentiSible</h3>
+                        <p class="case-lead">Personal and household finance app, full-stack and installable as a PWA.</p>
+                        <ul class="case-stats">
+                            <li><strong>231</strong> backend tests</li>
+                            <li><strong>9</strong> E2E tests</li>
+                            <li><strong>6</strong> CI jobs green</li>
+                            <li><strong>10</strong> friends testing it</li>
+                        </ul>
+                    </header>
+
+                    <section class="case-block">
+                        <h4><span>01</span> The problem</h4>
+                        <p>Spreadsheets at 11pm trying to work out where the money went. And for couples, shared costs like rent counted twice, once for each person.</p>
+                    </section>
+
+                    <section class="case-block">
+                        <h4><span>02</span> What I built</h4>
+                        <p>Accounts, transactions, budgets, savings goals and recurring expenses, with a dashboard that flags what needs attention. A <strong>household view</strong> merges two people's finances and counts shared expenses once.</p>
+                    </section>
+
+                    <section class="case-block">
+                        <h4><span>03</span> Decisions worth explaining</h4>
+                        <ul class="case-decisions">
+                            <li><strong>Money is never a float.</strong> Amounts are PostgreSQL <code>NUMERIC</code>, so cents don't drift.</li>
+                            <li><strong>Layers with one job each.</strong> Router → service → repository: business rules are tested without HTTP or UI.</li>
+                            <li><strong>A real production bug.</strong> Sessions died right after login: the refresh cookie was <code>SameSite=Lax</code>, which browsers don't send between the frontend and API domains. Fixed with <code>SameSite=None</code>.</li>
+                        </ul>
+                    </section>
+
+                    <footer class="case-footer">
+                        <ul class="project-tags" aria-label="Technologies used">
+                            <li class="tech-tag" style="--tag-accent:#4B8BBE">Python</li>
+                            <li class="tech-tag" style="--tag-accent:#009688">FastAPI</li>
+                            <li class="tech-tag" style="--tag-accent:#4A90B8">PostgreSQL</li>
+                            <li class="tech-tag" style="--tag-accent:#61DAFB">React</li>
+                            <li class="tech-tag" style="--tag-accent:#3178C6">TypeScript</li>
+                            <li class="tech-tag" style="--tag-accent:#2496ED">Docker</li>
+                        </ul>
+                        <div class="case-links">
+                            <a href="https://centisible.vercel.app/" target="_blank" rel="noopener" class="case-link case-link--primary"><ion-icon name="open-outline" aria-hidden="true"></ion-icon> Live demo</a>
+                            <a href="https://github.com/A-S95/Final-Project-Course" target="_blank" rel="noopener" class="case-link"><ion-icon name="logo-github" aria-hidden="true"></ion-icon> Code</a>
+                        </div>
+                        <p class="case-note">Try it with <code>teste1@teste.com</code> · <code>Teste1234</code>. The free backend sleeps when idle, so the first load can take up to a minute.</p>
+                    </footer>
+                </div>
+            </div>
 
             <article class="contact " data-page="contact">
                 <header>
