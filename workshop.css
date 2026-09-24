@@ -421,12 +421,18 @@ body.workshop-open .ws-radio-dock {
     transform: translateX(-50%);
 }
 
+    /* --player-scale < 1 when the slot is narrower than Spotify's 300px
+       minimum (set by workshop.js): the iframe keeps 300px and shrinks */
+    .ws-radio-player:has(iframe) { height: calc(80px * var(--player-scale, 1)); }
+
     .ws-radio-player iframe {
         display: block;
-        width: 100%;
+        width: calc(100% / var(--player-scale, 1));
         height: 80px;
         border: 0;
         border-radius: 12px;
+        transform: scale(var(--player-scale, 1));
+        transform-origin: 0 0;
     }
 
 .ws-radio-note {
@@ -461,7 +467,7 @@ body.workshop-open .ws-radio-dock {
         height: calc(var(--cw) * .42);
     }
 
-    .ws-radio-player { width: min(300px, calc(var(--gutter) - 32px)); }
+    .ws-radio-player { width: min(300px, calc(var(--gutter) - 24px)); }
 }
 
 /* ---- Bench ---- */

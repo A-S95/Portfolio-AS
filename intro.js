@@ -14,6 +14,7 @@
         done = true;
         intro.remove();
         root.classList.remove('intro-active', 'intro-dark');
+        root.style.removeProperty('--intro-scale');
     };
 
     // Not playing this visit, or motion is reduced (the intro is all motion)

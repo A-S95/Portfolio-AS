@@ -13,6 +13,18 @@
             if (!sessionStorage.getItem('intro-seen') || /[?&]intro\b/.test(location.search)) {
                 document.documentElement.classList.add('intro-active');
                 if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('intro-dark');
+
+                // On desktops the intro is drawn at a fixed size (948 × 408 px, see
+                // intro.css) and scaled to fill most of the screen
+                var fitIntro = function () {
+                    if (!document.documentElement.classList.contains('intro-active')) {
+                        return removeEventListener('resize', fitIntro);
+                    }
+                    var s = Math.min(innerWidth * .86 / 948, innerHeight * .8 / 408, 2.2);
+                    document.documentElement.style.setProperty('--intro-scale', s.toFixed(3));
+                };
+                fitIntro();
+                addEventListener('resize', fitIntro);
             }
         } catch (e) {}
     </script>

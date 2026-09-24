@@ -39,10 +39,10 @@ html.intro-active .intro {
     font-family: 'JetBrains Mono', monospace;
 }
 
+/* Desktops: a fixed 948 × 408 px composition (board 576 × 360 + rulers,
+   gap, panel 310) that the <head> script scales to fit the screen */
 @media (min-width: 900px) {
-    html.intro-active .intro {
-        --u: min(1.6px, calc((100vw - 420px) / 480), calc((100vh - 140px) / 330));
-    }
+    html.intro-active .intro { --u: 1.2px; }
 }
 
 html.intro-active.intro-dark .intro {
@@ -117,7 +117,7 @@ html.intro-active.intro-dark .intro {
 @keyframes introStageOut { to { opacity: 0; transform: scale(.98); } }
 
 @media (min-width: 900px) {
-    .intro-stage { flex-direction: row; gap: 32px; }
+    .intro-stage { flex-direction: row; gap: 32px; scale: var(--intro-scale, 1); }
 }
 
 .intro-canvas {

@@ -39,6 +39,18 @@ const TOP_TRACKS = [
     const display = document.querySelector('[data-radio-display]');
     const player = document.querySelector('[data-radio-player]');
     const ejectBtn = document.querySelector('[data-radio-eject]');
+
+    // Spotify's compact player gets scrollbars below 300px wide, so in a
+    // narrower slot (the gutter on 1920px screens, small phones) it's rendered
+    // at 300px and scaled down to fit
+    const PLAYER_MIN_WIDTH = 300;
+    const fitPlayer = () => {
+        const w = player.clientWidth;
+        const scale = w && w < PLAYER_MIN_WIDTH ? (w / PLAYER_MIN_WIDTH).toFixed(3) : '1';
+        if (player.style.getPropertyValue('--player-scale') !== scale) {
+            player.style.setProperty('--player-scale', scale);
+        }
+    };
     const toast = stage.querySelector('[data-workshop-toast]');
     const rows = {
         wall: stage.querySelector('[data-row="wall"]'),
@@ -360,6 +372,7 @@ const TOP_TRACKS = [
             player.appendChild(note);
         }
         player.hidden = false;
+        fitPlayer();
     };
 
     const ejectTape = (replace = true) => {
@@ -546,6 +559,7 @@ const TOP_TRACKS = [
     const schedulePlace = () => {
         cancelAnimationFrame(rafId);
         rafId = requestAnimationFrame(() => {
+            fitPlayer();
             syncRadioDock();
             placeAll();
         });
