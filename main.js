@@ -7,9 +7,31 @@
 const HCAPTCHA_SITEKEY = '50b2fe65-b00b-4b9e-ad62-3ba471098be2'; // Web3Forms free-plan key
 let captchaWidgetId = null;
 
-const getCaptchaToken = () => {
+// The hCaptcha API (~100 KB, sets cookies) is only fetched once someone heads
+// for the contact form, not on every visit
+let captchaScriptPromise = null;
+const loadCaptchaScript = () => {
+    if (window.hcaptcha) return Promise.resolve();
+    if (!captchaScriptPromise) {
+        captchaScriptPromise = new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://js.hcaptcha.com/1/api.js?render=explicit&recaptchacompat=off';
+            script.async = true;
+            script.onload = () => resolve();
+            script.onerror = () => {
+                captchaScriptPromise = null; // allow a retry on the next attempt
+                reject(new Error('captcha-unavailable'));
+            };
+            document.head.appendChild(script);
+        });
+    }
+    return captchaScriptPromise;
+};
+
+const getCaptchaToken = async () => {
     const box = document.querySelector('[data-captcha-box]');
-    if (!window.hcaptcha || !box) return Promise.reject(new Error('captcha-unavailable'));
+    if (!box) throw new Error('captcha-unavailable');
+    await loadCaptchaScript();
 
     if (captchaWidgetId === null) {
         captchaWidgetId = window.hcaptcha.render(box, {
@@ -18,7 +40,8 @@ const getCaptchaToken = () => {
             theme: document.body.classList.contains('dark-mode') ? 'dark' : 'light',
         });
     }
-    return window.hcaptcha.execute(captchaWidgetId, { async: true }).then(({ response }) => response);
+    const { response } = await window.hcaptcha.execute(captchaWidgetId, { async: true });
+    return response;
 };
 
 const resetCaptcha = () => {
@@ -82,7 +105,10 @@ const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 const sidebar = document.querySelector("[data-sidebar]");
 const sidebarBtn = document.querySelector("[data-sidebar-btn]");
 if (sidebar && sidebarBtn) {
-    sidebarBtn.addEventListener("click", function() {elementToggleFunc(sidebar); })
+    sidebarBtn.addEventListener("click", function () {
+        elementToggleFunc(sidebar);
+        sidebarBtn.setAttribute("aria-expanded", String(sidebar.classList.contains("active")));
+    });
 }
 
 // Get modal elements
@@ -258,6 +284,160 @@ if (availability) {
     });
 }
 
+// Motto face: starts drawing ~5s after the page is actually on screen
+// (after the intro, when it plays), so the visitor is already reading
+const mottoFace = document.querySelector(".motto-face");
+if (mottoFace) {
+    const startFace = () => setTimeout(() => mottoFace.classList.add("is-drawing"), 5000);
+    const root = document.documentElement;
+    if (root.classList.contains("intro-active")) {
+        const watch = new MutationObserver(() => {
+            if (!root.classList.contains("intro-active")) {
+                watch.disconnect();
+                startFace();
+            }
+        });
+        watch.observe(root, { attributes: true, attributeFilter: ["class"] });
+    } else {
+        startFace();
+    }
+}
+
+// Tech stack: gliding marquee by default, full grouped list on demand
+const techToggle = document.querySelector("[data-tech-toggle]");
+if (techToggle) {
+    const marquee = document.querySelector("[data-tech-marquee]");
+    const list = document.querySelector("[data-tech-list]");
+    const label = techToggle.querySelector("[data-tech-toggle-label]");
+    const collapsedText = label.textContent;
+
+    // ---- Chip trail: the nav tabs' travelling gold dash, adapted to a row
+    // of chips. It runs over the top of each chip to its right end, zigzags
+    // to the next chip, and at the last one comes back along the bottoms.
+    // Built from the chips' real positions (wrapped rows included) and
+    // rebuilt on resize.
+    const SVG_NS = "http://www.w3.org/2000/svg";
+    const DASH = 10;          // same length as the nav dash
+    const SPEED = 70;         // px per second
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    // Zigzag from a to b: short segments nudged alternately either side
+    const zigzag = (a, b, amp = 3, step = 6) => {
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const len = Math.hypot(dx, dy);
+        const n = Math.max(2, Math.round(len / step));
+        const nx = -dy / (len || 1), ny = dx / (len || 1);
+        let d = "";
+        for (let i = 1; i < n; i++) {
+            const t = i / n, side = i % 2 ? amp : -amp;
+            d += ` L ${a.x + dx * t + nx * side} ${a.y + dy * t + ny * side}`;
+        }
+        return d + ` L ${b.x} ${b.y}`;
+    };
+
+    const buildTrail = (ul, index = 0) => {
+        ul.querySelector(".chip-trail")?.remove();
+        if (list.hidden || reduceMotion.matches) return;
+
+        const box = ul.getBoundingClientRect();
+        const chips = [...ul.querySelectorAll(".tech-chip")].map((li) => {
+            const r = li.getBoundingClientRect();
+            const pad = 3; // run just outside the chip's edge
+            const x0 = r.left - box.left - pad, x1 = r.right - box.left + pad;
+            const y0 = r.top - box.top - pad, y1 = r.bottom - box.top + pad;
+            return { x0, x1, y0, y1, r: (y1 - y0) / 2, cy: (y0 + y1) / 2 };
+        });
+        if (!chips.length) return;
+
+        const L = (c) => ({ x: c.x0, y: c.cy });
+        const R = (c) => ({ x: c.x1, y: c.cy });
+        const topHalf = (c) => ` A ${c.r} ${c.r} 0 0 1 ${c.x0 + c.r} ${c.y0} H ${c.x1 - c.r} A ${c.r} ${c.r} 0 0 1 ${c.x1} ${c.cy}`;
+        const bottomHalf = (c) => ` A ${c.r} ${c.r} 0 0 1 ${c.x1 - c.r} ${c.y1} H ${c.x0 + c.r} A ${c.r} ${c.r} 0 0 1 ${c.x0} ${c.cy}`;
+
+        // Split into rows (wrapped lines) by vertical position
+        const rows = [];
+        chips.forEach((c) => {
+            const row = rows.find((r) => Math.abs(r[0].cy - c.cy) < 4);
+            if (row) row.push(c); else rows.push([c]);
+        });
+
+        // Each row is traced like a single-row group: over the tops to the
+        // right end (zigzagging chip to chip), then back along the bottoms.
+        // Rows are joined by a short vertical zigzag down their left ends,
+        // and the last row climbs back up to the start to close the loop.
+        const traceRow = (row) => {
+            let part = "";
+            row.forEach((c, i) => {
+                part += topHalf(c);
+                if (row[i + 1]) part += zigzag(R(c), L(row[i + 1]));
+            });
+            for (let i = row.length - 1; i >= 0; i--) {
+                part += bottomHalf(row[i]);
+                if (row[i - 1]) part += zigzag(L(row[i]), R(row[i - 1]));
+            }
+            return part;
+        };
+
+        let d = `M ${L(rows[0][0]).x} ${L(rows[0][0]).y}`;
+        rows.forEach((row, i) => {
+            d += traceRow(row);
+            if (rows[i + 1]) d += zigzag(L(row[0]), L(rows[i + 1][0]));
+        });
+        if (rows.length > 1) d += zigzag(L(rows[rows.length - 1][0]), L(rows[0][0]));
+
+        const svg = document.createElementNS(SVG_NS, "svg");
+        svg.setAttribute("class", "chip-trail");
+        svg.setAttribute("width", box.width);
+        svg.setAttribute("height", box.height);
+        svg.setAttribute("aria-hidden", "true");
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute("d", d);
+        svg.appendChild(path);
+        ul.appendChild(svg);
+
+        const length = path.getTotalLength();
+        path.style.strokeDasharray = `${DASH} ${length}`;
+        path.animate(
+            [{ strokeDashoffset: 0 }, { strokeDashoffset: -length }],
+            // Each group starts at a different point, so the dashes don't move in lockstep
+            { duration: (length / SPEED) * 1000, iterations: Infinity, delay: -index * 1700 }
+        );
+    };
+
+    const buildTrails = () => list.querySelectorAll(".tech-list-chips").forEach((ul, i) => buildTrail(ul, i));
+
+    let trailTimer;
+    window.addEventListener("resize", () => {
+        clearTimeout(trailTimer);
+        trailTimer = setTimeout(buildTrails, 200);
+    });
+    reduceMotion.addEventListener?.("change", buildTrails);
+    // Rebuild if the list changes size for any other reason (fonts, zoom...)
+    if ("ResizeObserver" in window) {
+        let lastWidth = 0;
+        new ResizeObserver(([entry]) => {
+            const width = Math.round(entry.contentRect.width);
+            if (list.hidden || width === lastWidth) return;
+            lastWidth = width;
+            clearTimeout(trailTimer);
+            trailTimer = setTimeout(buildTrails, 200);
+        }).observe(list);
+    }
+
+    techToggle.addEventListener("click", () => {
+        const expand = list.hidden;
+        list.hidden = !expand;
+        marquee.hidden = expand;
+        techToggle.setAttribute("aria-expanded", String(expand));
+        label.textContent = expand ? "Show less" : collapsedText;
+        // Measure after the list's fade-in has settled (a plain timeout: rAF
+        // doesn't fire in background tabs, which left the list without trails)
+        clearTimeout(trailTimer);
+        if (expand) trailTimer = setTimeout(buildTrails, 380);
+        else buildTrails();
+    });
+}
+
 // Expand/collapse job cards (Experience, Education entries, Skills, Languages)
 document.querySelectorAll('[data-job-toggle]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -273,6 +453,11 @@ const contactBtn = document.querySelector('[data-form-btn]');
 const contactStatus = document.querySelector('[data-form-status]');
 
 if (contactForm && contactBtn && contactStatus) {
+    // Warm up the captcha as soon as someone starts on the form
+    const warmCaptcha = () => loadCaptchaScript().catch(() => {});
+    contactForm.addEventListener('focusin', warmCaptcha, { once: true });
+    contactForm.addEventListener('pointerenter', warmCaptcha, { once: true });
+
     const btnLabel = contactBtn.querySelector('span');
     const defaultLabel = btnLabel.textContent;
 

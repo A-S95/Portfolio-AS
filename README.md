@@ -16,7 +16,8 @@ Live Preview : https://portfolio-as-azure.vercel.app/
 │   ├── dashboard.svg
 │   ├── icons8-backend-development-96.png
 │   ├── icons8-database-100.png
-│   └── icons8-networking-100.png
+│   ├── icons8-networking-100.png
+│   └── tech/            (logos for Languages / Tools / OS)
 ├── img
 │   ├── avatar.jpg
 │   ├── og-image.jpg

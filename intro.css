@@ -567,7 +567,7 @@ html.intro-active.intro-dark .intro {
         .ie-title i:nth-child(2) { background: #febc2e; }
         .ie-title i:nth-child(3) { background: #28c840; }
 
-    .ie-title span { margin-left: 8px; color: #9a9a9a; font-size: 10px; }
+    .ie-title span { margin-left: 8px; color: #c4c4c4; font-size: 10px; }
 
 .ie-code {
     padding: 10px 12px 10px 34px;
@@ -623,6 +623,8 @@ html.intro-active.intro-dark .intro {
     .ie-code .k { color: #c678dd; }
     .ie-code .v { color: #e5c07b; }
     .ie-code .a { color: #e06c75; }
+    /* Lighter on the gold highlight, to keep 4.5:1 contrast */
+    .ie-line--now .a { color: #ff9ea6; }
     .ie-code .s { color: #98c379; }
     .ie-code .p { color: #abb2bf; }
 

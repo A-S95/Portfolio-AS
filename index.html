@@ -17,8 +17,11 @@
         } catch (e) {}
     </script>
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2931/2931511.png">
+    <!-- Only the weights the site uses, fetched in parallel with the CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.github.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
     <title>Portfolio A-S</title>
 
     <!-- Search results and link previews (LinkedIn, WhatsApp, email...) -->
@@ -110,10 +113,11 @@
         <div class="sidebar-stack">
         <aside class="sidebar " data-sidebar>
             <div class="sidebar-info">
-                <input style="max-width:fit-content;" type="checkbox" role="switch" class="dark-2" id="toggle-theme"/>
+                <input style="max-width:fit-content;" type="checkbox" role="switch" class="dark-2" id="toggle-theme" aria-label="Dark mode"/>
                 <!-- Avatar that flips over to show availability (tablet/desktop) -->
                 <figure class="avatar-box" data-avatar>
-                    <button type="button" class="avatar-flip" data-avatar-flip aria-pressed="false" aria-label="Flip the avatar to see my availability">
+                    <button type="button" class="avatar-flip" data-avatar-flip aria-pressed="false">
+                        <span class="visually-hidden">Flip avatar:</span>
                         <span class="avatar-face avatar-face--front">
                             <img style="border-radius: 10%;" src="/img/avatar.jpg" alt="António Santos avatar" width="80">
                             <span class="avatar-flip-icon" aria-hidden="true"><ion-icon name="sync-outline"></ion-icon></span>
@@ -144,7 +148,7 @@
                     <p class="open-pill"><span aria-hidden="true"></span>Open to work</p>
                 </div>
 
-                <button class="info-more-btn" data-sidebar-btn>
+                <button type="button" class="info-more-btn" data-sidebar-btn aria-label="Show contacts" aria-expanded="false">
                     <span>Show Contacts</span>
                     <ion-icon name="chevron-down-outline"></ion-icon>
                 </button>
@@ -175,7 +179,14 @@
                         <div class="contact-info">
                             <p class="contact-title">Motto</p>
 
-                            <q class="contact-quote">Trying to build things that work (mostly)</q>
+                            <q class="contact-quote">&ldquo;Trying to build things that work (mostly)&rdquo;<svg class="motto-face" viewBox="0 0 20 20" aria-hidden="true">
+                                <!-- Hand-drawn face: eyes once, then the mouth cycles :) -> :| -> :( -->
+                                <path class="motto-eye" pathLength="1" d="M6.4 6.6 q0.4 1.5 0.1 3"/>
+                                <path class="motto-eye" pathLength="1" d="M13.4 6.4 q-0.3 1.6 0 3.1"/>
+                                <path class="motto-mouth motto-mouth--smile" pathLength="1" d="M4.6 12.1 Q10.3 17.8 15.5 11.8"/>
+                                <path class="motto-mouth motto-mouth--flat" pathLength="1" d="M5.2 14 Q9.8 13.3 14.9 14.2"/>
+                                <path class="motto-mouth motto-mouth--sad" pathLength="1" d="M4.9 15.8 Q10.2 10.5 15.3 15.5"/>
+                            </svg></q>
                         </div>
                     </li>
 
@@ -213,8 +224,8 @@
 
                 <div class="separator"></div>
                 <ul class="social-list">
-                    <li class="social-item"><a href="https://github.com/A-S95" target="_blank" class="social-link"><ion-icon name="logo-github"></ion-icon></a></li>
-                    <li class="social-item"><a href="https://www.linkedin.com/in/as-software/" target="_blank" class="social-link"><ion-icon name="logo-linkedin"></ion-icon></a></li>
+                    <li class="social-item"><a href="https://github.com/A-S95" target="_blank" rel="noopener" class="social-link" aria-label="GitHub"><ion-icon name="logo-github" aria-hidden="true"></ion-icon></a></li>
+                    <li class="social-item"><a href="https://www.linkedin.com/in/as-software/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn"><ion-icon name="logo-linkedin" aria-hidden="true"></ion-icon></a></li>
                 </ul>
             </div>
         </aside>
@@ -222,7 +233,7 @@
         <aside class="github-activity">
             <div class="github-activity-header">
                 <ion-icon name="logo-github"></ion-icon>
-                <h3>Recent GitHub Activity</h3>
+                <h2>Recent GitHub Activity</h2>
             </div>
 
             <ul class="github-commits" data-github-commits>
@@ -345,45 +356,121 @@
 
                 
                 <section class="clients">
-                    <h3 class="h3 clients-title">Languages / Tools / OS</h3>
+                    <div class="tech-header">
+                        <h3 class="h3 clients-title">Tech Stack</h3>
+                        <button type="button" class="tech-toggle" data-tech-toggle aria-expanded="false" aria-controls="tech-list">
+                            <span data-tech-toggle-label>See all 24</span>
+                            <ion-icon name="chevron-down-outline" aria-hidden="true"></ion-icon>
+                        </button>
+                    </div>
 
-                   <ul class="clients-list has-scrollbar">
-                        <li class="clients-item">
-                            <a href="#"><img src="https://cdn.freebiesupply.com/logos/large/2x/python-5-logo-svg-vector.svg" alt="logo"></a>
-                        </li>
+                   <div class="tech-marquee" data-tech-marquee aria-hidden="true">
+                        <ul class="tech-track" style="--dur:38s">
+                            <li class="tech-chip"><img src="/icons/tech/python.svg" alt="" width="20" height="20" loading="lazy"><span>Python</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/javascript.png" alt="" width="20" height="20" loading="lazy"><span>JavaScript</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/java.svg" alt="" width="20" height="20" loading="lazy"><span>Java</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/c.png" alt="" width="20" height="20" loading="lazy"><span>C</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/cpp.svg" alt="" width="20" height="20" loading="lazy"><span>C++</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/csharp.png" alt="" width="20" height="20" loading="lazy"><span>C#</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/vb-net.svg" alt="" width="20" height="20" loading="lazy"><span>VB.NET</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/php.svg" alt="" width="20" height="20" loading="lazy"><span>PHP</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/cobol.svg" alt="" width="20" height="20" loading="lazy"><span>COBOL</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/html.png" alt="" width="20" height="20" loading="lazy"><span>HTML</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/css.png" alt="" width="20" height="20" loading="lazy"><span>CSS</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/flask.svg" alt="" width="20" height="20" loading="lazy"><span>Flask</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/dotnet.svg" alt="" width="20" height="20" loading="lazy"><span>ASP.NET</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/jquery.svg" alt="" width="20" height="20" loading="lazy"><span>jQuery</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/python.svg" alt="" width="20" height="20" loading="lazy"><span>Python</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/javascript.png" alt="" width="20" height="20" loading="lazy"><span>JavaScript</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/java.svg" alt="" width="20" height="20" loading="lazy"><span>Java</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/c.png" alt="" width="20" height="20" loading="lazy"><span>C</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/cpp.svg" alt="" width="20" height="20" loading="lazy"><span>C++</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/csharp.png" alt="" width="20" height="20" loading="lazy"><span>C#</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/vb-net.svg" alt="" width="20" height="20" loading="lazy"><span>VB.NET</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/php.svg" alt="" width="20" height="20" loading="lazy"><span>PHP</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/cobol.svg" alt="" width="20" height="20" loading="lazy"><span>COBOL</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/html.png" alt="" width="20" height="20" loading="lazy"><span>HTML</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/css.png" alt="" width="20" height="20" loading="lazy"><span>CSS</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/flask.svg" alt="" width="20" height="20" loading="lazy"><span>Flask</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/dotnet.svg" alt="" width="20" height="20" loading="lazy"><span>ASP.NET</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/jquery.svg" alt="" width="20" height="20" loading="lazy"><span>jQuery</span></li>
+                        </ul>
+                        <ul class="tech-track tech-track--reverse" style="--dur:32s">
+                            <li class="tech-chip"><img src="/icons/tech/postgresql.svg" alt="" width="20" height="20" loading="lazy"><span>PostgreSQL</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/mysql.svg" alt="" width="20" height="20" loading="lazy"><span>MySQL</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/sql-server.png" alt="" width="20" height="20" loading="lazy"><span>SQL Server</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/sqlalchemy.svg" alt="" width="20" height="20" loading="lazy"><span>SQLAlchemy</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/git.svg" alt="" width="20" height="20" loading="lazy"><span>Git</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/celery.svg" alt="" width="20" height="20" loading="lazy"><span>Celery</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/rabbitmq.svg" alt="" width="20" height="20" loading="lazy"><span>RabbitMQ</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/power-bi.webp" alt="" width="20" height="20" loading="lazy"><span>Power BI</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/windows.png" alt="" width="20" height="20" loading="lazy"><span>Windows</span></li>
+                            <li class="tech-chip"><img src="/icons/tech/linux.svg" alt="" width="20" height="20" loading="lazy"><span>Linux</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/postgresql.svg" alt="" width="20" height="20" loading="lazy"><span>PostgreSQL</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/mysql.svg" alt="" width="20" height="20" loading="lazy"><span>MySQL</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/sql-server.png" alt="" width="20" height="20" loading="lazy"><span>SQL Server</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/sqlalchemy.svg" alt="" width="20" height="20" loading="lazy"><span>SQLAlchemy</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/git.svg" alt="" width="20" height="20" loading="lazy"><span>Git</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/celery.svg" alt="" width="20" height="20" loading="lazy"><span>Celery</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/rabbitmq.svg" alt="" width="20" height="20" loading="lazy"><span>RabbitMQ</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/power-bi.webp" alt="" width="20" height="20" loading="lazy"><span>Power BI</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/windows.png" alt="" width="20" height="20" loading="lazy"><span>Windows</span></li>
+                            <li class="tech-chip" aria-hidden="true"><img src="/icons/tech/linux.svg" alt="" width="20" height="20" loading="lazy"><span>Linux</span></li>
+                        </ul>
+                    </div>
 
-                        <li class="clients-item">
-                            <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/C_Logo.png" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Logo_C_sharp.svg/960px-Logo_C_sharp.svg.png" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://brandlogos.net/wp-content/uploads/2025/03/microsoft_sql_server-logo_brandlogos.net_wykhq.png" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_1280.png" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/919/919826.png" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://icons.veryicon.com/png/o/business/vscode-program-item-icon/javascript-map-1.png" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://optim.tildacdn.one/tild3635-3564-4163-a666-613133633366/-/resize/744x/-/format/webp/pBI.png.webp" alt="logo"></a>
-                        </li>
-
-                        <li class="clients-item">
-                            <a href="#"><img src="https://www.citypng.com/public/uploads/preview/microsoft-windows-logo-hd-png-701751694708242cxihsfklk1.png?v=2025062003" alt="logo"></a>
-                        </li>
-                    </ul>
+                    <!-- Full list, grouped: easy to scan for recruiters -->
+                    <div class="tech-list" id="tech-list" data-tech-list hidden>
+                        <div class="tech-list-group">
+                            <h4 class="tech-list-title">Languages</h4>
+                            <ul class="tech-list-chips">
+                                <li class="tech-chip"><img src="/icons/tech/python.svg" alt="" width="20" height="20" loading="lazy"><span>Python</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/javascript.png" alt="" width="20" height="20" loading="lazy"><span>JavaScript</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/java.svg" alt="" width="20" height="20" loading="lazy"><span>Java</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/c.png" alt="" width="20" height="20" loading="lazy"><span>C</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/cpp.svg" alt="" width="20" height="20" loading="lazy"><span>C++</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/csharp.png" alt="" width="20" height="20" loading="lazy"><span>C#</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/vb-net.svg" alt="" width="20" height="20" loading="lazy"><span>VB.NET</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/php.svg" alt="" width="20" height="20" loading="lazy"><span>PHP</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/cobol.svg" alt="" width="20" height="20" loading="lazy"><span>COBOL</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/html.png" alt="" width="20" height="20" loading="lazy"><span>HTML</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/css.png" alt="" width="20" height="20" loading="lazy"><span>CSS</span></li>
+                            </ul>
+                        </div>
+                        <div class="tech-list-group">
+                            <h4 class="tech-list-title">Frameworks</h4>
+                            <ul class="tech-list-chips">
+                                <li class="tech-chip"><img src="/icons/tech/flask.svg" alt="" width="20" height="20" loading="lazy"><span>Flask</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/dotnet.svg" alt="" width="20" height="20" loading="lazy"><span>ASP.NET</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/jquery.svg" alt="" width="20" height="20" loading="lazy"><span>jQuery</span></li>
+                            </ul>
+                        </div>
+                        <div class="tech-list-group">
+                            <h4 class="tech-list-title">Databases</h4>
+                            <ul class="tech-list-chips">
+                                <li class="tech-chip"><img src="/icons/tech/postgresql.svg" alt="" width="20" height="20" loading="lazy"><span>PostgreSQL</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/mysql.svg" alt="" width="20" height="20" loading="lazy"><span>MySQL</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/sql-server.png" alt="" width="20" height="20" loading="lazy"><span>SQL Server</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/sqlalchemy.svg" alt="" width="20" height="20" loading="lazy"><span>SQLAlchemy</span></li>
+                            </ul>
+                        </div>
+                        <div class="tech-list-group">
+                            <h4 class="tech-list-title">Tools</h4>
+                            <ul class="tech-list-chips">
+                                <li class="tech-chip"><img src="/icons/tech/git.svg" alt="" width="20" height="20" loading="lazy"><span>Git</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/celery.svg" alt="" width="20" height="20" loading="lazy"><span>Celery</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/rabbitmq.svg" alt="" width="20" height="20" loading="lazy"><span>RabbitMQ</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/power-bi.webp" alt="" width="20" height="20" loading="lazy"><span>Power BI</span></li>
+                            </ul>
+                        </div>
+                        <div class="tech-list-group">
+                            <h4 class="tech-list-title">OS</h4>
+                            <ul class="tech-list-chips">
+                                <li class="tech-chip"><img src="/icons/tech/windows.png" alt="" width="20" height="20" loading="lazy"><span>Windows</span></li>
+                                <li class="tech-chip"><img src="/icons/tech/linux.svg" alt="" width="20" height="20" loading="lazy"><span>Linux</span></li>
+                            </ul>
+                        </div>
+                    </div>
                 </section>
             </article>
 
@@ -1090,7 +1177,7 @@
                     <div class="ws-radio-display" data-radio-display>Insert tape</div>
                     <div class="ws-radio-deck" data-radio-deck></div>
                     <button type="button" class="ws-radio-eject" data-radio-eject disabled>
-                        <ion-icon name="eject-outline"></ion-icon> Eject
+                        <svg class="ws-eject-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3 L14 10 H2 Z"/><rect x="2" y="12" width="12" height="2" rx="1"/></svg> Eject
                     </button>
                 </div>
                 <div class="ws-speaker"></div>
@@ -1104,7 +1191,6 @@
     <script src="intro.js"></script>
     <script src="main.js"></script>
     <script src="workshop.js"></script>
-    <script src="https://web3forms.com/client/script.js" async defer></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>

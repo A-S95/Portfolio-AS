@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/* Fonts (Poppins, JetBrains Mono) are loaded by a <link> in index.html */
 
 :root {
     --bg-gradient-onyx: linear-gradient(to bottom right, hsl(240, 1%, 25%) 3%, hsl(0, 0%, 19%) 97%);
@@ -812,7 +812,62 @@ body.dark-mode .info-content .title {
     }
 
     .contact-info address { font-style: normal; }
-    .contact-info .contact-quote { display: block; font-style: italic; }
+    /* Quotes are written in the text so the little face can sit after them */
+    .contact-info .contact-quote { display: block; font-style: italic; quotes: none; }
+
+    /* Tiny hand-drawn face after the motto: the eyes are drawn once, then the
+       mouth keeps changing its mind — smile, flat, sad — like "(mostly)".
+       Each mouth is drawn in, held, then wiped by the same pen stroke. */
+    .motto-face {
+        display: inline-block;
+        width: 1.7em;
+        height: 1.7em;
+        margin-left: 5px;
+        vertical-align: -0.5em;
+        overflow: visible;
+    }
+
+        .motto-face path {
+            fill: none;
+            stroke: var(--orange-yellow-crayola);
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+        }
+
+        /* Nothing plays until main.js adds .is-drawing, ~5s after the page is
+           revealed, so it gets drawn while the visitor is already reading */
+        /* Three rounds of the three faces (~27s), then the pen wipes the
+           eyes too and the face is gone. The delays sit in the same
+           .is-drawing rules as the animation shorthand, which would
+           otherwise reset them (that drew all three mouths at once). */
+        .motto-face.is-drawing .motto-eye {
+            animation: mottoDraw .35s ease-out forwards, mottoWipe .35s ease-in 27.8s forwards;
+        }
+        .motto-face.is-drawing .motto-eye + .motto-eye { animation-delay: .25s, 28.05s; }
+
+        .motto-face.is-drawing .motto-mouth { animation: mottoMouth 9s ease-in-out 3 both; }
+        .motto-face.is-drawing .motto-mouth--smile { animation-delay: .6s; }
+        .motto-face.is-drawing .motto-mouth--flat { animation-delay: 3.6s; }
+        .motto-face.is-drawing .motto-mouth--sad { animation-delay: 6.6s; }
+
+@keyframes mottoDraw { to { stroke-dashoffset: 0; } }
+@keyframes mottoWipe { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -1; } }
+
+/* One third of the cycle per mouth: draw (0-7%), hold, wipe away (27-32%) */
+@keyframes mottoMouth {
+    0% { stroke-dashoffset: 1; }
+    7% { stroke-dashoffset: 0; }
+    27% { stroke-dashoffset: 0; }
+    32%, 100% { stroke-dashoffset: -1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .motto-face path { animation: none !important; }
+    .motto-face .motto-eye,
+    .motto-face .motto-mouth--smile { stroke-dashoffset: 0; }
+}
 
 .contact-title {
     color: var(--light-gray70);
@@ -866,7 +921,7 @@ body.dark-mode .info-content .title {
         color: var(--orange-yellow-crayola);
     }
 
-    .github-activity-header h3 {
+    .github-activity-header h2 {
         color: var(--white2);
         font-size: var(--fs6);
         font-weight: var(--fw500);
@@ -906,7 +961,7 @@ body.dark-mode .info-content .title {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: var(--vegas-gold);
+    color: var(--orange-yellow-crayola);
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     text-transform: uppercase;
@@ -928,7 +983,7 @@ body.dark-mode .info-content .title {
 
 .github-commit-time {
     display: block;
-    color: var(--light-gray70);
+    color: var(--light-gray);
     font-size: 10px;
     margin-top: 3px;
 }
@@ -941,7 +996,7 @@ body.dark-mode .info-content .title {
     margin-top: 12px;
     padding-top: 12px;
     border-top: 1px solid var(--jet);
-    color: var(--light-gray70);
+    color: var(--light-gray);
     font-size: var(--fs8);
     transition: color var(--transition1);
 }
@@ -1128,7 +1183,6 @@ body.dark-mode .info-content .title {
     color: var(--color5);
     font-size: var(--fs7);
     font-weight: var(--fw300);
-    opacity: .8;
 }
 
 .availability-list {
@@ -1643,33 +1697,170 @@ body.dark-mode .service-item::before {
 
 .clients { margin-bottom: 15px; }
 
-.clients-list {
+/* Tech stack: two rows of chips gliding in opposite directions (pauses on
+   hover). Each row holds its list twice and slides one copy's width, so the
+   loop is seamless. Light chips so dark logos (Flask, Linux...) still read. */
+.tech-marquee {
+    display: grid;
+    gap: 10px;
+    padding: 4px 0;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
+    .tech-marquee[hidden] { display: none; }
+
+.tech-track {
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 15px;
-    margin: 0 -15px;
-    padding: 25px;
-    padding-bottom: 25px;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    overscroll-behavior-inline: contain;
-    scroll-snap-type: inline mandatory;
-    scroll-padding-inline: 25px;
+    gap: 10px;
+    width: max-content;
+    animation: techScroll var(--dur, 36s) linear infinite;
 }
 
-.clients-item {
-    min-width: 50%;
-    scroll-snap-align: start;
+    .tech-track--reverse { animation-direction: reverse; }
+    .tech-marquee:hover .tech-track { animation-play-state: paused; }
+
+@keyframes techScroll {
+    /* -50% is one copy; half a gap keeps the seam the same size as the others */
+    to { transform: translateX(calc(-50% - 5px)); }
 }
 
-    .clients-item img {
-        width: 50%;
-        filter: grayscale(1);
-        transition: var(--transition1);
+.tech-chip {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px 6px 9px;
+    border-radius: 999px;
+    background: #fff8f3;
+    box-shadow: 0 2px 5px hsla(0, 0%, 0%, .12);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+    body.dark-mode .tech-chip { background: #efe6e1; }
+
+    .tech-chip:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 14px hsla(0, 0%, 0%, .22);
     }
 
-        .clients-item img:hover { filter: grayscale(0);}
+    .tech-chip img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+    }
+
+        /* This source image has a lot of empty margin around the logo */
+        .tech-chip img[src$="power-bi.webp"] { transform: scale(1.5); }
+
+    .tech-chip span {
+        color: #4a2622;
+        font-size: 12px;
+        font-weight: var(--fw500);
+        white-space: nowrap;
+    }
+
+/* Reduced motion: no gliding; the chips simply wrap, without the duplicates */
+@media (prefers-reduced-motion: reduce) {
+    .tech-marquee { -webkit-mask-image: none; mask-image: none; }
+    .tech-track { flex-wrap: wrap; width: auto; animation: none; }
+    .tech-chip[aria-hidden="true"] { display: none; }
+}
+
+.tech-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+    .clients .tech-header .clients-title { margin-bottom: 0; }
+
+.tech-toggle {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border: 1px solid hsla(45, 100%, 72%, .45);
+    border-radius: 999px;
+    background: hsla(45, 100%, 72%, .08);
+    color: var(--orange-yellow-crayola);
+    font-size: 12px;
+    white-space: nowrap;
+    transition: background .25s ease;
+}
+
+    .tech-toggle:hover { background: hsla(45, 100%, 72%, .18); }
+    .tech-toggle span, .tech-toggle ion-icon { color: inherit; }
+    .tech-toggle ion-icon { transition: transform .3s ease; }
+    .tech-toggle[aria-expanded="true"] ion-icon { transform: rotate(180deg); }
+
+/* Full list: one row per group, label on the left */
+.tech-list {
+    display: grid;
+    gap: 12px;
+    animation: techListIn .35s ease;
+}
+
+    .tech-list[hidden] { display: none; }
+
+@keyframes techListIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: none; }
+}
+
+.tech-list-group {
+    display: grid;
+    grid-template-columns: 96px 1fr;
+    align-items: start;
+    gap: 10px;
+}
+
+.tech-list-title {
+    padding-top: 9px;
+    color: var(--orange-yellow-crayola);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: var(--fw500);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.tech-list-chips {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* The same short gold dash that circles the nav tabs, here running over the
+   top of each chip, zigzagging to the next, and back along the bottoms
+   (path built in main.js from the chips' real positions) */
+.chip-trail {
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow: visible;
+    pointer-events: none;
+}
+
+    .chip-trail path {
+        fill: none;
+        stroke: var(--orange-yellow-crayola);
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        filter: drop-shadow(0 0 3px hsla(45, 100%, 72%, .8));
+    }
+
+/* Phones: label above its chips */
+@media (max-width: 579px) {
+    .tech-list-group { grid-template-columns: 1fr; gap: 6px; }
+    .tech-list-title { padding-top: 0; }
+}
+
 
 /*RECOMMENDATIONS*/
 
@@ -2728,7 +2919,6 @@ textarea.form-input {
 
 
 @media (min-width: 450px) {
-    .clients-item { min-width: calc(33.33% - 10px); }
 
     .blog-banner-box { height: auto; }
 }
@@ -2898,15 +3088,6 @@ textarea.form-input {
         top: 50px;
     }
 
-    .clients-list {
-        gap: 25px;
-        margin: 0 -30px;
-        padding: 45px;
-        scroll-padding-inline: 45px;
-    }
-
-    .clients-item { min-width: calc(33..33% - 35px); }
-
     .timeline-list { margin-left: 65px; }
 
     .timeline-item:not(:last-child)::before { left: -40px; }
@@ -3046,7 +3227,6 @@ textarea.form-input {
 
     .modal-img-wrapper > img { top: 20px; }
 
-    .clients-item { min-width: calc(25% - 15px); }
 
     .project-list { grid-template-columns: repeat(3, 1fr); }
 
@@ -3100,9 +3280,11 @@ textarea.form-input {
        never gets the smaller space to re-fit into. */
     .github-commits {
         flex: 1;
-        /* Room for 2 commits on short pages (Portfolio, Contact), since the
-           commits themselves no longer give the list any height */
-        min-height: 140px;
+        /* Room for at least 1 commit on short pages (the commits themselves
+           don't give the list any height). Kept to one row: a taller minimum
+           made the sidebar column force the About card taller than its
+           content, leaving empty space under the Tech Stack */
+        min-height: 72px;
         contain: size;
         overflow: hidden;
     }
@@ -3415,3 +3597,12 @@ textarea.form-input {
       }
     }
   }
+/* Text only for screen readers */
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}

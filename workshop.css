@@ -410,7 +410,7 @@ body.workshop-open .ws-radio-dock {
     cursor: pointer;
 }
 
-    .ws-radio-eject ion-icon { color: inherit; }
+    .ws-radio-eject .ws-eject-icon { width: 10px; height: 10px; fill: currentColor; }
     .ws-radio-eject:disabled { opacity: .35; cursor: default; }
 
 .ws-radio-player {
