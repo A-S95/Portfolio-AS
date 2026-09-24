@@ -222,6 +222,15 @@ html {
     overflow-y: scroll;
 }
 
+/* Desktop page width: 1200px, growing with the screen up to 1440px while
+   always leaving at least 180px per side (from ~1560px up) for the workshop
+   pieces in the gutters */
+:root { --page-w: 1200px; }
+
+@media (min-width: 1250px) {
+    :root { --page-w: clamp(1200px, calc(100vw - 360px), 1440px); }
+}
+
 main {
     margin: 15px 12px;
     margin-bottom: 75px;
@@ -307,10 +316,19 @@ body.dark-mode .icon-box::before  {
 
 article { display: none; }
 
+    /* Only the content fades in: fading the whole card made its background
+       blink out (showing the page behind it) on every tab switch */
     article.active {
         display: block;
-        animation: fade .6s cubic-bezier(0.25, 0.8, 0.25, 1) backwards;
     }
+
+        article.active > * {
+            animation: fade .6s cubic-bezier(0.25, 0.8, 0.25, 1) backwards;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            article.active > * { animation: none; }
+        }
 
         @keyframes fade {
             0% { opacity: 0; transform: translateY(16px); }
@@ -2373,9 +2391,9 @@ textarea.form-input {
         position: sticky;
         top: 60px;
         flex-shrink: 0;
-        /* Fixed width (fits the email on one line) so a longer contact value
-           wraps instead of widening the sidebar past the viewport */
-        width: 360px;
+        /* Fixed width (at least enough for the email on one line) so a longer
+           contact value wraps instead of widening the sidebar past the viewport */
+        width: clamp(360px, calc(var(--page-w) * .27), 390px);
     }
 
     /* Grows to soak up the leftover height so its bottom edge lines up with the main content card */
@@ -2407,7 +2425,7 @@ textarea.form-input {
         /* With auto side margins a grid item shrinks to its content instead
            of stretching, so the width has to be explicit here */
         width: 100%;
-        max-width: 1200px;
+        max-width: var(--page-w);
         margin-inline: auto;
         display: flex;
         justify-content: center;

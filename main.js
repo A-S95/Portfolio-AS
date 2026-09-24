@@ -66,6 +66,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // Adicionar classe .active no botão clicado e respetivo artigo
         btn.classList.add("active");
         pages[index].classList.add("active");
+
+        // Abrir a nova aba a partir do topo (no telemóvel o menu fica fixo em
+        // baixo, por isso sem isto a aba nova abria a meio da página)
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
       });
     });
 

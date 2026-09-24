@@ -1,0 +1,665 @@
+/* WORKSHOP — bench behind the portfolio (see workshop.js) */
+
+:root {
+    /* One kitchen module = 60 cm. Everything on the bench scales from it. */
+    --m: clamp(38px, min(calc((100vw - 48px) / 6.5), 10.5vh), 86px);
+    --cw: calc(var(--m) * 1.55);
+    --ch: calc(var(--cw) * .63);
+
+    --ws-bg: var(--color5);
+    --ws-grid: hsla(6, 38%, 39%, .07);
+    --ws-grid-major: hsla(6, 38%, 39%, .13);
+    --ws-ink: #6b3530;
+    --ws-fill: #fffaf5;
+    --ws-slot: hsla(6, 38%, 39%, .55);
+    --ws-wood: #c08b5c;
+    --ws-wood-edge: #8f5f37;
+    --ws-text: #5a2d28;
+}
+
+/* Wide screens: cassettes and radio share the right gutter, so size them to it */
+@media (min-width: 1500px) {
+    :root {
+        /* Width of each side gutter next to the page (see --page-w) */
+        --gutter: calc((100vw - var(--page-w)) / 2);
+        --cw: min(calc(var(--m) * 1.55), calc(var(--gutter) - 70px));
+    }
+}
+
+body.dark-mode {
+    --ws-bg: var(--smoky-black);
+    --ws-grid: hsla(0, 0%, 100%, .035);
+    --ws-grid-major: hsla(0, 0%, 100%, .07);
+    --ws-ink: #e2c4b9;
+    --ws-fill: #242424;
+    --ws-slot: hsla(0, 0%, 100%, .32);
+    --ws-wood: #5e4130;
+    --ws-wood-edge: #3d2a1e;
+    --ws-text: #f0e2da;
+}
+
+/* The portfolio sits above the pieces and steps back when the workshop opens */
+main {
+    position: relative;
+    z-index: 1;
+    transition: opacity .45s ease, transform .45s ease;
+}
+
+body.workshop-open main {
+    opacity: 0;
+    transform: scale(.97);
+    pointer-events: none;
+}
+
+html.workshop-lock { overflow: hidden; }
+
+/* ---- Toggle button ---- */
+
+.workshop-fab {
+    position: fixed;
+    right: 20px;
+    bottom: calc(90px + env(safe-area-inset-bottom, 0px));
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--jet);
+    background: hsla(240, 1%, 17%, .85);
+    backdrop-filter: blur(10px);
+    color: var(--orange-yellow-crayola);
+    font-family: var(--ff-poppins);
+    font-size: 13px;
+    font-weight: var(--fw500);
+    box-shadow: var(--shadow2);
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+    .workshop-fab ion-icon { font-size: 16px; color: inherit; }
+    .workshop-fab span { color: inherit; }
+
+    .workshop-fab:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow4);
+    }
+
+    /* Out of the way of the image / PDF previews, and redundant with the
+       workshop's own "Back to portfolio" button once it's open */
+    body:has(.modal.open) .workshop-fab,
+    body.workshop-open .workshop-fab { display: none; }
+
+/* Phones: icon only, so it covers as little of the text as possible */
+@media (max-width: 579px) {
+    .workshop-fab { padding: 12px; }
+    /* Visually hidden, still read out as the button's name */
+    .workshop-fab span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+    }
+    .workshop-fab ion-icon { font-size: 18px; }
+}
+
+@media (min-width: 1024px) {
+    .workshop-fab { bottom: 24px; right: 24px; }
+}
+
+/* ---- Stage ---- */
+
+.workshop {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    grid-template-rows: auto 1fr auto minmax(150px, 30vh);
+    justify-items: center;
+    background-color: var(--ws-bg);
+    background-image:
+        linear-gradient(var(--ws-grid-major) 1px, transparent 1px),
+        linear-gradient(90deg, var(--ws-grid-major) 1px, transparent 1px),
+        linear-gradient(var(--ws-grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--ws-grid) 1px, transparent 1px);
+    background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+    color: var(--ws-text);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .45s ease, visibility 0s linear .45s;
+}
+
+body.workshop-open .workshop {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity .45s ease .1s, visibility 0s;
+}
+
+@media (min-width: 1500px) {
+    .workshop { grid-template-rows: auto 1fr auto 150px; }
+}
+
+.ws-header {
+    width: 100%;
+    max-width: var(--page-w);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: calc(16px + env(safe-area-inset-top, 0px)) 16px 8px;
+}
+
+.ws-title {
+    color: var(--ws-text);
+    font-size: var(--fs2);
+    font-weight: var(--fw600);
+}
+
+.ws-hint {
+    margin-top: 4px;
+    color: var(--ws-text);
+    opacity: .75;
+    font-size: var(--fs7);
+    max-width: 46ch;
+}
+
+.ws-close {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--ws-slot);
+    color: var(--ws-text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: background .25s ease;
+}
+
+    .ws-close:hover { background: hsla(45, 100%, 72%, .18); }
+    .ws-close[hidden] { display: none; }
+    .ws-close ion-icon, .ws-close span { color: inherit; }
+
+.ws-actions {
+    display: flex;
+    flex-shrink: 0;
+    gap: 8px;
+}
+
+@media (max-width: 579px) {
+    .ws-close span { display: none; }
+}
+
+/* ---- Kitchen wall ---- */
+
+.ws-wall-area {
+    align-self: center;
+    padding: 12px 16px 20px;
+}
+
+.ws-wall {
+    position: relative;
+    width: calc(var(--m) * 6);
+}
+
+.ws-row {
+    display: grid;
+    grid-template-columns: repeat(6, var(--m));
+}
+
+    .ws-row--wall { height: var(--m); align-items: start; }
+    .ws-row--base { height: calc(var(--m) * 1.35); }
+
+.ws-slot {
+    border: 1.5px dashed var(--ws-slot);
+    border-radius: 3px;
+    margin: 0 1px;
+    background: hsla(0, 0%, 100%, .25);
+}
+
+    body.dark-mode .ws-slot { background: hsla(0, 0%, 100%, .03); }
+
+    .ws-row--wall .ws-slot { height: 100%; }
+
+.ws-backsplash {
+    height: calc(var(--m) * .55);
+    background:
+        linear-gradient(90deg, var(--ws-grid-major) 1px, transparent 1px) 0 0 / calc(var(--m) / 3) 100%;
+    opacity: .8;
+}
+
+.ws-countertop {
+    height: calc(var(--m) * .12);
+    margin: 0 -6px;
+    border-radius: 2px;
+    background: var(--ws-ink);
+    opacity: .85;
+}
+
+.ws-plinth {
+    height: calc(var(--m) * .15);
+    margin: 0 4px;
+    background: var(--ws-ink);
+    opacity: .35;
+}
+
+/* CAD-style dimension line under the wall */
+.ws-dimension {
+    position: relative;
+    margin-top: 10px;
+    height: 1px;
+    background: var(--ws-ink);
+    opacity: .6;
+}
+
+    .ws-dimension::before,
+    .ws-dimension::after {
+        content: '';
+        position: absolute;
+        top: -5px;
+        width: 1px;
+        height: 11px;
+        background: var(--ws-ink);
+    }
+
+    .ws-dimension::before { left: 0; }
+    .ws-dimension::after { right: 0; }
+
+    .ws-dimension span {
+        position: absolute;
+        left: 50%;
+        top: -9px;
+        transform: translateX(-50%);
+        padding: 0 6px;
+        background: var(--ws-bg);
+        color: var(--ws-ink);
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+    }
+
+.ws-wall.is-complete .ws-countertop {
+    background: var(--orange-yellow-crayola);
+    opacity: 1;
+    transition: background .6s ease;
+}
+
+/* ---- Radio ----
+   Phones/tablets: sits on the bench while the workshop is open (workshop.js
+   lines it up with the spacer). Wide screens: always in the right gutter,
+   so a cassette can play while browsing the portfolio. */
+
+.ws-radio-dock {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    z-index: 0;
+    transform: translateX(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .45s ease, visibility 0s linear .45s;
+}
+
+body.workshop-open .ws-radio-dock {
+    z-index: 2;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity .45s ease .1s, visibility 0s;
+}
+
+@media (min-width: 1500px) {
+    .ws-radio-dock,
+    body.workshop-open .ws-radio-dock {
+        top: auto;
+        bottom: 144px;
+        /* Centre of the right gutter */
+        left: calc(100vw - var(--gutter) / 2);
+        visibility: visible;
+        opacity: 1;
+    }
+
+}
+
+.ws-radio { position: relative; }
+
+.ws-radio-handle {
+    width: 55%;
+    height: 16px;
+    margin: 0 auto;
+    border: 4px solid var(--ws-ink);
+    border-bottom: none;
+    border-radius: 14px 14px 0 0;
+    opacity: .8;
+}
+
+.ws-radio-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: var(--colorbg1);
+    border: 1px solid var(--jet);
+    box-shadow: var(--shadow2);
+    transition: box-shadow .25s ease;
+}
+
+    body.dark-mode .ws-radio-body { background: var(--eerie-black2); }
+
+    .ws-radio.is-target .ws-radio-body {
+        box-shadow: 0 0 0 3px var(--orange-yellow-crayola), var(--shadow2);
+    }
+
+.ws-speaker {
+    flex-shrink: 0;
+    width: calc(var(--ch) * 1.25);
+    height: calc(var(--ch) * 1.25);
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        #2b2b2b 0 16%, #555 17% 20%, #1e1e1e 21% 44%, #4a4a4a 45% 48%, #161616 49% 100%);
+    border: 3px solid hsla(0, 0%, 100%, .08);
+}
+
+    .ws-radio.has-tape .ws-speaker { animation: speakerPulse .5s ease-in-out infinite alternate; }
+
+@keyframes speakerPulse {
+    to { transform: scale(1.035); }
+}
+
+.ws-radio-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.ws-radio-display {
+    width: max(var(--cw), 92px);
+    padding: 3px 8px;
+    border-radius: 5px;
+    background: #121212;
+    color: var(--orange-yellow-crayola);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.ws-radio-deck {
+    width: calc(var(--cw) + 8px);
+    height: calc(var(--ch) + 8px);
+    border-radius: 6px;
+    border: 1px dashed hsla(45, 100%, 72%, .45);
+    background: hsla(0, 0%, 0%, .35);
+    box-shadow: inset 0 2px 8px hsla(0, 0%, 0%, .5);
+}
+
+.ws-radio-eject {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    border: 1px solid hsla(45, 100%, 72%, .4);
+    color: var(--orange-yellow-crayola);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+    .ws-radio-eject ion-icon { color: inherit; }
+    .ws-radio-eject:disabled { opacity: .35; cursor: default; }
+
+.ws-radio-player {
+    width: max(100%, 280px);
+    margin: 10px auto 0;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+    .ws-radio-player iframe {
+        display: block;
+        width: 100%;
+        height: 80px;
+        border: 0;
+        border-radius: 12px;
+    }
+
+.ws-radio-note {
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: var(--colorbg1);
+    color: var(--color5);
+    font-size: 12px;
+    text-align: center;
+}
+
+    body.dark-mode .ws-radio-note { background: var(--eerie-black2); }
+
+/* Wide screens: the radio stands upright to fit the gutter */
+@media (min-width: 1500px) {
+    .ws-radio-body {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        justify-items: center;
+        gap: 10px;
+        width: fit-content;
+        margin-inline: auto;
+    }
+
+    .ws-radio-handle { width: 90px; }
+
+    .ws-radio-center { grid-row: 2; grid-column: 1 / -1; }
+
+    .ws-speaker {
+        grid-row: 1;
+        width: calc(var(--cw) * .42);
+        height: calc(var(--cw) * .42);
+    }
+
+    .ws-radio-player { width: min(300px, calc(var(--gutter) - 32px)); }
+}
+
+/* ---- Bench ---- */
+
+.ws-bench {
+    width: 100%;
+    border-top: 12px solid var(--ws-wood-edge);
+    background:
+        repeating-linear-gradient(90deg, transparent 0 60px, hsla(0, 0%, 0%, .04) 60px 62px),
+        linear-gradient(var(--ws-wood), var(--ws-wood-edge));
+    box-shadow: inset 0 8px 16px hsla(0, 0%, 0%, .15);
+}
+
+.ws-toast {
+    position: fixed;
+    left: 50%;
+    top: 104px;
+    z-index: 5;
+    transform: translate(-50%, -12px);
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--orange-yellow-crayola);
+    color: #1e1e1e;
+    font-size: 13px;
+    font-weight: var(--fw500);
+    white-space: nowrap;
+    box-shadow: var(--shadow3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .35s ease, transform .35s ease;
+}
+
+    .ws-toast.is-visible {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+@media (max-width: 579px) {
+    .ws-toast { white-space: normal; width: max-content; max-width: calc(100vw - 32px); text-align: center; border-radius: 14px; }
+}
+
+/* ---- Pieces ---- */
+
+/* Hidden until wide gutters exist (or the workshop is open) */
+.workshop-pieces {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .6s ease;
+}
+
+    .workshop-pieces.is-ready { opacity: 1; }
+
+@media (min-width: 1500px) {
+    .workshop-pieces { visibility: visible; }
+}
+
+body.workshop-open .workshop-pieces {
+    z-index: 3;
+    visibility: visible;
+}
+
+.ws-piece {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: auto;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    transform: rotate(var(--rot, 0deg));
+    filter: drop-shadow(0 4px 6px hsla(0, 0%, 0%, .18));
+    transition: left .4s cubic-bezier(.25, .8, .25, 1), top .4s cubic-bezier(.25, .8, .25, 1),
+        transform .3s ease, filter .2s ease, opacity .3s ease;
+}
+
+    .ws-piece:hover { filter: drop-shadow(0 8px 12px hsla(0, 0%, 0%, .25)); }
+
+    .ws-piece:focus-visible {
+        outline: 2px solid var(--orange-yellow-crayola);
+        outline-offset: 3px;
+    }
+
+    .ws-piece.is-dragging {
+        cursor: grabbing;
+        transform: rotate(0deg) scale(1.06);
+        filter: drop-shadow(0 14px 18px hsla(0, 0%, 0%, .3));
+        transition: transform .2s ease, filter .2s ease;
+    }
+
+    .ws-piece.is-snapped,
+    .ws-piece.in-radio {
+        transform: none;
+        filter: none;
+    }
+
+/* Beside the portfolio, the pieces are a quiet backdrop; the ones already
+   on the wall or in the radio stay put behind it */
+body:not(.workshop-open) .ws-piece { opacity: .75; }
+body:not(.workshop-open) .ws-piece:hover { opacity: 1; }
+body:not(.workshop-open) .ws-piece.is-snapped {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* The radio is beside the portfolio only on wide screens */
+@media (max-width: 1499px) {
+    body:not(.workshop-open) .ws-piece.in-radio {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+@media (min-width: 1500px) {
+    body:not(.workshop-open) .ws-piece.in-radio { opacity: 1; }
+}
+
+.ws-piece svg { display: block; width: 100%; height: 100%; overflow: visible; }
+
+/* Kitchen modules */
+
+.ws-module { width: var(--m); }
+.ws-module--base { height: calc(var(--m) * 1.35); }
+.ws-module--wall { height: var(--m); }
+
+.ws-module .ws-body { fill: var(--ws-fill); stroke: var(--ws-ink); stroke-width: 1.4; }
+.ws-module .ws-door { fill: none; stroke: var(--ws-ink); stroke-width: 1; opacity: .75; }
+.ws-module .ws-detail { fill: none; stroke: var(--ws-ink); stroke-width: 1; opacity: .7; }
+.ws-module .ws-handle { stroke: var(--ws-ink); stroke-width: 2; stroke-linecap: round; }
+.ws-module .ws-glass { fill: hsla(210, 30%, 20%, .75); stroke: var(--ws-ink); stroke-width: 1; }
+.ws-module .ws-glass--light { fill: hsla(200, 60%, 80%, .25); }
+
+/* Cassettes */
+
+.ws-cassette { width: var(--cw); height: var(--ch); }
+
+.ws-cassette .ws-tape-shell { fill: var(--tape); stroke: hsla(0, 0%, 0%, .35); stroke-width: 1; }
+.ws-cassette .ws-tape-label { fill: #f6f0e4; }
+.ws-cassette .ws-tape-window { fill: #1b1b1b; }
+.ws-cassette .ws-tape-bottom { fill: hsla(0, 0%, 0%, .2); }
+.ws-cassette .ws-screw { fill: hsla(0, 0%, 0%, .35); }
+.ws-cassette .ws-reel circle { fill: #e8e2d6; }
+.ws-cassette .ws-reel path { stroke: #1b1b1b; stroke-width: 1.4; }
+
+.ws-cassette .ws-reel {
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+    .ws-cassette.in-radio .ws-reel { animation: reelSpin 2.4s linear infinite; }
+
+@keyframes reelSpin {
+    to { transform: rotate(360deg); }
+}
+
+.ws-cassette-label {
+    position: absolute;
+    left: 9%;
+    top: 9%;
+    width: 82%;
+    height: 42%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 18%;
+    font-size: calc(var(--cw) * .085);
+    line-height: 1.2;
+    pointer-events: none;
+}
+
+    .ws-cassette-label strong,
+    .ws-cassette-label small {
+        color: #2a2a2a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .ws-cassette-label strong { font-weight: var(--fw600); }
+    .ws-cassette-label small { font-size: .85em; opacity: .7; }
+
+.ws-cassette-side {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--tape);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    filter: brightness(.8);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    main, .workshop, .ws-piece, .workshop-pieces, .ws-toast { transition: none; }
+    .ws-cassette.in-radio .ws-reel,
+    .ws-radio.has-tape .ws-speaker { animation: none; }
+}

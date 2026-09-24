@@ -25,7 +25,9 @@ Live Preview : https://portfolio-as-azure.vercel.app/
 │   └── work2.png
 ├── index.html
 ├── main.js
-└── styles.css
+├── styles.css
+├── workshop.css
+└── workshop.js
 ```
 
 ## 👥 Contributing

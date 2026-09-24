@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="workshop.css">
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2931/2931511.png">
     <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -784,7 +785,73 @@
         </div>
     </main>
 
+    <!-- WORKSHOP: a bench behind the portfolio where visitors can assemble a
+         kitchen and play cassettes on a radio (see workshop.js) -->
+    <button type="button" class="workshop-fab" data-workshop-toggle aria-pressed="false">
+        <ion-icon name="construct-outline"></ion-icon>
+        <span data-workshop-toggle-label>Workshop</span>
+    </button>
+
+    <section class="workshop" data-workshop aria-hidden="true" aria-label="Workshop">
+        <header class="ws-header">
+            <div>
+                <h2 class="ws-title">The Workshop</h2>
+                <p class="ws-hint">Drag the modules onto the wall to build a kitchen, or drop a cassette into the radio.</p>
+            </div>
+            <div class="ws-actions">
+                <button type="button" class="ws-close ws-reset" data-workshop-reset hidden>
+                    <ion-icon name="refresh-outline"></ion-icon>
+                    <span>Take apart</span>
+                </button>
+                <button type="button" class="ws-close" data-workshop-close>
+                    <ion-icon name="arrow-back-outline"></ion-icon>
+                    <span>Back to portfolio</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="ws-wall-area">
+            <div class="ws-wall" data-wall>
+                <div class="ws-row ws-row--wall" data-row="wall"></div>
+                <div class="ws-backsplash"></div>
+                <div class="ws-countertop"></div>
+                <div class="ws-row ws-row--base" data-row="base"></div>
+                <div class="ws-plinth"></div>
+                <div class="ws-dimension"><span>360 cm</span></div>
+            </div>
+        </div>
+
+        <!-- Keeps room for the radio above the bench on phones/tablets; the radio
+             itself lives outside the stage so the music survives open/close -->
+        <div class="ws-radio-spacer" data-radio-spacer></div>
+
+        <div class="ws-bench" data-bench></div>
+
+        <p class="ws-toast" data-workshop-toast role="status" aria-live="polite" hidden></p>
+    </section>
+
+    <div class="ws-radio-dock" data-radio-dock>
+        <div class="ws-radio" data-radio>
+            <div class="ws-radio-handle"></div>
+            <div class="ws-radio-body">
+                <div class="ws-speaker"></div>
+                <div class="ws-radio-center">
+                    <div class="ws-radio-display" data-radio-display>Insert tape</div>
+                    <div class="ws-radio-deck" data-radio-deck></div>
+                    <button type="button" class="ws-radio-eject" data-radio-eject disabled>
+                        <ion-icon name="eject-outline"></ion-icon> Eject
+                    </button>
+                </div>
+                <div class="ws-speaker"></div>
+            </div>
+            <div class="ws-radio-player" data-radio-player hidden></div>
+        </div>
+    </div>
+
+    <div class="workshop-pieces" data-workshop-pieces aria-hidden="true"></div>
+
     <script src="main.js"></script>
+    <script src="workshop.js"></script>
     <script src="https://web3forms.com/client/script.js" async defer></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
