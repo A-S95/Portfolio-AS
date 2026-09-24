@@ -2455,8 +2455,16 @@ body.dark-mode .service-item::before {
 
     .project-item.active {
         display: block;
-        animation: scaleUp .4s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+        animation: scaleUp .5s cubic-bezier(0.25, 0.8, 0.25, 1) var(--d, 0s) both;
     }
+
+    /* Cards come in one after another */
+    .project-item:nth-child(1) { --d: .05s; }
+    .project-item:nth-child(2) { --d: .17s; }
+    .project-item:nth-child(3) { --d: .29s; }
+    .project-item:nth-child(4) { --d: .41s; }
+    .project-item:nth-child(5) { --d: .53s; }
+    .project-item:nth-child(6) { --d: .65s; }
 
         @keyframes scaleUp {
             0% { transform: scale(0.9) translateY(12px); opacity: 0; }
@@ -2481,6 +2489,52 @@ body.dark-mode .service-item::before {
         object-fit: cover;
         transition: transform .5s cubic-bezier(0.25, 0.8, 0.25, 1);
     }
+
+        .project-item.active .project-img img {
+            animation: projectReveal .75s cubic-bezier(.65, 0, .35, 1) calc(var(--d, 0s) + .15s) both;
+        }
+
+    /* The scanning line on entrance; on hover the same pseudo-element becomes
+       the nav tabs' gold dash, running around the image frame */
+    .project-img::after {
+        content: '';
+        position: absolute;
+        z-index: 2;
+        top: 0;
+        left: 0;
+        width: 2px;
+        height: 100%;
+        background: var(--orange-yellow-crayola);
+        box-shadow: 0 0 10px 1px hsla(45, 100%, 72%, .75);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+        .project-item.active .project-img::after {
+            animation: projectScan .75s cubic-bezier(.65, 0, .35, 1) calc(var(--d, 0s) + .15s) both;
+        }
+
+        .project-item.active > a:hover .project-img::after {
+            top: auto;
+            left: auto;
+            width: 12px;
+            height: 4px;
+            border-radius: 2px;
+            opacity: 1;
+            offset-path: border-box;
+            animation: border-trace 3s linear infinite;
+        }
+
+@keyframes projectReveal {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes projectScan {
+    0% { left: 0; opacity: 1; }
+    85% { opacity: 1; }
+    100% { left: calc(100% - 2px); opacity: 0; }
+}
 
     .project-img::before {
         content: '';
@@ -2543,6 +2597,33 @@ body.dark-mode .service-item::before {
         font-size: var(--fs6);
         font-weight: var(--fw300);
     }
+
+/* Tags pop in one by one once the image is in */
+.project-item.active .project-tags li {
+    animation: projectTagIn .35s cubic-bezier(.25, .8, .25, 1) calc(var(--d, 0s) + .7s + var(--i, 0) * .05s) both;
+}
+
+    .project-tags li:nth-child(2) { --i: 1; }
+    .project-tags li:nth-child(3) { --i: 2; }
+    .project-tags li:nth-child(4) { --i: 3; }
+    .project-tags li:nth-child(5) { --i: 4; }
+    .project-tags li:nth-child(6) { --i: 5; }
+    .project-tags li:nth-child(7) { --i: 6; }
+    .project-tags li:nth-child(8) { --i: 7; }
+
+/* No opacity in "to": it lands on the tag's own value, so the hover
+   highlight (.85 -> 1) still works after the entrance */
+@keyframes projectTagIn {
+    from { opacity: 0; transform: translateY(6px) scale(.9); }
+    to { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .project-item.active,
+    .project-item.active .project-img img,
+    .project-item.active .project-img::after,
+    .project-item.active .project-tags li { animation: none; }
+}
 
 /* Stack used in each project: a smaller, quieter take on the Resume tags */
 .project-tags {

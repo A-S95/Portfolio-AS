@@ -610,7 +610,11 @@ document.addEventListener('DOMContentLoaded', () => {
 // leaving dead space or forcing the content column taller than it needs to be.
 (function () {
     const GITHUB_USER = 'A-S95';
-    const POOL_SIZE = 8;
+    // How many recent commits to fetch (one request; GitHub allows up to 100).
+    // The widget only ever shows as many as fit the space it's given, so the
+    // pool just needs to be big enough for the tallest page (a fully expanded
+    // Resume fits ~40)
+    const POOL_SIZE = 60;
     const MOBILE_DEFAULT = 3;
     const list = document.querySelector('[data-github-commits]');
     if (!list) return;
