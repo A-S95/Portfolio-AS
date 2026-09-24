@@ -13,6 +13,7 @@
 <body>
     <!-- FUNDO -->
       <main>
+        <div class="sidebar-stack">
         <aside class="sidebar " data-sidebar>
             <div class="sidebar-info">
                 <input style="max-width:fit-content;" type="checkbox" role="switch" class="dark-2" id="toggle-theme"/>
@@ -81,11 +82,15 @@
                         </a>
                 </section>
 
-                <a href="/cv/carta_recomendacao.pdf" download="Carta de Recomendacao - Antonio Santos.pdf" class="letter-link">
-                    <ion-icon name="document-text-outline"></ion-icon>
-                    <span>Carta de Recomendação</span>
-                    <ion-icon name="download-outline" class="letter-link-download"></ion-icon>
-                </a>
+                <div class="letter-link">
+                    <button type="button" class="letter-link-main" data-pdf-open>
+                        <ion-icon name="document-text-outline"></ion-icon>
+                        <span>Carta de Recomendação</span>
+                    </button>
+                    <a href="/cv/carta_recomendacao.pdf" download="Carta de Recomendacao - Antonio Santos.pdf" class="letter-link-download" aria-label="Download da Carta de Recomendação">
+                        <ion-icon name="download-outline"></ion-icon>
+                    </a>
+                </div>
 
                 <div class="separator"></div>
                 <ul class="social-list">
@@ -94,6 +99,23 @@
                 </ul>
             </div>
         </aside>
+
+        <aside class="github-activity">
+            <div class="github-activity-header">
+                <ion-icon name="logo-github"></ion-icon>
+                <h3>Recent GitHub Activity</h3>
+            </div>
+
+            <ul class="github-commits" data-github-commits>
+                <li class="github-commits-status">Loading recent commits…</li>
+            </ul>
+
+            <a href="https://github.com/A-S95" target="_blank" class="github-activity-link">
+                View full profile
+                <ion-icon name="arrow-forward-outline"></ion-icon>
+            </a>
+        </aside>
+        </div>
 
         <div class="main-content">
             <nav class="navbar">
@@ -252,7 +274,7 @@
                                     <div class="job-meta">
                                         <span class="job-period">Intern - 2026</span>
                                         <span class="evaluation-badge">
-                                            <ion-icon name="star"></ion-icon> 17,4 Values
+                                            <ion-icon name="star"></ion-icon> 17,4/20 Values
                                         </span>
                                     </div>
                                 </div>
@@ -289,17 +311,18 @@
                                     </div>
 
                                     <div class="job-recommendation">
-                                        <div class="job-recommendation-avatar">DM</div>
-                                        <div class="job-recommendation-body">
-                                            <p class="job-recommendation-text">"António was a trainee on my team for four months. He was reliable and easy to work with, and he did his best work in QA. I can recommend him for a junior role."</p>
+                                        <div class="job-recommendation-header">
+                                            <div class="job-recommendation-avatar">DM</div>
                                             <div class="job-recommendation-author">
+                                                <span class="job-recommendation-label">Recommendation</span>
                                                 <span class="job-recommendation-name">Dinis Monteiro</span>
                                                 <span class="job-recommendation-role">Founder and CTO at Teamlyzer</span>
-                                                <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
-                                                    <ion-icon name="logo-linkedin"></ion-icon>
-                                                </a>
                                             </div>
+                                            <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
+                                                <ion-icon name="logo-linkedin"></ion-icon>
+                                            </a>
                                         </div>
+                                        <p class="job-recommendation-text">"António was a trainee on my team for four months. He was reliable and easy to work with, and he did his best work in QA. I can recommend him for a junior role."</p>
                                     </div>
                                 </div>
                             </div>
@@ -312,7 +335,7 @@
                                     <div class="job-meta">
                                         <span class="job-period">Intern - 2025</span>
                                         <span class="evaluation-badge">
-                                            <ion-icon name="star"></ion-icon> 19,1 Values
+                                            <ion-icon name="star"></ion-icon> 19,1/20 Values
                                         </span>
                                     </div>
                                 </div>
@@ -344,17 +367,18 @@
                                     </div>
 
                                     <div class="job-recommendation">
-                                        <div class="job-recommendation-avatar">MS</div>
-                                        <div class="job-recommendation-body">
-                                            <p class="job-recommendation-text">"I worked with Antonio during his traineeship as a Dashboard Developer in our eMobility Technical Support team. He was reliable, flexible and quick to pick things up — exactly the kind of person you want on your team. He played a solid part in building a dashboard for our ticketing system pipeline tracking, handling it with care and a good technical understanding. I'd have no hesitation recommending Antonio. He's a good developer and a genuinely pleasant person to work with."</p>
+                                        <div class="job-recommendation-header">
+                                            <div class="job-recommendation-avatar">MS</div>
                                             <div class="job-recommendation-author">
+                                                <span class="job-recommendation-label">Recommendation</span>
                                                 <span class="job-recommendation-name">Michele Sambiagio</span>
                                                 <span class="job-recommendation-role">Technical Lead @ Siemens</span>
-                                                <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
-                                                    <ion-icon name="logo-linkedin"></ion-icon>
-                                                </a>
                                             </div>
+                                            <a href="https://www.linkedin.com/in/as-software/" target="_blank" class="job-recommendation-linkedin" aria-label="View recommendation on LinkedIn">
+                                                <ion-icon name="logo-linkedin"></ion-icon>
+                                            </a>
                                         </div>
+                                        <p class="job-recommendation-text">"I worked with Antonio during his traineeship as a Dashboard Developer in our eMobility Technical Support team. He was reliable, flexible and quick to pick things up — exactly the kind of person you want on your team. He played a solid part in building a dashboard for our ticketing system pipeline tracking, handling it with care and a good technical understanding. I'd have no hesitation recommending Antonio. He's a good developer and a genuinely pleasant person to work with."</p>
                                     </div>
                                 </div>
                             </div>
@@ -367,7 +391,7 @@
                                     <div class="job-meta">
                                         <span class="job-period">Intern - 2024</span>
                                         <span class="evaluation-badge">
-                                            <ion-icon name="star"></ion-icon> 18,6 Values
+                                            <ion-icon name="star"></ion-icon> 18,6/20 Values
                                         </span>
                                     </div>
                                 </div>
@@ -451,147 +475,81 @@
                         <h3 class="h3 skills-title">My Skills</h3>
                     </div>
 
-                    <div class="job-card" data-job data-skills-card>
+                    <div class="job-card" data-job>
                         <button class="job-toggle" data-job-toggle aria-expanded="false">
-                            <span class="job-toggle-label">12 Skills</span>
+                            <span class="job-toggle-label">Skills & Tools</span>
                             <ion-icon name="chevron-down-outline" class="job-chevron"></ion-icon>
                         </button>
 
                         <div class="job-details">
                             <div class="job-details-inner">
-                                <ul class="skills-list">
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">Web Design</h5>
-                                            <data value="70">70%</data>
-                                        </div>
+                                <div class="skills-cloud">
+                                    <div class="skills-filters" role="group" aria-label="Filter skills by category">
+                                        <button class="skills-filter active" data-filter="all" aria-pressed="true">
+                                            <ion-icon name="apps-outline"></ion-icon> All
+                                        </button>
+                                        <button class="skills-filter" data-filter="languages" aria-pressed="false">
+                                            <ion-icon name="code-slash-outline"></ion-icon> Languages
+                                        </button>
+                                        <button class="skills-filter" data-filter="databases" aria-pressed="false">
+                                            <ion-icon name="server-outline"></ion-icon> Databases
+                                        </button>
+                                        <button class="skills-filter" data-filter="tools" aria-pressed="false">
+                                            <ion-icon name="construct-outline"></ion-icon> Tools
+                                        </button>
+                                        <button class="skills-filter" data-filter="ai" aria-pressed="false">
+                                            <ion-icon name="sparkles-outline"></ion-icon> AI
+                                        </button>
+                                        <button class="skills-filter" data-filter="design" aria-pressed="false">
+                                            <ion-icon name="color-palette-outline"></ion-icon> Design
+                                        </button>
+                                        <button class="skills-filter" data-filter="soft" aria-pressed="false">
+                                            <ion-icon name="people-outline"></ion-icon> Soft Skills
+                                        </button>
+                                    </div>
 
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="70"></div>
-                                        </div>
-                                    </li>
+                                    <div class="skills-tags">
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#4B8BBE">Python</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#F0DB4F">JavaScript</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#E76F00">Java</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#6A5ACD">C/C++/C#</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#6B3FA0">VB.NET</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#6B3FA0">ASP.NET</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#B8B8B8">Flask</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#2E7DBC">jQuery</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#E34F26">HTML/CSS</span>
+                                        <span class="tech-tag" data-category="languages" style="--tag-accent:#8892BF">PHP</span>
+                                        <span class="tech-tag" data-category="languages">COBOL</span>
 
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">Graphic Design</h5>
-                                            <data value="60">60%</data>
-                                        </div>
+                                        <span class="tech-tag" data-category="databases" style="--tag-accent:#4A90B8">PostgreSQL</span>
+                                        <span class="tech-tag" data-category="databases">SQLAlchemy</span>
+                                        <span class="tech-tag" data-category="databases" style="--tag-accent:#F29111">MySQL</span>
+                                        <span class="tech-tag" data-category="databases">SQL</span>
 
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="60"></div>
-                                        </div>
-                                    </li>
+                                        <span class="tech-tag" data-category="tools" style="--tag-accent:#F1502F">Git</span>
+                                        <span class="tech-tag" data-category="tools">RESTful APIs</span>
+                                        <span class="tech-tag" data-category="tools" style="--tag-accent:#4CAF7D">Celery</span>
+                                        <span class="tech-tag" data-category="tools" style="--tag-accent:#FF7A00">RabbitMQ</span>
+                                        <span class="tech-tag" data-category="tools" style="--tag-accent:#F2C811">Power BI</span>
+                                        <span class="tech-tag" data-category="tools" style="--tag-accent:#59B4D9">Windows/Linux</span>
+                                        <span class="tech-tag" data-category="tools">Network Management</span>
+                                        <span class="tech-tag" data-category="tools">Teowin Software</span>
+                                        <span class="tech-tag" data-category="tools">3D Modeling</span>
 
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">SQL & MySQL</h5>
-                                            <data value="50">50%</data>
-                                        </div>
+                                        <span class="tech-tag" data-category="ai" style="--tag-accent:#D97757">AI Coding Assistants</span>
+                                        <span class="tech-tag" data-category="ai" style="--tag-accent:#8B7FD1">LLM APIs (OpenRouter)</span>
+                                        <span class="tech-tag" data-category="ai">AI Pair Programming</span>
 
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="50"></div>
-                                        </div>
-                                    </li>
+                                        <span class="tech-tag" data-category="design" style="--tag-accent:#E37FA8">Web Design</span>
+                                        <span class="tech-tag" data-category="design" style="--tag-accent:#C77DDE">Graphic Design</span>
 
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">C/C++</h5>
-                                            <data value="65">65%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="65"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">Python</h5>
-                                            <data value="65">65%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="65"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">PowerBI</h5>
-                                            <data value="75">75%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="75"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">Teowin Software</h5>
-                                            <data value="90">90%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="90"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">JavaScript</h5>
-                                            <data value="65">65%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="65"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">HTML/CSS</h5>
-                                            <data value="70">70%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="70"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">Flask</h5>
-                                            <data value="60">60%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="60"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">PostgreSQL</h5>
-                                            <data value="60">60%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="60"></div>
-                                        </div>
-                                    </li>
-
-                                    <li class="skills-item">
-                                        <div class="title-wrapper">
-                                            <h5 class="h5">Git</h5>
-                                            <data value="65">65%</data>
-                                        </div>
-
-                                        <div class="skills-progress-bg">
-                                            <div class="skills-progress-fill" data-progress="65"></div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        <span class="tech-tag" data-category="soft">Adaptability</span>
+                                        <span class="tech-tag" data-category="soft">Collaboration &amp; Teamwork</span>
+                                        <span class="tech-tag" data-category="soft">Creativity</span>
+                                        <span class="tech-tag" data-category="soft">Curiosity</span>
+                                        <span class="tech-tag" data-category="soft">Time Management</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -765,6 +723,24 @@
             <div id="image-modal" class="modal">
                 <span class="modal-close">&times;</span>
                 <img class="modal-content" id="modal-img">
+            </div>
+
+            <!-- PDF Modal HTML -->
+            <div id="pdf-modal" class="modal">
+                <span class="modal-close" data-pdf-close>&times;</span>
+                <div class="pdf-modal-content">
+                    <div class="pdf-modal-toolbar">
+                        <span class="pdf-modal-title">
+                            <ion-icon name="document-text-outline"></ion-icon>
+                            Carta de Recomendação
+                        </span>
+                        <a href="/cv/carta_recomendacao.pdf" download="Carta de Recomendacao - Antonio Santos.pdf" class="pdf-modal-download-btn">
+                            <ion-icon name="download-outline"></ion-icon>
+                            Download
+                        </a>
+                    </div>
+                    <iframe id="pdf-modal-frame" class="pdf-modal-frame" title="Carta de Recomendação"></iframe>
+                </div>
             </div>
 
 

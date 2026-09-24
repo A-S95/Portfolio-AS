@@ -65,7 +65,10 @@
 body {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    place-items: center;
+    /* Keep horizontal centering but pin to the top vertically — centering
+       vertically here made main.js's shorter pages (e.g. a collapsed Resume)
+       shift the whole layout down compared to taller ones (e.g. About). */
+    place-items: start center;
     margin: 0;
     min-height: 100vh;
     font-size: 15vmin;
@@ -144,7 +147,7 @@ body {
 
 .cv-download {
     margin: 25px 0 25px 0;
-    padding-left: 17%;
+    text-align: center;
     font-size: var(--fs3);
 }
 
@@ -209,7 +212,15 @@ body.dark-mode input {
 
 :focus { outline-color: var(--orange-yellow-crayola); }
 
-html { font-family: var(--ff-poppins); }
+html {
+    font-family: var(--ff-poppins);
+    /* Always show the scrollbar track, so switching to a shorter/taller page
+       (e.g. About vs a collapsed Resume) doesn't change the available width
+       and make the centered layout resize between tabs. scrollbar-gutter
+       alone isn't enough for the root/viewport scrollbar in every engine. */
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+}
 
 main {
     margin: 15px 12px;
@@ -219,7 +230,7 @@ main {
     justify-self: stretch;
 }
 
-.sidebar, article {
+.sidebar, article, .github-activity {
     background: var(--colorbg1);
     border: 1px solid var(--jet);
     border-radius: 20px;
@@ -229,7 +240,8 @@ main {
 }
     .sidebar.active { max-height: 405px; }
 
-body.dark-mode .sidebar {
+body.dark-mode .sidebar,
+body.dark-mode .github-activity {
     background: var(--eerie-black2);
 }
 
@@ -529,6 +541,116 @@ body.dark-mode .info-content .title {
         color: var(--orange-yellow-crayola);
         transform: translateY(-3px) scale(1.1);
     }
+
+/* GITHUB ACTIVITY CARD (sits below the sidebar, same width) */
+
+.sidebar-stack {
+    display: flex;
+    flex-direction: column;
+}
+
+.github-activity {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    animation: slideDown .6s cubic-bezier(0.25, 0.8, 0.25, 1) .1s backwards;
+}
+
+.github-activity-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+    .github-activity-header ion-icon {
+        flex-shrink: 0;
+        font-size: 20px;
+        color: var(--orange-yellow-crayola);
+    }
+
+    .github-activity-header h3 {
+        color: var(--white2);
+        font-size: var(--fs6);
+        font-weight: var(--fw500);
+    }
+
+.github-commits {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.github-commits-status {
+    color: var(--light-gray70);
+    font-size: var(--fs8);
+    font-style: italic;
+}
+
+.github-commit-item {
+    display: block;
+    padding: 8px 8px;
+    margin: 0 -8px;
+    border-radius: 8px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: background var(--transition1), opacity .3s ease, transform .3s ease;
+}
+
+    .github-commit-item.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .github-commit-item:hover { background: hsla(45, 100%, 72%, .08); }
+
+.github-commit-repo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--vegas-gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    margin-bottom: 3px;
+}
+
+    .github-commit-repo ion-icon { font-size: 12px; }
+
+.github-commit-message {
+    display: block;
+    color: var(--light-gray);
+    font-size: var(--fs8);
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.github-commit-time {
+    display: block;
+    color: var(--light-gray70);
+    font-size: 10px;
+    margin-top: 3px;
+}
+
+.github-activity-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--jet);
+    color: var(--light-gray70);
+    font-size: var(--fs8);
+    transition: color var(--transition1);
+}
+
+    .github-activity-link ion-icon { font-size: 14px; }
+
+    .github-activity-link:hover { color: var(--orange-yellow-crayola); }
 
 /*NAVBAR*/
 
@@ -865,7 +987,74 @@ body.dark-mode .service-item::before {
         color: var(--orange-yellow-crayola);
         transform: rotate(90deg);
     }
-  
+
+/* PDF preview modal (recommendation letter) */
+.pdf-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: min(880px, 92vw);
+    height: min(85vh, 950px);
+    background: var(--eerie-black1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow4);
+    transform: scale(.85);
+    transition: transform .35s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+    #pdf-modal.open .pdf-modal-content { transform: scale(1); }
+
+.pdf-modal-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 50px 12px 18px;
+    background: var(--bg-gradient-jet);
+    border-bottom: 1px solid var(--jet);
+}
+
+.pdf-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--white2);
+    font-size: var(--fs7);
+    font-weight: var(--fw500);
+}
+
+    .pdf-modal-title ion-icon {
+        color: var(--orange-yellow-crayola);
+        font-size: 17px;
+    }
+
+.pdf-modal-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    padding: 6px 12px;
+    background: var(--orange-yellow-crayola);
+    color: var(--smoky-black);
+    border-radius: 6px;
+    font-size: var(--fs8);
+    font-weight: var(--fw500);
+    transition: transform var(--transition1), box-shadow var(--transition1);
+}
+
+    .pdf-modal-download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow2);
+    }
+
+.pdf-modal-frame {
+    flex: 1;
+    width: 100%;
+    border: none;
+    background: var(--white1);
+}
+
 .overlay {
     position: fixed;
     top: 0;
@@ -966,63 +1155,90 @@ body.dark-mode .service-item::before {
 
 /*RECOMMENDATIONS*/
 
-/* Simple link in the sidebar for the recommendation letter PDF */
+/* Split link in the sidebar for the recommendation letter PDF: left opens a preview modal, right downloads directly */
 .letter-link {
+    display: flex;
+    align-items: stretch;
+    width: max-content;
+    max-width: 100%;
+    margin: 4px auto 0;
+    border: 1px solid var(--jet);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color var(--transition1);
+}
+
+    .letter-link:hover { border-color: var(--orange-yellow-crayola); }
+
+.letter-link-main {
     display: flex;
     align-items: center;
     gap: 8px;
-    width: max-content;
-    max-width: 100%;
-    margin: 4px 0 0;
-    padding: 7px 12px;
-    border: 1px solid var(--jet);
-    border-radius: 8px;
+    background: transparent;
+    border: none;
+    padding: 7px 10px 7px 12px;
     color: var(--light-gray70);
+    font-family: inherit;
     font-size: var(--fs8);
-    transition: border-color var(--transition1), color var(--transition1), transform var(--transition1);
+    cursor: pointer;
+    transition: color var(--transition1), background var(--transition1);
 }
 
-    .letter-link ion-icon:first-child {
+    .letter-link-main ion-icon {
         flex-shrink: 0;
         font-size: 15px;
         color: var(--orange-yellow-crayola);
     }
 
-    .letter-link span { line-height: 1.3; }
+    .letter-link-main span { line-height: 1.3; }
 
-    .letter-link-download {
-        flex-shrink: 0;
-        margin-left: auto;
-        font-size: 13px;
-    }
-
-    .letter-link:hover {
-        border-color: var(--orange-yellow-crayola);
+    .letter-link-main:hover {
         color: var(--orange-yellow-crayola);
-        transform: translateY(-2px);
+        background: hsla(45, 100%, 72%, .08);
     }
 
-/* Horizontal recommendation quote attached to a Resume job entry */
+.letter-link-download {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 32px;
+    border-left: 1px solid var(--jet);
+    color: var(--light-gray70);
+    font-size: 15px;
+    transition: color var(--transition1), background var(--transition1), border-color var(--transition1);
+}
+
+    .letter-link-download:hover {
+        color: var(--orange-yellow-crayola);
+        background: hsla(45, 100%, 72%, .12);
+    }
+
+/* LinkedIn-style recommendation card attached to a Resume job entry */
 .job-recommendation {
     position: relative;
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
+    overflow: hidden;
     margin-top: 16px;
-    padding: 16px 20px 16px 18px;
-    background:
-        radial-gradient(circle at 100% 0%, hsla(45, 100%, 72%, .1), transparent 55%),
-        var(--border-gradient-onyx);
-    border-left: 3px solid var(--orange-yellow-crayola);
-    border-radius: 4px 14px 14px 4px;
+    padding: 14px 18px 16px;
+    background: var(--border-gradient-onyx);
+    border-radius: 12px;
     box-shadow: var(--shadow2);
     transition: transform .35s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow .35s ease;
 }
 
     body.dark-mode .job-recommendation {
-        background:
-            radial-gradient(circle at 100% 0%, hsla(45, 100%, 72%, .12), transparent 55%),
-            var(--color1);
+        background: var(--bg-gradient-jet);
+    }
+
+    .job-recommendation::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--text-gradient-yellow);
+        opacity: .6;
     }
 
     .job-recommendation:hover {
@@ -1030,21 +1246,16 @@ body.dark-mode .service-item::before {
         box-shadow: var(--shadow4);
     }
 
-    .job-recommendation::after {
-        content: '\201C';
-        position: absolute;
-        top: 2px;
-        right: 14px;
-        font-size: 56px;
-        line-height: 1;
-        font-family: Georgia, serif;
-        color: var(--orange-yellow-crayola);
-        opacity: .15;
-        pointer-events: none;
-    }
+.job-recommendation-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid hsla(45, 100%, 72%, .15);
+}
 
 .job-recommendation-avatar {
-    position: relative;
     flex-shrink: 0;
     width: 36px;
     height: 36px;
@@ -1059,44 +1270,38 @@ body.dark-mode .service-item::before {
     font-size: var(--fs8);
 }
 
-.job-recommendation-body { position: relative; min-width: 0; }
-
-.job-recommendation-text {
-    color: var(--color5);
-    font-size: var(--fs6);
-    font-weight: var(--fw300);
-    font-style: italic;
-    line-height: 1.6;
-    margin-bottom: 8px;
-}
-
 .job-recommendation-author {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    column-gap: 6px;
-    font-size: var(--fs8);
+    flex-direction: column;
+    min-width: 0;
+    row-gap: 1px;
+}
+
+.job-recommendation-label {
+    color: var(--vegas-gold);
+    font-size: 9px;
+    font-weight: var(--fw500);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: .65;
 }
 
 .job-recommendation-name {
     color: var(--white2);
     font-weight: var(--fw500);
+    font-size: var(--fs7);
 }
 
 .job-recommendation-role {
     color: var(--light-gray70);
+    font-size: var(--fs8);
 }
-
-    .job-recommendation-role::before {
-        content: '•';
-        margin-right: 6px;
-    }
 
 .job-recommendation-linkedin {
     margin-left: auto;
     flex-shrink: 0;
     color: var(--light-gray70);
-    font-size: 16px;
+    font-size: 18px;
     transition: color var(--transition1), transform var(--transition1);
 }
 
@@ -1104,6 +1309,14 @@ body.dark-mode .service-item::before {
         color: var(--orange-yellow-crayola);
         transform: translateY(-2px) scale(1.1);
     }
+
+.job-recommendation-text {
+    color: var(--color5);
+    font-size: var(--fs6);
+    font-weight: var(--fw300);
+    font-style: italic;
+    line-height: 1.6;
+}
 
 /* Collapsible "tech" job card used in the Experience timeline */
 .job-card {
@@ -1173,37 +1386,17 @@ body.dark-mode .service-item::before {
 
     .job-card.open > .job-details { grid-template-rows: 1fr; }
 
-.job-details-inner { overflow: hidden; min-height: 0; }
-
-/* Lines reveal one after another when a card opens, like text being typed out */
-.job-card.open :is(
-    .job-bullets li,
-    .job-tools .tech-tag,
-    .job-recommendation,
-    .skills-item,
-    .language-item,
-    .nested-timeline-list > .job-card
-) {
-    animation: line-reveal .4s cubic-bezier(0.25, 0.8, 0.25, 1) backwards;
+.job-details-inner {
+    overflow: hidden;
+    min-height: 0;
+    opacity: 0;
+    transition: opacity .15s ease;
 }
 
-@keyframes line-reveal {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(1) { animation-delay: 0ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(2) { animation-delay: 45ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(3) { animation-delay: 90ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(4) { animation-delay: 135ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(5) { animation-delay: 180ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(6) { animation-delay: 225ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(7) { animation-delay: 270ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(8) { animation-delay: 315ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(9) { animation-delay: 360ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(10) { animation-delay: 405ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(11) { animation-delay: 450ms; }
-.job-card.open :is(.job-bullets li, .job-tools .tech-tag, .job-recommendation, .skills-item, .language-item, .nested-timeline-list > .job-card):nth-child(n+12) { animation-delay: 495ms; }
+    .job-card.open > .job-details > .job-details-inner {
+        opacity: 1;
+        transition: opacity .25s ease .1s;
+    }
 
 .job-bullets {
     display: flex;
@@ -1246,6 +1439,10 @@ body.dark-mode .service-item::before {
 }
 
 .tech-tag {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     background: hsla(45, 100%, 72%, .1);
     color: var(--orange-yellow-crayola);
     border: 1px solid hsla(45, 100%, 72%, .3);
@@ -1254,7 +1451,28 @@ body.dark-mode .service-item::before {
     font-family: 'JetBrains Mono', monospace;
     font-size: var(--fs8);
     line-height: 1.6;
+    transition: background .25s ease, border-color .25s ease, transform .25s ease;
 }
+
+    .tech-tag::before {
+        content: '';
+        flex-shrink: 0;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--tag-accent, var(--orange-yellow-crayola));
+        box-shadow: 0 0 6px 0 var(--tag-accent, transparent);
+    }
+
+    .skills-tags .tech-tag:not(.dimmed):hover {
+        background: hsla(45, 100%, 72%, .22);
+        border-color: hsla(45, 100%, 72%, .6);
+        transform: translateY(-2px);
+    }
+
+        .skills-tags .tech-tag:not(.dimmed):hover::before {
+            box-shadow: 0 0 9px 1px var(--tag-accent, transparent);
+        }
 
 .job-details .job-recommendation {
     margin: 0 18px 18px;
@@ -1375,48 +1593,62 @@ body.dark-mode .service-item::before {
 
 .skills-title { margin-bottom: 0; }
 
-.skills-list {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 4px 18px 18px;
+/* Filterable skill cloud (replaces the old percentage bars / category boxes) */
+.skills-cloud {
+    padding: 16px 18px 20px;
 }
 
-    .skills-item:not(:last-child) { margin-bottom: 0; }
-
-.skill .title-wrapper {
+.skills-filters {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.skills-filter {
+    display: inline-flex;
     align-items: center;
-    gap: 5px;
-    margin-bottom: 8px;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid hsla(45, 100%, 72%, .3);
+    color: var(--vegas-gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: var(--fs8);
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background .25s ease, border-color .25s ease, color .25s ease, transform .25s ease;
 }
 
-.skill .title-wrapper data {
-    color: var(--light-gray);
-    font-size: var(--fs7);
-    font-weight: var(--fw300);
+    .skills-filter ion-icon {
+        font-size: 14px;
+    }
+
+    .skills-filter:hover {
+        border-color: hsla(45, 100%, 72%, .6);
+        transform: translateY(-1px);
+    }
+
+    .skills-filter.active {
+        background: var(--orange-yellow-crayola);
+        border-color: var(--orange-yellow-crayola);
+        color: var(--smoky-black);
+    }
+
+.skills-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
-.skills-progress-bg {
-    background: #333;
-    width: 100%;
-    height: 8px;
-    border-radius: 10px;
-    overflow: hidden;
-}
+    .skills-tags .tech-tag {
+        transition: opacity .3s ease, transform .3s ease, background .25s ease, border-color .25s ease;
+    }
 
-.skills-progress-fill {
-    background: linear-gradient(to right, var(--vegas-gold), var(--orange-yellow-crayola));
-    height: 100%;
-    border-radius: inherit;
-    width: 0; /* Defina a largura inicial como 0 */
-    transition: width 1.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Mantenha a transição aqui */
-}
-
-/* Nova classe para animar o preenchimento */
-.skills-progress-fill.active {
-    width: var(--progress);
-}
+    .skills-tags .tech-tag.dimmed {
+        opacity: .18;
+        transform: scale(.94);
+    }
 
 /*PORTFOLIO*/
 
@@ -1704,7 +1936,7 @@ textarea.form-input {
         --fs8: 12px;
     }
 
-    .sidebar, article {
+    .sidebar, article, .github-activity {
         width: 520px;
         margin-inline: auto;
         padding: 30px;
@@ -1877,8 +2109,6 @@ textarea.form-input {
         left: -43px;
     }
 
-    .skills-list { gap: 25px; }
-
     .project-img, .blog-banner-box { border-radius: 16px; }
 
     .blog-posts-list { gap: 30px; }
@@ -1909,7 +2139,7 @@ textarea.form-input {
 
 @media (min-width: 768px) {
 
-    .sidebar, article { width: 700px; }
+    .sidebar, article, .github-activity { width: 700px; }
 
     .has-scrollbar::-webkit-scrollbar-button { width: 100px; }
 
@@ -1967,7 +2197,7 @@ textarea.form-input {
         --shadow3: 0px 16px 40px hsla(0, 0%, 0%, .125);
     }
 
-    .sidebar, article {
+    .sidebar, article, .github-activity {
         width: 950px;
         box-shadow: var(--shadow5);
     }
@@ -2071,9 +2301,30 @@ textarea.form-input {
     body::-webkit-scrollbar-thumb:hover { background: hsla(0, 0%, 100%, .15); }
     body::-webkit-scrollbar-button { height: 60px; }
 
-    .sidebar, article { width: auto; }
+    .sidebar, article, .github-activity { width: auto; margin-inline: 0; }
 
     article { min-height: 100%; }
+
+    /* The whole stack sticks as one rigid unit (not the sidebar alone) so the
+       github card can't detach from it and overlap while scrolling */
+    .sidebar-stack {
+        position: sticky;
+        top: 60px;
+        flex-shrink: 0;
+    }
+
+    /* Grows to soak up the leftover height so its bottom edge lines up with the main content card */
+    .github-activity {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        min-height: 0;
+        margin-bottom: 0;
+    }
+
+    .github-commits { flex: 1; }
+
+    .github-activity-link { margin-top: auto; }
 
     main {
         max-width: 1200px;
@@ -2098,10 +2349,8 @@ textarea.form-input {
      }
 
     .sidebar {
-        position: sticky;
-        top: 60px;
         max-height: max-content;
-        height: 100%;
+        flex-shrink: 0;
         margin-bottom: 0;
         padding-top: 60px;
         z-index: 1;

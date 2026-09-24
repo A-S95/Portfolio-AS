@@ -21,6 +21,7 @@ Live Preview : https://portfolio-as-azure.vercel.app/
 ├── img
 │   ├── img1.png
 │   ├── nerd-8020797_1280.jpg
+│   ├── work0.png
 │   ├── work1.PNG
 │   └── work2.png
 ├── index.html
