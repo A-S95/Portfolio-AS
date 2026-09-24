@@ -601,9 +601,13 @@ html.intro-active.intro-dark .intro {
         color: #5c5c5c;
     }
 
-@keyframes introType { to { clip-path: inset(0 0 0 -40px); } }
+/* Ends a little past the right edge: with the stage scaled up, Chrome clipped
+   the last character when the clip stopped exactly at 0 */
+@keyframes introType { to { clip-path: inset(0 -2ch 0 -40px); } }
 
 .ie-line--now {
+    /* Room for the trailing comma, which renders a touch wider when scaled */
+    padding-right: 1ch;
     border-radius: 3px;
     animation:
         introType .3s steps(20, end) var(--t) forwards,
